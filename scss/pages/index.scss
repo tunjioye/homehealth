@@ -3,5 +3,18 @@
 .layout {
   &.index {
     background-color: rgba($color: $primary-color, $alpha: .05);
+
+    .flex-heading {
+      display: flex;
+      align-items: center;
+
+      @media (max-width: $size_lg) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: .85rem;
+      }
+    }
   }
 }

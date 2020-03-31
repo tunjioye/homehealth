@@ -12,7 +12,7 @@ const IndexPage = () => {
     <PublicLayout pageClass="index">
       <div id="resources" className="mb-5"></div>
       <section>
-        <div className="flex flex-row-fs-c mb-1">
+        <div className="flex-heading">
           <h1>
             <Link href="#resources">
               <a href="#resources" className="no-underline">
@@ -32,7 +32,7 @@ const IndexPage = () => {
 
       <div id="services" className="mb-5"></div>
       <section>
-        <div className="flex flex-row-fs-c mb-1 font-weight-bold">
+        <div className="flex-heading font-weight-bold">
           <h1>
             <Link href="#services">
               <a href="#services" className="no-underline">
