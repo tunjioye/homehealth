@@ -5,30 +5,45 @@ import '@scss/pages/index.scss'
 const IndexPage = () => {
   return (
     <PublicLayout>
-      <section id="resources" className="mb-5">
-        <h1>
-          <Link href="#resources">
-            <a href="#resources" className="text-bold no-underline">
-              #
-            </a>
+      <div id="resources" className="mb-5"></div>
+      <section>
+        <div className="flex flex-row-fs-c">
+          <h1>
+            <Link href="#resources">
+              <a href="#resources" className="text-bold no-underline">
+                #
+              </a>
+            </Link>
+            &nbsp;
+            <strong>Information We Provide</strong>
+            &nbsp;
+          </h1>
+          <Link href="#services">
+            <a href="#services">Our Service Forms</a>
           </Link>
-          &nbsp;
-          <strong>Information We Provide</strong>
-        </h1>
+        </div>
         <Link href="/covid19">
           <a href="/covid19">COVID-19 Resources</a>
         </Link>
       </section>
-      <section id="services">
-        <h1>
+
+      <div id="services" className="mb-5"></div>
+      <section>
+        <div className="flex flex-row-fs-c">
+          <h1>
+            <Link href="#services">
+              <a href="#services" className="text-bold no-underline">
+                #
+              </a>
+            </Link>
+            &nbsp;
+            <strong>Our Service Forms</strong>
+            &nbsp;
+          </h1>
           <Link href="#resources">
-            <a href="#resources" className="text-bold no-underline">
-              #
-            </a>
+            <a href="#resources">Information We Provide</a>
           </Link>
-          &nbsp;
-          <strong>Our Service Forms</strong>
-        </h1>
+        </div>
       </section>
     </PublicLayout>
   )

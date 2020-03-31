@@ -2,4 +2,8 @@
 
 .layout {
   background-color: rgba($color: $primary-color, $alpha: .05);
+
+  section {
+    min-height: 80vh;
+  }
 }
