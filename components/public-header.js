@@ -2,7 +2,7 @@ import Link from 'next/link'
 import './styles/public-header.scss'
 import CONFIG from '../config'
 
-const PublicHeader = ({ activePageTitle, toggleSidebar }) => (
+const PublicHeader = ({ toggleSidebar }) => (
   <header className="header">
     <span className="logo">
       <Link href="/">
