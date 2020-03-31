@@ -1,0 +1,70 @@
+@import '../../scss/variables';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -20rem;
+  width: 20rem;
+  border-left: .1rem solid $grey5-color;
+  height: 100vh;
+  background-color: $light-color;
+  padding: 0;
+  margin-left: auto;
+
+  &.show {
+    right: 0;
+  }
+
+  &-overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: $light-color;
+    opacity: .55;
+    cursor: pointer;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+    margin-bottom: 3rem;
+    // border-bottom: .1rem solid $grey5-color;
+    padding: .8rem 5rem .8rem 2rem;
+
+    .logo {
+      font-weight: bold;
+    }
+
+    .sidebar-toggle {
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 1.5rem;
+      height: 1.5rem;
+
+      &:hover {
+        color: $grey3-color;
+      }
+
+      &:before {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        // min-width: 1.25rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        content: "\2715";
+        // color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+}

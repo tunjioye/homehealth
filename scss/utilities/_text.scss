@@ -1,0 +1,9 @@
+// Texts
+a {
+  &.no-underline {
+    text-decoration: none;
+  }
+  &[href^="#"] {
+    scroll-behavior: smooth;
+  }
+}

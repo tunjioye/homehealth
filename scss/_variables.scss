@@ -1,0 +1,30 @@
+// Core Colors
+$primary-color: #DD2525 !default;
+$black-color: #000000 !default;
+$white-color: #FFFFFF !default;
+$dark-color: #333333 !default;
+$grey1-color: #333333 !default;
+$grey2-color: #4F4F4F !default;
+$grey3-color: #828282 !default;
+$grey4-color: #BDBDBD !default;
+$grey5-color: #E0E0E0 !default;
+$grey6-color: #F2F2F2 !default;
+$light-color: #FFFFFF !default;
+
+// Other Colors
+$link-color: $primary-color !default;
+$link-color-light: lighten($link-color, 10%);
+$link-color-dark: darken($link-color, 10%);
+
+// Text Color
+$font-color: grey1-color !default;
+
+// NProgress Color
+$nprogress-color: $primary-color !default;
+
+$font-size: 20px;
+$line-height: 150%;
+$body-bg-color: darken($light-color, 1%);
+$body-font-color: $dark-color;
+$body-font-family: 'Noto Sans', 'system-ui', sans-serif;
+$mono-font-family: 'Nimbus Mono', monospace;

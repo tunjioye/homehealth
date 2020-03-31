@@ -1,0 +1,50 @@
+import Head from 'next/head'
+import './styles/public-layout.scss'
+import CONFIG from '../config'
+import PublicHeader from './public-header'
+import PublicSidebar from './public-sidebar'
+import PublicFooter from './public-footer'
+
+class PublicLayout extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showSidebar: false
+    }
+
+    this.toggleSidebar = this.toggleSidebar.bind(this)
+  }
+
+  toggleSidebar () {
+    const {showSidebar} = this.state
+
+    this.setState({
+      showSidebar: !showSidebar
+    })
+  }
+
+  render () {
+    const {pageTitle, children} = this.props
+    const {showSidebar} = this.state
+
+    return (
+      <div className="layout">
+        <Head>
+          {(pageTitle)
+            ? <title>{pageTitle} | {CONFIG.SITE_NAME}</title>
+            : <title>{CONFIG.SITE_NAME}</title>
+          }
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <PublicHeader activePageTitle={pageTitle} toggleSidebar={this.toggleSidebar} />
+        <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
+        <main className="main-content">
+          {children}
+        </main>
+        <PublicFooter />
+      </div>
+    )
+  }
+}
+
+export default PublicLayout

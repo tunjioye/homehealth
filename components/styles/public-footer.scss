@@ -1,0 +1,19 @@
+@import '../../scss/variables';
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+  margin-top: auto;
+  padding: 1rem 5rem;
+
+  & > * {
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  .back-to-top {
+    scroll-behavior: smooth;
+  }
+}

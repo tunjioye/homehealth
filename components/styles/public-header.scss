@@ -1,0 +1,26 @@
+@import '../../scss/variables';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem;
+  border-bottom: .1rem solid $grey5-color;
+  padding: .85rem 5rem;
+  position: sticky;
+  top: 0;
+  background-color: $light-color;
+
+  .logo {
+    font-weight: bold;
+  }
+
+  .sidebar-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $grey3-color;
+    }
+  }
+}

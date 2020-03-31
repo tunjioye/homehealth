@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "env": {
+    "APP_ENV": "development"
+  },
+  "build": {
+    "env": {
+      "APP_ENV": "development"
+    }
+  },
+  "trailingSlash": false
+}
