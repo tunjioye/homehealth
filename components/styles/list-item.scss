@@ -1,0 +1,51 @@
+@import '../../scss/variables';
+
+.list-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  background-color: $light-color;
+  color: $dark-color;
+  margin-bottom: .2rem;
+  height: 4rem;
+  font-size: .8rem;
+  transition: none;
+  overflow: hidden;
+
+  &-title {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.25rem;
+    font-weight: bold;
+    min-width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 2rem;
+    transition: none;
+  }
+
+  &-desc {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: none;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $primary-color;
+    color: $light-color;
+    text-decoration: none;
+  }
+
+  @media (max-width: $size_lg) {
+    &-title {
+      font-size: 1rem;
+    }
+  }
+}

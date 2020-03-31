@@ -24,11 +24,11 @@ class PublicLayout extends React.Component {
   }
 
   render () {
-    const {pageTitle, children} = this.props
+    const {pageTitle, pageClass, children} = this.props
     const {showSidebar} = this.state
 
     return (
-      <div className="layout">
+      <div className={`layout${pageClass ? ` ${pageClass}` : ``}`}>
         <Head>
           {(pageTitle)
             ? <title>{pageTitle} | {CONFIG.SITE_NAME}</title>

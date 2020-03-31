@@ -6,9 +6,7 @@ const PublicHeader = ({ activePageTitle, toggleSidebar }) => (
   <header className="header">
     <span className="logo">
       <Link href="/">
-        <a href="/">
-          {CONFIG.SITE_NAME}
-        </a>
+        <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}></a>
       </Link>
     </span>
     <span className="sidebar-toggle" onClick={toggleSidebar}>☰</span>
