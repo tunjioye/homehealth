@@ -29,7 +29,7 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
               <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}></a>
             </Link>
           </span>
-          <span className="sidebar-toggle" onClick={toggleSidebar}></span>
+          <span className="sidebar-toggle" onClick={toggleSidebar}>✕</span>
         </div>
         <div className="sidebar-content">
           <nav>
