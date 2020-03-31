@@ -23,4 +23,8 @@
       color: $grey3-color;
     }
   }
+
+  @media (max-width: $size_lg) {
+    padding: .85rem 1rem;
+  }
 }

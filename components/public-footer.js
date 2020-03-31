@@ -11,7 +11,7 @@ const PublicFooter = () => (
     </span>
     <span>
       <a href="#" className="back-to-top" onClick={(e) => scrollToTop(e)}>
-        Back To The Top
+        To Top
       </a>
     </span>
   </footer>

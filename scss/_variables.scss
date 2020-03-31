@@ -28,3 +28,12 @@ $body-bg-color: darken($light-color, 1%);
 $body-font-color: $dark-color;
 $body-font-family: 'Noto Sans', 'system-ui', sans-serif;
 $mono-font-family: 'Nimbus Mono', monospace;
+
+// Responsive Breakpoints
+$size_xxs: 360px !default;
+$size_xs: 480px !default;
+$size_sm: 600px !default;
+$size_md: 840px !default;
+$size_lg: 1080px !default;
+$size_xl: 1200px !default;
+$size_xxl: 1440px !default;
