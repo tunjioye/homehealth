@@ -1,9 +1,40 @@
 import Link from 'next/link'
 import PublicLayout from '@components/public-layout'
+import StatsCard from '@components/stats-card'
 import '@scss/pages/covid.scss'
 import CONFIG from '../config'
 
-const overViewMarkdown = () => (
+const statisticsContent = () => {
+
+  return (
+    <div>
+      <div className="statistics">
+        <div>
+          <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
+        </div>
+        <div className="stats-card-wrapper">
+          <StatsCard value="184" title="Confirmed Cases" />
+          <StatsCard value="162" title="Active Cases" />
+          <StatsCard value="20" title="Recovered" />
+          <StatsCard value="2" title="Death" classNames="text-primary" />
+        </div>
+      </div>
+      <div className="statistics">
+        <div>
+          <h5 className="font-weight-bold">Worldwide 🌎</h5>
+        </div>
+        <div className="stats-card-wrapper">
+          <StatsCard value="998,047" title="Confirmed Cases" />
+          <StatsCard value="738,082" title="Active Cases" />
+          <StatsCard value="208,630" title="Recovered" />
+          <StatsCard value="51,335" title="Death" classNames="text-primary" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const overviewContent = () => (
   <div>
     <p>Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.</p>
     <p>The disease causes respiratory illness (like the flu) with symptoms such as a cough, fever, and in more severe cases, difficulty breathing. You can protect yourself by washing your hands frequently, avoiding touching your face, and avoiding close contact (1 meter or 3 feet) with people who are unwell.</p>
@@ -13,23 +44,26 @@ const overViewMarkdown = () => (
 
 const contentSwitch = (sectionHash) => {
   switch(sectionHash) {
+    case "statistics":
+      return statisticsContent()
+      break
     case "overview":
-      return overViewMarkdown()
+      return overviewContent()
       break
     case "symptoms":
-      return overViewMarkdown()
+      return null
       break
     case "prevention":
-      return overViewMarkdown()
+      return null
       break
     case "treatments":
-      return overViewMarkdown()
+      return null
       break
     case "faqs":
-      return overViewMarkdown()
+      return null
       break
     case "other-resources":
-      return overViewMarkdown()
+      return null
       break
     default:
       return null
@@ -44,11 +78,11 @@ const IndexPage = () => {
     const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
 
     return (
-      <div key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
+      <div key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey1' : ''}>
         <div id={hash} className="pb-5"></div>
-        <section>
+        <section className="pb-5">
           <div className="flex-heading font-weight-bold">
-            <h2>
+            <h3>
               <Link href={`#${hash}`}>
                 <a href={`#${hash}`} className="no-underline">
                   #
@@ -57,7 +91,7 @@ const IndexPage = () => {
               &nbsp;
               <strong>{title}</strong>
               &nbsp;
-            </h2>
+            </h3>
             {(prevHash || nextHash) &&
               <div>
                 {(prevHash) &&
@@ -76,7 +110,7 @@ const IndexPage = () => {
               </div>
             }
           </div>
-          <div>{contentSwitch(hash)}</div>
+          {contentSwitch(hash)}
         </section>
       </div>
     )

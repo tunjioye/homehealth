@@ -33,5 +33,35 @@
         padding: 0;
       }
     }
+
+    .statistics {
+      & > div:first-child,
+      & > div:last-child {
+        margin: 1rem auto;
+      }
+
+      @media (max-width: $size_lg) {
+        & > div:first-child,
+        & > div:last-child {
+          margin-top: .5rem auto;
+        }
+      }
+
+      .stats-card-wrapper {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(4, 1fr);
+
+        @media (max-width: $size_md) {
+          grid-gap: .5rem;
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: $size_xs) {
+          grid-gap: .5rem;
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    }
   }
 }

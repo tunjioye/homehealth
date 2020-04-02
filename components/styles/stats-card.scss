@@ -1,0 +1,63 @@
+@import '../../scss/variables';
+
+.stats-card {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 9rem;
+  padding: 1rem;
+  background-color: $light-color;
+  border: .1rem solid $grey5-color;
+  border-radius: .25rem;
+  user-select: none;
+
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @media (max-width: $size_lg) {
+    padding: .5rem;
+    min-height: 7rem;
+  }
+
+  &-value,
+  &-title {
+    width: 100%;
+    text-align: center;
+  }
+
+  &-value {
+    color: $black-color;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: .25rem;
+
+    @media (max-width: $size_lg) {
+      font-size: 1.15rem;
+    }
+  }
+
+  &-title {
+    color: $grey3-color;
+    font-weight: bold;
+
+    @media (max-width: $size_lg) {
+      font-size: .75rem;
+    }
+  }
+
+  &.text-primary {
+    .stats-card-value,
+    .stats-card-title {
+      color: $primary-color;
+    }
+  }
+
+  &:hover {
+    border: .1rem solid $primary-color;
+  }
+}

@@ -1,5 +1,7 @@
 // Main Styles
-
+p:last-child {
+  margin-bottom: 0;
+}
 
 // Responsive Heading Text
 @media (max-width: $size_lg) {

@@ -1,5 +1,12 @@
 @import '../variables';
 
+// Text Colors
+.text {
+  &-primary {
+    color: $primary-color;
+  }
+}
+
 // Background Colors
 .bg {
   &-primary {
