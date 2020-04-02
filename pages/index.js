@@ -23,9 +23,11 @@ const IndexPage = () => {
             <strong>Information We Provide</strong>
             &nbsp;
           </h1>
-          <Link href="#services">
-            <a href="#services" className="font-weight-bold no-underline">Our Service Forms</a>
-          </Link>
+          <div>
+            <Link href="#services">
+              <a href="#services" className="font-weight-bold no-underline">Our Service Forms</a>
+            </Link>
+          </div>
         </div>
         <div>{mappedInformationList}</div>
       </section>
@@ -43,9 +45,11 @@ const IndexPage = () => {
             <strong>Our Service Forms</strong>
             &nbsp;
           </h1>
-          <Link href="#resources">
-            <a href="#resources" className="font-weight-bold no-underline">Information We Provide</a>
-          </Link>
+          <div>
+            <Link href="#resources">
+              <a href="#resources" className="font-weight-bold no-underline">Information We Provide</a>
+            </Link>
+          </div>
         </div>
         <div>{mappedServiceList}</div>
       </section>
@@ -54,10 +58,10 @@ const IndexPage = () => {
 }
 
 const mapListItem = (listItem, listItemIndex) => {
-  const {title, description, href} = listItem
+  const {title, description, href, hash} = listItem
 
   return (
-    <ListItem key={listItemIndex} title={title} desc={description} href={href} />
+    <ListItem key={listItemIndex} title={title} desc={description} href={href} hash={hash} />
   )
 }
 

@@ -1,7 +1,37 @@
 @import '../variables';
 
-// .layout {
-//   &.covid {
-//     background-color: $light-color;
-//   }
-// }
+.layout {
+  &.covid {
+    background-color: $light-color;
+
+    .flex-heading {
+      display: flex;
+      align-items: center;
+
+      @media (max-width: $size_lg) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: .85rem;
+      }
+    }
+
+    section {
+      // min-height: 85vh;
+      padding: 0 5rem 3rem 5rem;
+
+      @media (max-width: $size_lg) {
+        padding: 0 1rem 0 1rem;
+      }
+    }
+
+    .main-content {
+      padding: 0;
+
+      @media (max-width: $size_lg) {
+        padding: 0;
+      }
+    }
+  }
+}

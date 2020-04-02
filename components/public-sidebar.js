@@ -4,12 +4,12 @@ import CONFIG from '../config'
 
 const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
   const mapNavItem = ((navItem, navItemIndex) => {
-    const {title, href, pageTitle} = navItem
+    const {title, href, hash, pageTitle} = navItem
 
     return (
       <li key={navItemIndex} className={(pageTitle !== undefined && pageTitle === activePageTitle) ? `active` : ``}>
-        <Link href={href}>
-          <a href={href}>{title}</a>
+        <Link  href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>
+          <a  href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>
         </Link>
       </li>
     )
