@@ -5,7 +5,6 @@ import '@scss/pages/covid.scss'
 import CONFIG from '../config'
 
 const statisticsContent = () => {
-
   return (
     <div>
       <div className="statistics">
@@ -78,7 +77,7 @@ const IndexPage = () => {
     const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
 
     return (
-      <div key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey1' : ''}>
+      <div key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
         <div id={hash} className="pb-5"></div>
         <section className="pb-5">
           <div className="flex-heading font-weight-bold">
