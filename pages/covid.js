@@ -50,17 +50,17 @@ const CovidPage = ({ng_stats, world_stats}) => {
   const symptomsContent = () => (
     <ReactMarkdown source={`People may be sick with the virus for 1 to 14 days before developing symptoms.
 
-  The most common symptoms of coronavirus disease (COVID-19) are **fever, tiredness, and dry cough.**
+The most common symptoms of coronavirus disease (COVID-19) are **fever, tiredness, and dry cough.**
 
-  Most people (about 80%) recover from the disease without needing special treatment.
+Most people (about 80%) recover from the disease without needing special treatment.
 
-  More rarely, the disease can be serious and even fatal. Older people, and people with other medical conditions (such as asthma, diabetes, or heart disease), may be more vulnerable to becoming severely ill.
+More rarely, the disease can be serious and even fatal. Older people, and people with other medical conditions (such as asthma, diabetes, or heart disease), may be more vulnerable to becoming severely ill.
 
-  **People may experience:**
-  - cough
-  - fever
-  - tiredness
-  - difficulty breathing (in severe cases)`} />
+**People may experience:**
+- cough
+- fever
+- tiredness
+- difficulty breathing (in severe cases)`} />
   )
 
   const preventionContent = () => (
@@ -109,18 +109,18 @@ const CovidPage = ({ng_stats, world_stats}) => {
   const treatmentsContent = () => (
     <ReactMarkdown source={`There is no specific medicine to prevent or treat coronavirus disease (COVID-19). People may need supportive care to help them breathe.
 
-  **Self care**
+**Self care**
 
-  If you have mild symptoms, stay at home until you’ve recovered. You can relieve your symptoms if you:
+If you have mild symptoms, stay at home until you’ve recovered. You can relieve your symptoms if you:
 
-  - rest and sleep
-  - keep warm
-  - drink plenty of liquids
-  - use a room humidifier or take a hot shower to help ease a sore throat and cough
+- rest and sleep
+- keep warm
+- drink plenty of liquids
+- use a room humidifier or take a hot shower to help ease a sore throat and cough
 
-  **Medical treatments**
+**Medical treatments**
 
-  If you develop a fever, cough, and have difficulty breathing, promptly seek medical care. Call in advance and tell your health provider of any recent travel or recent contact with travelers.`} />
+If you develop a fever, cough, and have difficulty breathing, promptly seek medical care. Call in advance and tell your health provider of any recent travel or recent contact with travelers.`} />
   )
 
   const contentSwitch = (sectionHash) => {
