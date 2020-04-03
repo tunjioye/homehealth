@@ -2,26 +2,37 @@
 import React from 'react'
 import NProgress from "nprogress"
 import Router from 'next/router'
-import '../scss/bootstrap.scss'
+// import '../scss/bootstrap.scss'
 import '../scss/index.scss'
+import { Provider } from 'react-redux'
+import withRedux from 'next-redux-wrapper'
+import initializeStore from '../redux/store'
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({ Component, pageProps, store }) => {
   Router.events.on('routeChangeStart', () => NProgress.start())
   Router.events.on('routeChangeComplete', () => NProgress.done())
   Router.events.on('routeChangeError', () => NProgress.done())
 
-  return <Component {...pageProps} />
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  )
 }
 
-// MyApp.getInitialProps = async ({Component, ctx}) => {
-//   let pageProps = {}
-//   if (Component.getInitialProps) {
-//     pageProps = await Component.getInitialProps(ctx)
-//   }
+MyApp.getInitialProps = async ({Component, ctx}) => {
+  let pageProps = {}
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx)
+  }
 
-//   return {
-//     pageProps,
-//   }
-// }
+  // // set auth information into redux store on the server-side
+  // const { store } = ctx
+  // if (auth) store.dispatch(setAuth(auth))
 
-export default MyApp
+  return {
+    pageProps,
+  }
+}
+
+export default withRedux(initializeStore, {debug: false})(MyApp)

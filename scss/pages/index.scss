@@ -4,6 +4,27 @@
   &.index {
     background-color: rgba($color: $primary-color, $alpha: .05);
 
+    .main-content {
+      padding: 0;
+
+      @media (max-width: $size_lg) {
+        padding: 0;
+      }
+
+      & > div {
+        padding-top: 3rem;
+      }
+    }
+
+    .section {
+      // min-height: 85vh;
+      padding: 0 5rem;
+
+      @media (max-width: $size_lg) {
+        padding: 0 1rem;
+      }
+    }
+
     .flex-heading {
       display: flex;
       align-items: center;

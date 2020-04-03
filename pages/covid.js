@@ -5,37 +5,39 @@ import '@scss/pages/covid.scss'
 import CONFIG from '../config'
 import ReactMarkdown from 'react-markdown'
 import fetch from 'isomorphic-unfetch'
+import {
+  updateNigeriaStats,
+  updateWorldwideStats,
+} from '../redux/actions/statisticsActions'
+import { connect } from 'react-redux'
 
 const CovidPage = ({ng_stats, world_stats}) => {
-  const statisticsContent = () => {
-
-    return (
-      <div>
-        <div className="statistics">
-          <div>
-            <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
-          </div>
-          <div className="stats-card-wrapper">
-            <StatsCard value={ng_stats.total_cases} title="Confirmed Cases" />
-            <StatsCard value={ng_stats.active_cases} title="Active Cases" />
-            <StatsCard value={ng_stats.total_recovered} title="Recovered" />
-            <StatsCard value={ng_stats.total_deaths} title="Death" classNames="text-primary" />
-          </div>
+  const statisticsContent = () => (
+    <div>
+      <div className="statistics">
+        <div>
+          <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
         </div>
-        <div className="statistics">
-          <div>
-            <h5 className="font-weight-bold">Worldwide 🌎</h5>
-          </div>
-          <div className="stats-card-wrapper">
-            <StatsCard value={world_stats.total_cases} title="Confirmed Cases" />
-            <StatsCard value={world_stats.active_cases} title="Active Cases" />
-            <StatsCard value={world_stats.total_recovered} title="Recovered" />
-            <StatsCard value={world_stats.total_deaths} title="Death" classNames="text-primary" />
-          </div>
+        <div className="stats-card-wrapper">
+          <StatsCard value={ng_stats.total_cases || 0} title="Confirmed Cases" />
+          <StatsCard value={ng_stats.active_cases || 0} title="Active Cases" />
+          <StatsCard value={ng_stats.total_recovered || 0} title="Recovered" />
+          <StatsCard value={ng_stats.total_deaths || 0} title="Death" classNames="text-primary" />
         </div>
       </div>
-    )
-  }
+      <div className="statistics">
+        <div>
+          <h5 className="font-weight-bold">Worldwide 🌎</h5>
+        </div>
+        <div className="stats-card-wrapper">
+          <StatsCard value={world_stats.total_cases || 0} title="Confirmed Cases" />
+          <StatsCard value={world_stats.active_cases || 0} title="Active Cases" />
+          <StatsCard value={world_stats.total_recovered || 0} title="Recovered" />
+          <StatsCard value={world_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+        </div>
+      </div>
+    </div>
+  )
 
   const overviewContent = () => (
     <div>
@@ -130,9 +132,8 @@ const CovidPage = ({ng_stats, world_stats}) => {
     const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
 
     return (
-      <div key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
-        <div id={hash} className="pb-5"></div>
-        <section className="pb-5">
+      <div id={hash} key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
+        <section className="section">
           <div className="flex-heading font-weight-bold">
             <h3>
               <Link href={`#${hash}`}>
@@ -149,14 +150,14 @@ const CovidPage = ({ng_stats, world_stats}) => {
                 {(prevHash) &&
                   <>
                     <Link href={`#${prevHash}`}>
-                      <a href={`#${prevHash}`} className="font-weight-bold no-underline">prev</a>
+                      <a href={`#${prevHash}`} className="font-weight-bold no-underline">Prev</a>
                     </Link>
                     &nbsp;
                   </>
                 }
                 {(nextHash) &&
                   <Link href={`#${nextHash}`}>
-                    <a href={`#${nextHash}`} className="font-weight-bold no-underline">next</a>
+                    <a href={`#${nextHash}`} className="font-weight-bold no-underline">Next</a>
                   </Link>
                 }
               </div>
@@ -175,32 +176,23 @@ const CovidPage = ({ng_stats, world_stats}) => {
   )
 }
 
-// CovidPage.getInitialProps = () => {
-//   let ng_stats = {}
+CovidPage.getInitialProps = async (ctx) => {
+  const { store } = ctx
+  let ng_stats = {}
+  let world_stats = {}
 
-//   const queryUrl = `https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats`
-//   axios.get(queryUrl)
-//     .then((res) => {
-//       const {data} = res
-//       console.log(data)
+  if (Object.keys(store.getState().statistics.ng_stats).length === 0) {
+    let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
+    nigerianStatsRes = await nigerianStatsRes.json()
+    ng_stats = nigerianStatsRes.data.rows[0]
 
-//       return {
-//         ng_stats,
-//       }
-//     })
-//     .error((error) => {
-//       console.error(error.message)
-//     })
-// }
+    let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
+    worldwideStatsRes = await worldwideStatsRes.json()
+    world_stats = worldwideStatsRes.data.rows[0]
 
-CovidPage.getInitialProps = async () => {
-  let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-  nigerianStatsRes = await nigerianStatsRes.json()
-  const ng_stats = nigerianStatsRes.data.rows[0]
-
-  let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
-  worldwideStatsRes = await worldwideStatsRes.json()
-  const world_stats = worldwideStatsRes.data.rows[0]
+    store.dispatch(updateNigeriaStats(ng_stats))
+    store.dispatch(updateWorldwideStats(world_stats))
+  }
 
   return {
     ng_stats,
@@ -208,4 +200,21 @@ CovidPage.getInitialProps = async () => {
   }
 }
 
-export default CovidPage
+const mapStateToProps = state => {
+  const {statistics} = state
+
+  return {
+    ng_stats: statistics.ng_stats || {},
+    world_stats: statistics.world_stats || {},
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateNigeriaStats: (ng_stats) => dispatch(updateNigeriaStats(ng_stats)),
+    updateWorldwideStats: (world_stats) => dispatch(updateWorldwideStats(world_stats)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CovidPage)
+// export default CovidPage
