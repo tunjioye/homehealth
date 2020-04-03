@@ -80,7 +80,7 @@ const CovidPage = ({ng_stats, world_stats}) => {
         </div>
         <div>
           <div>
-            <img src="/svg/preventn03.svg" alt="..."/>
+            <img className="scale-down" src="/svg/preventn03.svg" alt="..."/>
           </div>
           <div>Stay at home</div>
         </div>
@@ -98,7 +98,7 @@ const CovidPage = ({ng_stats, world_stats}) => {
         </div>
         <div>
           <div>
-            <img src="/svg/preventn06.svg" alt="..."/>
+            <img className="scale-down" src="/svg/preventn06.svg" alt="..."/>
           </div>
           <div>Clean and disinfect</div>
         </div>

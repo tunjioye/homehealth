@@ -13,6 +13,11 @@
   background-color: $light-color;
   padding: 0;
   margin-left: auto;
+  z-index: 1001;
+
+  @media (max-width: 400px) {
+    border-left: 0;
+  }
 
   &.show {
     right: 0;
@@ -27,6 +32,7 @@
     background-color: $light-color;
     opacity: .55;
     cursor: pointer;
+    z-index: 1001;
 
     &.show {
       display: block;
@@ -40,6 +46,7 @@
     height: 3rem;
     // border-bottom: .1rem solid $grey5-color;
     padding: .8rem 5rem .8rem 2rem;
+    z-index: 1000;
 
     .logo {
       font-weight: bold;
@@ -88,10 +95,6 @@
         font-size: 1.25rem;
         font-weight: bold;
 
-        @media (max-width: $size_lg) {
-          font-size: .95rem;
-        }
-
         a {
           color: $dark-color;
 
@@ -106,10 +109,6 @@
       &.subnav {
         font-size: .8rem;
         font-weight: bold;
-
-        @media (max-width: $size_lg) {
-          font-size: .75rem;
-        }
 
         a {
           color: $grey3-color;

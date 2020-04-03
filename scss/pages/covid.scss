@@ -120,6 +120,26 @@
 
         img.scale-up {
           transform: scale(1.25);
+
+          @media (max-width: $size_md) {
+            transform: scale(1.1);
+          }
+
+          @media (max-width: $size_xs) {
+            transform: scale(.95);
+          }
+        }
+
+        img.scale-down {
+          transform: scale(.95);
+
+          @media (max-width: $size_md) {
+            transform: scale(.85);
+          }
+
+          @media (max-width: $size_xs) {
+            transform: scale(.75);
+          }
         }
 
         div {
