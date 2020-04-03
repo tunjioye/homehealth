@@ -217,4 +217,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CovidPage)
-// export default CovidPage
