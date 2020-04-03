@@ -64,20 +64,46 @@ const CovidPage = ({ng_stats, world_stats}) => {
   )
 
   const preventionContent = () => (
-    <ReactMarkdown source={`There’s currently no vaccine to prevent coronavirus disease (COVID-19).
-
-  You can protect yourself and help prevent spreading the virus to others if you:
-
-  **Do**
-
-  - Wash your hands regularly for 20 seconds, with soap and water or alcohol-based hand rub
-  - Cover your nose and mouth with a disposable tissue or flexed elbow when you cough or sneeze
-  - Avoid close contact (1 meter or 3 feet) with people who are unwell
-  - Stay home and self-isolate from others in the household if you feel unwell
-
-  **Don't**
-
-  Touch your eyes, nose, or mouth if your hands are not clean`} />
+    <div>
+      <div className="prevention-wrapper">
+        <div>
+          <div className="overflow-visible">
+            <img className="scale-up" src="/svg/preventn01.svg" alt="..."/>
+          </div>
+          <div>Avoid close contact</div>
+        </div>
+        <div>
+          <div className="overflow-visible">
+            <img className="scale-up" src="/svg/preventn02.svg" alt="..."/>
+          </div>
+          <div>Wash your hands often</div>
+        </div>
+        <div>
+          <div>
+            <img src="/svg/preventn03.svg" alt="..."/>
+          </div>
+          <div>Stay at home</div>
+        </div>
+        <div>
+          <div>
+            <img className="scale-up" src="/svg/preventn04.svg" alt="..."/>
+          </div>
+          <div>Cover coughs <br/>and sneezes</div>
+        </div>
+        <div>
+          <div>
+            <img className="scale-up" src="/svg/preventn05.svg" alt="..."/>
+          </div>
+          <div>Wear a facemask <br/>if you are sick</div>
+        </div>
+        <div>
+          <div>
+            <img src="/svg/preventn06.svg" alt="..."/>
+          </div>
+          <div>Clean and disinfect</div>
+        </div>
+      </div>
+    </div>
   )
 
   const treatmentsContent = () => (
