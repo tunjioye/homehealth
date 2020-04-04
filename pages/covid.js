@@ -138,6 +138,37 @@ If you have mild symptoms, stay at home until you’ve recovered. You can reliev
 If you develop a fever, cough, and have difficulty breathing, promptly seek medical care. Call in advance and tell your health provider of any recent travel or recent contact with travelers.`} />
   )
 
+  const faqsContent = () => {
+    const mappedFaqs = CONFIG.FAQS.map((faq, faqIndex) => {
+      const {question, answer} = faq
+
+      return (
+        <div key={faqIndex} class="accordion faq">
+          <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
+          <label class="accordion-header" for={`accordion-${faqIndex}`}>
+            <span class="icon left"></span>
+            {question}
+          </label>
+          <div class="accordion-body">
+            {answer}
+          </div>
+        </div>
+      )
+    })
+
+    return (
+      <div>
+        {mappedFaqs}
+      </div>
+    )
+  }
+
+  const tweetsContent = () => (
+    <div className="">
+      // recent tweets about #coronavirus to be soon displayed here ...
+    </div>
+  )
+
   const contentSwitch = (sectionHash) => {
     switch(sectionHash) {
       case "statistics":
@@ -156,7 +187,10 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
         return treatmentsContent()
         break
       case "faqs":
-        return null
+        return faqsContent()
+        break
+      case "tweets":
+        return tweetsContent()
         break
       case "other-resources":
         return null

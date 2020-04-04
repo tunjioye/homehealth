@@ -84,6 +84,44 @@ const CONFIG = {
       href: '/#services',
     },
   ],
+  FAQS: [
+    {
+      question: 'How long does the coronavirus last on surfaces?',
+      answer: 'It is not certain how long the virus that causes COVID-19 survives on surfaces, but it seems to behave like other coronaviruses. Studies suggest that coronaviruses (including preliminary information on the COVID-19 virus) may persist on surfaces for a few hours or up to several days.',
+    },
+    {
+      question: 'What is the recovery time for the coronavirus disease?',
+      answer: 'Using available preliminary data, the median time from onset to clinical recovery for mild cases is approximately 2 weeks and is 3-6 weeks for patients with severe or critical disease.',
+    },
+    {
+      question: 'Can the coronavirus disease spread through food?',
+      answer: 'Current evidence on other coronavirus strains shows that while coronaviruses appear to be stable at low and freezing temperatures for a certain period, food hygiene and good food safety practices can prevent their transmission through food.',
+    },
+    {
+      question: 'What should schools do during an outbreak of the coronavirus disease?',
+      answer: 'UNICEF is urging schools – whether open or helping students through remote learning – to provide students with holistic support. Schools should provide children with vital information on handwashing and other measures to protect themselves and their families; facilitate mental health support; and help to prevent stigma and discrimination by encouraging students to be kind to each other and avoid stereotypes when talking about the virus.',
+    },
+    {
+      question: 'Can babies get the coronavirus disease?',
+      answer: 'We know it is possible for people of any age to be infected with the virus, but so far there are relatively few cases of COVID-19 reported among children.',
+    },
+    {
+      question: 'How does the coronavirus disease spread?',
+      answer: 'The new coronavirus is a respiratory virus which spreads primarily through droplets generated when an infected person coughs or sneezes, or through droplets of saliva or discharge from the nose. To protect yourself, clean your hands frequently with an alcohol-based hand rub or wash them with soap and water.',
+    },
+    {
+      question: 'Is the coronavirus disease zoonotic?',
+      answer: 'Coronaviruses are zoonotic, meaning they are transmitted between animals and people.',
+    },
+    {
+      question: 'Is there a vaccine for the coronavirus disease?',
+      answer: 'When a disease is new, there is no vaccine until one is developed. It can take a number of years for a new vaccine to be developed.',
+    },
+    // {
+    //   question: '',
+    //   answer: '',
+    // },
+  ]
 }
 
 export default CONFIG
