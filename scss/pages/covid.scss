@@ -69,8 +69,9 @@
       }
     }
 
+    // #symptoms
     // #prevention
-    .prevention-wrapper {
+    .auto-grid {
       display: grid;
       grid-gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
@@ -102,7 +103,8 @@
         border-radius: 50%;
         overflow: hidden;
         margin: .5rem auto;
-        background-color: rgba($grey3-color, .15);
+        // background-color: rgba($grey3-color, .15);
+        background-color: #E1E1FF;
 
         @media (max-width: $size_md) {
           width: 9rem;
@@ -112,6 +114,19 @@
         @media (max-width: $size_xs) {
           width: 7.5rem;
           height: 7.5rem;
+        }
+
+        &:hover {
+          background-color: rgba($primary-color, .55);
+        }
+
+        &.ai-fe {
+          align-items: flex-end;
+          background-color: #FFB001;
+
+          &:hover {
+            background-color: rgba($primary-color, .95);
+          }
         }
 
         &.overflow-visible {
@@ -144,10 +159,6 @@
 
         div {
           position: absolute;
-        }
-
-        &:hover {
-          background-color: rgba($primary-color, .25);
         }
       }
 

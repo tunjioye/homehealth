@@ -48,24 +48,39 @@ const CovidPage = ({ng_stats, world_stats}) => {
   )
 
   const symptomsContent = () => (
-    <ReactMarkdown source={`People may be sick with the virus for 1 to 14 days before developing symptoms.
-
-The most common symptoms of coronavirus disease (COVID-19) are **fever, tiredness, and dry cough.**
-
-Most people (about 80%) recover from the disease without needing special treatment.
-
-More rarely, the disease can be serious and even fatal. Older people, and people with other medical conditions (such as asthma, diabetes, or heart disease), may be more vulnerable to becoming severely ill.
-
-**People may experience:**
-- cough
-- fever
-- tiredness
-- difficulty breathing (in severe cases)`} />
+    <div>
+      <div className="auto-grid">
+        <div>
+          <div className="ai-fe">
+            <img className="scale-up" src="/svg/symptom01.svg" alt="..."/>
+          </div>
+          <div>High fever</div>
+        </div>
+        <div>
+          <div className="ai-fe">
+            <img className="scale-up" src="/svg/symptom02.svg" alt="..."/>
+          </div>
+          <div>Dry cough</div>
+        </div>
+        <div>
+          <div className="ai-fe">
+            <img className="scale-up" src="/svg/symptom03.svg" alt="..."/>
+          </div>
+          <div>Difficulty breathing</div>
+        </div>
+        <div>
+          <div className="ai-fe">
+            <img className="scale-up" src="/svg/symptom04.svg" alt="..."/>
+          </div>
+          <div>Tiredness</div>
+        </div>
+      </div>
+    </div>
   )
 
   const preventionContent = () => (
     <div>
-      <div className="prevention-wrapper">
+      <div className="auto-grid">
         <div>
           <div className="overflow-visible">
             <img className="scale-up" src="/svg/preventn01.svg" alt="..."/>
