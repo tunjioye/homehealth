@@ -144,7 +144,10 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
 
       return (
         <div key={faqIndex} class="accordion faq">
-          <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
+          {(faqIndex < 2)
+            ? <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden checked />
+            : <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
+          }
           <label class="accordion-header" for={`accordion-${faqIndex}`}>
             <span class="icon left"></span>
             {question}
@@ -157,7 +160,7 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
     })
 
     return (
-      <div>
+      <div className="faqs-grid">
         {mappedFaqs}
       </div>
     )
