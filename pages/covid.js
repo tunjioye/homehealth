@@ -10,6 +10,7 @@ import {
   updateWorldwideStats,
 } from '../redux/actions/statisticsActions'
 import { connect } from 'react-redux'
+import VideosContent from '../components/videos-content'
 
 const CovidPage = ({ng_stats, world_stats}) => {
   const statisticsContent = () => (
@@ -143,16 +144,16 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
       const {question, answer} = faq
 
       return (
-        <div key={faqIndex} class="accordion faq">
+        <div key={faqIndex} className="accordion faq">
           {(faqIndex < 2)
-            ? <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden checked />
+            ? <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden checked onChange={(e) => (e.target.toggleAttribute('checked'))} />
             : <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
           }
-          <label class="accordion-header" for={`accordion-${faqIndex}`}>
-            <span class="icon left"></span>
+          <label className="accordion-header" htmlFor={`accordion-${faqIndex}`}>
+            <span className="icon left"></span>
             {question}
           </label>
-          <div class="accordion-body">
+          <div className="accordion-body">
             {answer}
           </div>
         </div>
@@ -171,6 +172,23 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
       // recent tweets about #coronavirus to be soon displayed here ...
     </div>
   )
+
+  const videosContent = () => {
+    const mappedVideos = CONFIG.VIDEOS.map((video, videoIndex) => {
+      const {title, videoId} = video
+
+      return <VideosContent key={videoIndex} title={title} videoId={videoId} />
+    })
+
+    return (
+      <div>
+        <div className="videos-flex">
+          {mappedVideos}
+        </div>
+        <p className="text-grey3"><small>←→</small> <small>scroll horizontally for more</small></p>
+      </div>
+    )
+  }
 
   const contentSwitch = (sectionHash) => {
     switch(sectionHash) {
@@ -194,6 +212,9 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
         break
       case "tweets":
         return tweetsContent()
+        break
+      case "videos":
+        return videosContent()
         break
       case "other-resources":
         return null

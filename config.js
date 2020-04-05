@@ -121,7 +121,57 @@ const CONFIG = {
     //   question: '',
     //   answer: '',
     // },
-  ]
+  ],
+  VIDEOS: [
+    {
+      title: 'The Coronavirus Explained & What You Should Do',
+      videoId: 'BtN-goy9VOY',
+    },
+    {
+      title: 'How wildlife trade is linked to coronavirus',
+      videoId: 'TPpoJGYlW54',
+    },
+    {
+      title: 'Coronavirus: "This is not a video game, it\'s real" - BBC News',
+      videoId: 'ugs_aCBKs1g',
+    },
+    {
+      title: 'Coronavirus USA: What is Donald Trump\'s strategy? | DW News',
+      videoId: '5No7gDmzIvg',
+    },
+    {
+      title: 'Covid-19 Nigeria; Expensive Shit. Frank Bello',
+      videoId: 'U8H7nuO_c-o',
+    },
+    {
+      title: 'CORONAVIRUS: 8 Big Personalities In Nigeria Who tested Positive To Covid-19',
+      videoId: '5bB9t5JHbEE',
+    },
+    {
+      title: 'Here’s how travellers are screened for coronavirus at Nigeria’s airports',
+      videoId: 'b_fDi0R-Yqg',
+    },
+    {
+      title: 'COVID-19 IN NIGERIA DAILY UPDATE [ 03/04/2020 ]',
+      videoId: 'L-MRb12o05E',
+    },
+    {
+      title: 'Coronavirus in nigeria',
+      videoId: 'QBGQXIMvwQY',
+    },
+    {
+      title: 'CORONAVIRUS VIOLENCE: Angry Warri Youths Attack State Task Force Team | Coronavirus In Nigeria',
+      videoId: 'byXYBBXH7lE',
+    },
+    {
+      title: 'Nigeria\'s Coronavirus twist and turns',
+      videoId: 'euB7LS-DaEo',
+    },
+    // {
+    //   title: '',
+    //   url: '',
+    // },
+  ],
 }
 
 export default CONFIG
