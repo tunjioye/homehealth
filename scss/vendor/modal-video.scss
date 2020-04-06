@@ -109,6 +109,7 @@ $backdrop-color: rgba(0, 0, 0, .5);
 	overflow: hidden;
 	border: none;
 	background: transparent;
+	cursor: pointer;
 
 	&:before {
 		transform: rotate(45deg);
