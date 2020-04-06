@@ -41,7 +41,8 @@ class PublicLayout extends React.Component {
         <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
         <main className="main-content">
           {children}
-          <script type="text/javascript" src="/freshchat.min.js"></script>
+          {/* <script type="text/javascript" src="/freshchat.min.js"></script> */}
+          <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script>
         </main>
         <PublicFooter />
       </div>
