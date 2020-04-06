@@ -12,11 +12,11 @@ const CONFIG = {
       href: '/#services',
       pageTitle: 'Service Forms',
     },
-    {
-      title: 'Our Chatbot',
-      href: '/chatbot',
-      pageTitle: 'Chatbot',
-    },
+    // {
+    //   title: 'Our Chatbot',
+    //   href: '/chatbot',
+    //   pageTitle: 'Chatbot',
+    // },
   ],
   INFORMATION_LIST: [
     {

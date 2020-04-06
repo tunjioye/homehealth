@@ -8,14 +8,17 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
 
     return (
       <li key={navItemIndex} className={(pageTitle !== undefined && pageTitle === activePageTitle) ? `active` : ``}>
-        {(href === '/chatbot')
+        {/* {(href === '/chatbot')
           ? (<a href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>)
           : (
             <Link href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>
               <a href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>
             </Link>
           )
-        }
+        } */}
+        <Link href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>
+          <a href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>
+        </Link>
       </li>
     )
   }).bind(activePageTitle)
