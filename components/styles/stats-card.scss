@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 9rem;
+  min-height: 5rem;
   padding: 1rem;
   background-color: $light-color;
   border: .1rem solid $grey5-color;
@@ -21,7 +21,7 @@
 
   @media (max-width: $size_lg) {
     padding: .5rem;
-    min-height: 7rem;
+    min-height: 3rem;
   }
 
   &-value,
