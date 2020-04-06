@@ -15,7 +15,7 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
     )
   }).bind(activePageTitle)
 
-  const mappedMainNavList = mainNavList.map(mapNavItem)
+  const mappedMainNavList = CONFIG.MAIN_NAV.map(mapNavItem)
   const mappedInformationNavList = CONFIG.INFORMATION_LIST.map(mapNavItem)
   const mappedServiceNavList = CONFIG.SERVICE_LIST.map(mapNavItem)
 
@@ -58,17 +58,22 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
   )
 }
 
-const mainNavList = [
-  {
-    title: 'COVID-19 Resources',
-    href: '/covid',
-    pageTitle: 'COVID-19',
-  },
-  {
-    title: 'Our Service Forms',
-    href: '/#services',
-    pageTitle: 'Service Forms',
-  },
-]
+// const mainNavList = [
+//   {
+//     title: 'COVID-19 Resources',
+//     href: '/covid',
+//     pageTitle: 'COVID-19',
+//   },
+//   {
+//     title: 'Our Service Forms',
+//     href: '/#services',
+//     pageTitle: 'Service Forms',
+//   },
+//   {
+//     title: 'Our Chatbot',
+//     href: '/chatbot',
+//     pageTitle: 'Chatbot',
+//   },
+// ]
 
 export default PublicSidebar

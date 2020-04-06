@@ -1,6 +1,23 @@
 const CONFIG = {
   SITE_NAME: 'homehealth',
   SITE_NAME_HTML: `h<span class="text-dark">ome</span>h<span class="text-dark">ealth</span>`,
+  MAIN_NAV: [
+    {
+      title: 'COVID-19 Resources',
+      href: '/covid',
+      pageTitle: 'COVID-19',
+    },
+    {
+      title: 'Our Service Forms',
+      href: '/#services',
+      pageTitle: 'Service Forms',
+    },
+    {
+      title: 'Our Chatbot',
+      href: '/chatbot',
+      pageTitle: 'Chatbot',
+    },
+  ],
   INFORMATION_LIST: [
     {
       title: 'COVID-19 Statistics',
