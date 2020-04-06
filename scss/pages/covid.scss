@@ -191,11 +191,51 @@
       width: 100%;
       overflow: hidden;
       overflow-x: scroll;
+    }
 
-      // @media (max-width: $size_lg) {
-      //   grid-gap: 0;
-      //   grid-template-columns: repeat(1, 1fr);
-      // }
+    // #other-resources
+    .other-resources {
+      .nav {
+        padding: 0;
+        margin: 0;
+        // margin-bottom: 1rem;
+
+        li {
+          display: inline-block;
+          // width: 100%;
+          padding: .25rem 0;
+
+          &:not(:last-child) {
+            margin-right: 1.25rem;
+          }
+        }
+
+        &.resourcenav {
+          font-size: .8rem;
+          font-weight: bold;
+
+          a {
+            // color: $grey3-color;
+
+            &:hover,
+            &:focus {
+              color: $primary-color;
+              text-decoration: none;
+
+              &::after {
+                opacity: 1;
+              }
+            }
+
+            &::after {
+              // content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+              content: '\002197';
+              margin-left: .25rem;
+              opacity: 0;
+            }
+          }
+        }
+      }
     }
   }
 }

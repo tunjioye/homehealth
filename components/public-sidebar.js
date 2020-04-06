@@ -8,8 +8,8 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
 
     return (
       <li key={navItemIndex} className={(pageTitle !== undefined && pageTitle === activePageTitle) ? `active` : ``}>
-        <Link  href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>
-          <a  href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>
+        <Link href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>
+          <a href={`${href || ``}` + `${hash ? `#${hash}` : ``}`}>{title}</a>
         </Link>
       </li>
     )

@@ -190,6 +190,28 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
     )
   }
 
+  const otherResourcesContent = () => {
+    const mappedOtherResources = CONFIG.OTHER_RESOURCES.map((otherRes, otherResIndex) => {
+      const {title, href} = otherRes
+
+      return (
+        <li key={otherResIndex}>
+          <Link href={href}>
+            <a href={href} target="_blank" rel="noreferrer noopener">{title}</a>
+          </Link>
+        </li>
+      )
+    })
+
+    return (
+      <div className="other-resources">
+        <ul className="nav resourcenav">
+          {mappedOtherResources}
+        </ul>
+      </div>
+    )
+  }
+
   const contentSwitch = (sectionHash) => {
     switch(sectionHash) {
       case "statistics":
@@ -217,7 +239,7 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
         return videosContent()
         break
       case "other-resources":
-        return null
+        return otherResourcesContent()
         break
       default:
         return null

@@ -169,7 +169,45 @@ const CONFIG = {
     },
     // {
     //   title: '',
-    //   url: '',
+    //   videoId: '',
+    // },
+  ],
+  OTHER_RESOURCES: [
+    {
+      title: 'NCDC',
+      href: 'http://covid19.ncdc.gov.ng/',
+    },
+    {
+      title: 'Lagos State Gov.',
+      href: 'http://covid19.lagosstate.gov.ng/',
+    },
+    {
+      title: 'CDC',
+      href: 'https://www.cdc.gov/coronavirus/2019-ncov/',
+    },
+    {
+      title: 'WHO',
+      href: 'https://www.who.int/health-topics/coronavirus',
+    },
+    {
+      title: 'Google',
+      href: 'https://www.google.com/covid19/',
+    },
+    {
+      title: 'Microsoft Bing',
+      href: 'https://www.bing.com/covid/local/nigeria',
+    },
+    {
+      title: 'Worldometers',
+      href: 'https://worldometers.info/coronavirus',
+    },
+    {
+      title: 'Corona Scanner',
+      href: 'https://corona-scanner.com/',
+    },
+    // {
+    //   title: '',
+    //   href: '',
     // },
   ],
 }
