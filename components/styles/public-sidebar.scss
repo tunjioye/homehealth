@@ -13,7 +13,7 @@
   background-color: $light-color;
   padding: 0;
   margin-left: auto;
-  z-index: 1002;
+  z-index: 102;
 
   @media (max-width: 400px) {
     border-left: 0;
@@ -32,7 +32,7 @@
     background-color: $light-color;
     opacity: .55;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 101;
 
     &.show {
       display: block;
@@ -46,7 +46,7 @@
     height: 3rem;
     // border-bottom: .1rem solid $grey5-color;
     padding: .8rem 5rem .8rem 2rem;
-    z-index: 1000;
+    z-index: 100;
 
     .logo {
       font-weight: bold;
