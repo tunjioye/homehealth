@@ -55,12 +55,12 @@ const CONFIG = {
       href: '/covid',
       hash: 'faqs',
     },
-    {
-      title: 'COVID-19 Tweets',
-      description: 'Read the most recent tweets about the coronavirus disease (COVID-19)',
-      href: '/covid',
-      hash: 'tweets',
-    },
+    // {
+    //   title: 'COVID-19 Tweets',
+    //   description: 'Read the most recent tweets about the coronavirus disease (COVID-19)',
+    //   href: '/covid',
+    //   hash: 'tweets',
+    // },
     {
       title: 'Handpicked COVID-19 Videos',
       description: 'Watch handpicked informative videos on COIVID-19 from YouTube',
