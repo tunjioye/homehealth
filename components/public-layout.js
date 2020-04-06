@@ -42,7 +42,8 @@ class PublicLayout extends React.Component {
         <main className="main-content">
           {children}
           {/* <script type="text/javascript" src="/freshchat.min.js"></script> */}
-          <script async defer src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script>
+          <script type="text/javascript" src="https://unpkg.com/zone.js"></script>
+          <script async src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script>
         </main>
         <PublicFooter />
       </div>
