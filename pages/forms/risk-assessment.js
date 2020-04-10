@@ -48,7 +48,7 @@ const initialState = {
   tired: '',
 
   // assessment score
-  assessment_score: 16,
+  assessment_score: 0,
 }
 
 class RiskAssessmentPage extends React.Component {
