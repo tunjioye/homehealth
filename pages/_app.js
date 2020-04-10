@@ -7,7 +7,6 @@ import '@src/scss/index.scss'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
 import initializeStore from '@src/redux/store'
-import 'zone.js/dist/zone'
 
 const MyApp = ({ Component, pageProps, store }) => {
   Router.events.on('routeChangeStart', () => NProgress.start())
