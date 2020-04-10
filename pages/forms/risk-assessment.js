@@ -21,8 +21,8 @@ const FloatCSSTransition = ({ in: inProp, children }) => {
 
 const initialState = {
   // flow controls
-  // step: 'user_details',
-  step: 'final_result',
+  step: 'user_details',
+  // step: 'final_result',
 
   // user details
   name: '',
