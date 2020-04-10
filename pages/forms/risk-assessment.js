@@ -1,11 +1,28 @@
 import React from 'react'
+import { CSSTransition } from 'react-transition-group'
 // import Link from 'next/link'
 import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
+import InputRadioGroup from '@src/components/input-radio-group'
+
+const FloatCSSTransition = ({ in: inProp, children }) => {
+  return (
+    <CSSTransition
+      in={inProp}
+      timeout={{ appear: 0, enter: 0, exit: 0 }}
+      classNames='float'
+      appear
+      unmountOnExit
+    >
+      <div>{children}</div>
+    </CSSTransition>
+  )
+}
 
 const initialState = {
   // flow controls
-  step: 'user_details',
+  // step: 'user_details',
+  step: 'final_result',
 
   // user details
   name: '',
@@ -31,7 +48,7 @@ const initialState = {
   tired: '',
 
   // assessment score
-  assessment_score: 0
+  assessment_score: 16,
 }
 
 class RiskAssessmentPage extends React.Component {
@@ -47,6 +64,9 @@ class RiskAssessmentPage extends React.Component {
     this.processTravelDetailsStep = this.processTravelDetailsStep.bind(this)
     this.processTravelDetailsConfirmLowRiskStep = this.processTravelDetailsConfirmLowRiskStep.bind(this)
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
+    this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
+    this.getValuePoint = this.getValuePoint.bind(this)
+    this.calculateAssessmentScore = this.calculateAssessmentScore.bind(this)
     this.resetForm = this.resetForm.bind(this)
   }
 
@@ -72,7 +92,12 @@ class RiskAssessmentPage extends React.Component {
         this.processTravelDetailsConfirmLowRiskStep(e)
         break
       case 'health_details':
+        this.calculateAssessmentScore()
         this.processHealthDetailsStep(e)
+        break
+      case 'other_health_details':
+        this.calculateAssessmentScore()
+        this.processOtherHealthDetailsStep(e)
         break
       case 'final_result':
         this.resetForm()
@@ -128,7 +153,7 @@ class RiskAssessmentPage extends React.Component {
           step: 'final_result',
         })
 
-        console.table(this.state)
+        setTimeout(() => {console.table(this.state)}, 200)
       } else {
         this.setState({
           step: 'health_details',
@@ -137,15 +162,63 @@ class RiskAssessmentPage extends React.Component {
     }
   }
 
-  processHealthDetailsStep () {
+  processHealthDetailsStep (e) {
     if (document.getElementById('health-details-form').checkValidity()) {
+      e.preventDefault()
+      this.setState({
+        step: 'other_health_details',
+      })
+    }
+  }
+
+  processOtherHealthDetailsStep (e) {
+    if (document.getElementById('other-health-details-form').checkValidity()) {
       e.preventDefault()
       this.setState({
         step: 'final_result',
       })
 
-      console.table(this.state)
+      setTimeout(() => {console.table(this.state)}, 200)
     }
+  }
+
+  getValuePoint (name) {
+    switch (name) {
+      case 'Frequent':
+        return 2
+        break
+      case 'Sometimes':
+        return 1
+        break
+      case 'Never':
+      default:
+        return 0
+        break
+    }
+  }
+
+  calculateAssessmentScore () {
+    const {
+      cough,
+      fever,
+      difficulty_breathing,
+      watered_eyes,
+      sneeze,
+      in_pain,
+      hurt,
+      tired,
+    } = this.state
+
+    this.setState({
+      assessment_score: (this.getValuePoint(cough)
+      + this.getValuePoint(fever)
+      + this.getValuePoint(difficulty_breathing)
+      + this.getValuePoint(watered_eyes)
+      + this.getValuePoint(sneeze)
+      + this.getValuePoint(in_pain)
+      + this.getValuePoint(hurt)
+      + this.getValuePoint(tired))
+    })
   }
 
   resetForm () {
@@ -181,150 +254,280 @@ class RiskAssessmentPage extends React.Component {
       assessment_score,
     } = this.state
 
+    const highRiskContent = () => {
+      return (<div>
+        <h4>Your Risk is <strong className="risk-color-high">HIGH</strong></h4>
+      </div>)
+    }
+
+    const mediumRiskContent = () => {
+      return (<div>
+        <h4>Your Risk is <strong className="risk-color-medium">MEDIUM</strong></h4>
+      </div>)
+    }
+
+    const lowRiskContent = () => {
+      return (<div>
+        <h4>Your Risk is <strong className="risk-color-low">LOW</strong></h4>
+      </div>)
+    }
+
+    const contentSwitch = (assessment_score) => {
+      switch(assessment_score) {
+        case 16:
+        case 15:
+        case 14:
+        case 13:
+        case 12:
+        case 11:
+        case 10:
+        case 9:
+          return highRiskContent()
+          break
+        case 8:
+        case 7:
+        case 6:
+        case 5:
+        case 4:
+        case 3:
+        case 2:
+        case 1:
+          return mediumRiskContent()
+          break
+        case 0:
+        default:
+          return lowRiskContent()
+          break
+      }
+    }
+
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
-        <section className={`section${step === 'user_details' ? ' show' : ' hidden'}`}>
-          <h3>User Details</h3>
-
-          <form id="user-details-form" className="form-section">
-            <div className="input-group">
-              <label htmlFor="name">Your Name</label>
-              <input className="input-control" type="text" name="name" value={name} onChange={this.handleInputChange} placeholder="My name is ..." required/>
-            </div>
-            <div className="input-group">
-              <label htmlFor="name">Your Phone Number</label>
-              <input className="input-control" type="tel" name="phone_number" value={phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" required/>
-            </div>
-            <div className="input-group">
-              <label htmlFor="name">Your Address</label>
-              <input className="input-control" type="text" name="address" value={address} onChange={this.handleInputChange} placeholder="I live at ..." required/>
-            </div>
-            <div className="input-group">
-              <label htmlFor="name">Your Email Address</label>
-              <input className="input-control" type="email" name="email" value={email} onChange={this.handleInputChange} placeholder="My name is ..." required/>
-            </div>
-            <div className="input-group">
-              <label htmlFor="name">Your State</label>
-              <select className="input-select" name="state" value={state} onChange={this.handleInputChange} required>
-                <option value="">Select Your State</option>
-                {nigerianStates.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
-              </select>
-            </div>
-            <div className="input-group align-end">
-              <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="user_details"/>
-            </div>
-          </form>
+        <section className="section bg-grey3">
+          <h1 className="font-weight-bold">Risk Assessment</h1>
         </section>
 
-        <section className={`section${step === 'travel_details' ? ' show' : ' hidden'}`}>
-          <h3>Travel Details</h3>
+        <FloatCSSTransition in={(step === 'user_details')}>
+          <section className="section">
+            <form id="user-details-form" className="form-section">
+              <div className="input-group">
+                <label htmlFor="name">Your Name</label>
+                <input className="input-control" type="text" name="name" value={name} onChange={this.handleInputChange} placeholder="My name is ..." required/>
+              </div>
+              <div className="input-group">
+                <label htmlFor="name">Your Phone Number</label>
+                <input className="input-control" type="tel" name="phone_number" value={phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" required/>
+              </div>
+              <div className="input-group">
+                <label htmlFor="name">Your Address</label>
+                <input className="input-control" type="text" name="address" value={address} onChange={this.handleInputChange} placeholder="I live at ..." required/>
+              </div>
+              <div className="input-group">
+                <label htmlFor="name">Your Email Address</label>
+                <input className="input-control" type="email" name="email" value={email} onChange={this.handleInputChange} placeholder="My name is ..." required/>
+              </div>
+              <div className="input-group">
+                <label htmlFor="name">Your State</label>
+                <select className="input-select" name="state" value={state} onChange={this.handleInputChange} required>
+                  <option value="">Select Your State</option>
+                  {nigerianStates.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
+                </select>
+              </div>
+              <div className="input-group align-end">
+                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="user_details"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
 
-          <form id="travel-details-form" className="">
-            <div className="input-group">
-              <label htmlFor="recently_came_in_contact_with_a_traveller">Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?</label>
-              <label className="input-radio">
-                <input type="radio" name="recently_came_in_contact_with_a_traveller" value="Yes" checked={recently_came_in_contact_with_a_traveller === 'Yes'} onChange={this.handleInputChange} required/>
-                <span>Yes</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="recently_came_in_contact_with_a_traveller" value="No" checked={recently_came_in_contact_with_a_traveller === 'No'} onChange={this.handleInputChange} required/>
-                <span>No</span>
-              </label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="had_a_close_contact_with_a_confirmed_case">Have you had a close contact with a confirmed case of nCoV (coronavirus) infection?</label>
-              <label className="input-radio">
-                <input type="radio" name="had_a_close_contact_with_a_confirmed_case" value="Yes" checked={had_a_close_contact_with_a_confirmed_case === 'Yes'} onChange={this.handleInputChange} required/>
-                <span>Yes</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="had_a_close_contact_with_a_confirmed_case" value="No" checked={had_a_close_contact_with_a_confirmed_case === 'No'} onChange={this.handleInputChange} required/>
-                <span>No</span>
-              </label>
-            </div>
-            <div className="input-group align-end py">
-              <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details"/>
-            </div>
-          </form>
-        </section>
+        <FloatCSSTransition in={(step === 'travel_details')}>
+          <section className="section">
+            <form id="travel-details-form" className="">
+              <InputRadioGroup
+                question="Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?"
+                options={[
+                  'Yes',
+                  'No',
+                ]}
+                name="recently_came_in_contact_with_a_traveller"
+                value={recently_came_in_contact_with_a_traveller}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Have you had a close contact with a confirmed case of nCoV (coronavirus) infection?"
+                options={[
+                  'Yes',
+                  'No',
+                ]}
+                name="had_a_close_contact_with_a_confirmed_case"
+                value={had_a_close_contact_with_a_confirmed_case}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <div className="input-group align-end py">
+                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
 
-        <section className={`section${step === 'travel_details_confirm_low_risk' ? ' show' : ' hidden'}`}>
-          <h3>Travel Details</h3>
+        <FloatCSSTransition in={(step === 'travel_details_confirm_low_risk')}>
+          <section className="section">
+            <form id="travel-details-confirm-low-risk-form" className="">
+              <InputRadioGroup
+                question="Have you been to a gathering that later had a confirmed positive case?"
+                options={[
+                  'Yes',
+                  'No',
+                  'Maybe',
+                ]}
+                name="been_to_a_gathering_that_later_had_a_confirmed_case"
+                value={been_to_a_gathering_that_later_had_a_confirmed_case}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Have you or anyone you know have come in contact with or got exposed to a healthcare facility in a country where hospital associated nCOV (coronavirus) infections have been reported?"
+                options={[
+                  'Yes',
+                  'No',
+                  'Maybe',
+                ]}
+                name="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case"
+                value={have_come_in_contact_with_healthcare_facility_with_a_confirmed_case}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <div className="input-group align-end py">
+                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
 
-          <form id="travel-details-confirm-low-risk-form" className="">
-            <div className="input-group">
-              <label htmlFor="been_to_a_gathering_that_later_had_a_confirmed_case">Have you been to a gathering that later had a confirmed positive case?</label>
-              <label className="input-radio">
-                <input type="radio" name="been_to_a_gathering_that_later_had_a_confirmed_case" value="Yes" checked={been_to_a_gathering_that_later_had_a_confirmed_case[0] === 'Y'} onChange={this.handleInputChange} required/>
-                <span>Yes</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="been_to_a_gathering_that_later_had_a_confirmed_case" value="No" checked={been_to_a_gathering_that_later_had_a_confirmed_case[0] === 'N'} onChange={this.handleInputChange} required/>
-                <span>No</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="been_to_a_gathering_that_later_had_a_confirmed_case" value="Maybe" checked={been_to_a_gathering_that_later_had_a_confirmed_case[0] === 'M'} onChange={this.handleInputChange} required/>
-                <span>Maybe</span>
-              </label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case">Have you or anyone you know have come in contact with or got exposed to a healthcare facility in a country where hospital associated nCOV (coronavirus) infections have been reported?</label>
-              <label className="input-radio">
-                <input type="radio" name="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case" value="Yes" checked={have_come_in_contact_with_healthcare_facility_with_a_confirmed_case[0] === 'Y'} onChange={this.handleInputChange} required/>
-                <span>Yes</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case" value="No" checked={have_come_in_contact_with_healthcare_facility_with_a_confirmed_case[0] === 'N'} onChange={this.handleInputChange} required/>
-                <span>No</span>
-              </label>
-              <label className="input-radio">
-                <input type="radio" name="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case" value="Maybe" checked={have_come_in_contact_with_healthcare_facility_with_a_confirmed_case[0] === 'M'} onChange={this.handleInputChange} required/>
-                <span>Maybe</span>
-              </label>
-            </div>
-            <div className="input-group align-end py">
-              <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
-            </div>
-          </form>
-        </section>
+        <FloatCSSTransition in={(step === 'health_details')}>
+          <section className="section">
+            <form id="health-details-form" className="form-section">
+              <InputRadioGroup
+                question="How often do you cough?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="cough"
+                value={cough}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Do you experience any difficulties in breathing?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="difficulty_breathing"
+                value={difficulty_breathing}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Do you have a fever and if you do, How Often?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="fever"
+                value={fever}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Are your eyes watered?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="watered_eyes"
+                value={watered_eyes}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <div className="input-group align-end">
+                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="health_details"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
 
-        <section className={`section${step === 'health_details' ? ' show' : ' hidden'}`}>
-          <h3>Health Details</h3>
+        <FloatCSSTransition in={(step === 'other_health_details')}>
+          <section className="section">
+            <form id="other-health-details-form" className="form-section">
+              <InputRadioGroup
+                question="How often do you sneeze?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="sneeze"
+                value={sneeze}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Are you in pain?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="in_pain"
+                value={in_pain}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Does your throat hurt?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="hurt"
+                value={hurt}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <InputRadioGroup
+                question="Do you feel tired?"
+                options={[
+                  'Frequent',
+                  'Sometimes',
+                  'Never',
+                ]}
+                name="tired"
+                value={tired}
+                onInputChange={this.handleInputChange}
+                required
+              />
+              <div className="input-group align-end">
+                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="other_health_details"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
 
-          <form id="health-details-form" className="form-section">
-            <div className="input-group">
-              <label htmlFor="cough">How often do you cough?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="difficulty_breathing">Do you experience any difficulties in breathing?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="fever">Do you have a fever and if you do, How Often?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="watered_eyes">Are your eyes watered?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="sneeze">How often do you sneeze?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="in_pain">Are you in pain?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="hurt">Does your throat hurt?</label>
-            </div>
-            <div className="input-group">
-              <label htmlFor="tired">Do you feel tired?</label>
-            </div>
-            <div className="input-group align-end">
-              <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="health_details"/>
-            </div>
-          </form>
-        </section>
-
-        <section id="final_result" className={`section${step === 'final_result' ? ' show' : ' hidden'}`}>
-          <h3>Risk Assessment Result</h3>
-        </section>
+        <FloatCSSTransition in={(step === 'final_result')}>
+          <section className="section">
+            <h2 className="font-weight-bold">The Result</h2>
+            {contentSwitch(assessment_score)}
+          </section>
+        </FloatCSSTransition>
       </PublicLayout>
     )
   }
