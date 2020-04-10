@@ -1,16 +1,16 @@
 import Link from 'next/link'
-import PublicLayout from '@components/public-layout'
-import StatsCard from '@components/stats-card'
-import '@scss/pages/covid.scss'
-import CONFIG from '../config'
+import PublicLayout from '@src/components/public-layout'
+import StatsCard from '@src/components/stats-card'
+import '@src/scss/pages/covid.scss'
+import CONFIG from '@src/config'
 import ReactMarkdown from 'react-markdown'
 import fetch from 'isomorphic-unfetch'
 import {
   updateNigeriaStats,
   updateWorldwideStats,
-} from '../redux/actions/statisticsActions'
+} from '@src/redux/actions/statisticsActions'
 import { connect } from 'react-redux'
-import VideosContent from '../components/videos-content'
+import VideosContent from '@src/components/videos-content'
 
 const CovidPage = ({ng_stats, world_stats}) => {
   const statisticsContent = () => (

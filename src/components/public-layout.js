@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import './styles/public-layout.scss'
-import CONFIG from '../config'
+import CONFIG from '@src/config'
 import PublicHeader from './public-header'
 import PublicSidebar from './public-sidebar'
 import PublicFooter from './public-footer'
@@ -41,7 +41,7 @@ class PublicLayout extends React.Component {
         <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
         <main className="main-content">
           {children}
-          {/* <script type="text/javascript" src="/freshchat.min.js"></script> */}
+          {/* <script type="text/javascript" src="/js/freshchat.min.js"></script> */}
           <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script>
         </main>
         <PublicFooter />

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import './styles/public-sidebar.scss'
-import CONFIG from '../config'
+import CONFIG from '@src/config'
 
 const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
   const mapNavItem = ((navItem, navItemIndex) => {

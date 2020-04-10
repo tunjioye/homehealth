@@ -1,5 +1,5 @@
 import ModalVideo from 'react-modal-video'
-import '@scss/vendor/modal-video.scss'
+import '@src/scss/vendor/modal-video.scss'
 import './styles/videos-content.scss'
 
 class VideosContent extends React.Component {

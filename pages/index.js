@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import PublicLayout from '@components/public-layout'
-import '@scss/pages/index.scss'
-import ListItem from '@components/list-item'
-import CONFIG from '../config'
+import PublicLayout from '@src/components/public-layout'
+import '@src/scss/pages/index.scss'
+import ListItem from '@src/components/list-item'
+import CONFIG from '@src/config'
 
 const IndexPage = () => {
   const mappedInformationList = CONFIG.INFORMATION_LIST.map(mapListItem)

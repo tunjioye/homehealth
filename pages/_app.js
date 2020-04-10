@@ -2,11 +2,12 @@
 import React from 'react'
 import NProgress from "nprogress"
 import Router from 'next/router'
-// import '../scss/bootstrap.scss'
-import '../scss/index.scss'
+// import '@src/scss/bootstrap.scss'
+import '@src/scss/index.scss'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
-import initializeStore from '../redux/store'
+import initializeStore from '@src/redux/store'
+import 'zone.js/dist/zone'
 
 const MyApp = ({ Component, pageProps, store }) => {
   Router.events.on('routeChangeStart', () => NProgress.start())

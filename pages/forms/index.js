@@ -1,13 +1,13 @@
 // import Link from 'next/link'
 import PublicLayout from '@src/components/public-layout'
+import redirectTo from '@src/utils/redirectTo'
 
-const ChatbotPage = () => {
+const ServiceFormsPage = () => {
   return (
-    <PublicLayout pageTitle="Chatbot">
+    <PublicLayout pageTitle="Service Forms">
       <section style={sectionStyle}>
-        <h1>Chat with our Chatbot</h1>
+        <h1>Our Service Forms</h1>
       </section>
-      {/* <script async defer src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script> */}
     </PublicLayout>
   )
 }
@@ -21,4 +21,10 @@ const sectionStyle = {
   minHeight: '80vh',
 }
 
-export default ChatbotPage
+ServiceFormsPage.getInitialProps = ctx => {
+  const { res } = ctx
+  redirectTo('/forms/risk-assessment', { res, status: 302 })
+  return {}
+}
+
+export default ServiceFormsPage

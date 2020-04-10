@@ -78,7 +78,7 @@ const CONFIG = {
     {
       title: 'COVID-19 Risk Assessment',
       description: 'Take a quiz as our chatbot predicts your risk of having the coronavirus',
-      href: '/#services',
+      href: '/forms/risk-assessment',
     },
     {
       title: 'Request a Call from a Doctor',
