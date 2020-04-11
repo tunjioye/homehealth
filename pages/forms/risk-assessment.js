@@ -301,6 +301,8 @@ class RiskAssessmentPage extends React.Component {
       }
     }
 
+    // sheets_v4()
+
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
         <section className="section bg-grey3">

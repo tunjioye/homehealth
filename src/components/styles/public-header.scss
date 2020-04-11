@@ -14,6 +14,20 @@
 
   .logo {
     font-weight: bold;
+
+    img {
+      height: 2rem;
+
+      @media (max-width: $size_lg) {
+        height: 1.5rem;
+      }
+    }
+
+    &:hover {
+      img {
+        opacity: .55;
+      }
+    }
   }
 
   .sidebar-toggle {
