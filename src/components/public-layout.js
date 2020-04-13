@@ -4,7 +4,8 @@ import CONFIG from '@src/config'
 import PublicHeader from './public-header'
 import PublicSidebar from './public-sidebar'
 import PublicFooter from './public-footer'
-import BotScript from '@src/components/bot-script'
+// import NoSSR from 'react-no-ssr'
+import axios from 'axios'
 
 class PublicLayout extends React.Component {
   constructor (props) {
@@ -22,6 +23,17 @@ class PublicLayout extends React.Component {
     this.setState({
       showSidebar: !showSidebar
     })
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      axios.get('https://webchat2.botsupply.ai/sdk/RTOMP4Foy')
+        .then((res) => {
+          const {data} = res
+          document.getElementById('botscript').innerHTML = data
+        })
+        .catch((err) => console.error(err))
+    }, 1000)
   }
 
   render () {
@@ -42,7 +54,10 @@ class PublicLayout extends React.Component {
         <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
         <main className="main-content">
           {children}
-          <BotScript />
+          {/* <NoSSR>
+            <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript" async defer></script>
+          </NoSSR> */}
+          <script id="botscript" type="text/javascript"></script>
         </main>
         <PublicFooter />
       </div>
