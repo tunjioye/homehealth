@@ -4,7 +4,6 @@ import CONFIG from '@src/config'
 import PublicHeader from './public-header'
 import PublicSidebar from './public-sidebar'
 import PublicFooter from './public-footer'
-import NoSSR from 'react-no-ssr'
 import BotScript from '@src/components/bot-script'
 
 class PublicLayout extends React.Component {
@@ -43,11 +42,7 @@ class PublicLayout extends React.Component {
         <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
         <main className="main-content">
           {children}
-          {/* <script type="text/javascript" src="/js/freshchat.min.js"></script> */}
-          <NoSSR>
-            <BotScript />
-            {/* <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script> */}
-          </NoSSR>
+          <BotScript />
         </main>
         <PublicFooter />
       </div>
