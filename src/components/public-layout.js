@@ -4,6 +4,8 @@ import CONFIG from '@src/config'
 import PublicHeader from './public-header'
 import PublicSidebar from './public-sidebar'
 import PublicFooter from './public-footer'
+import NoSSR from 'react-no-ssr'
+import BotScript from '@src/components/bot-script'
 
 class PublicLayout extends React.Component {
   constructor (props) {
@@ -42,7 +44,10 @@ class PublicLayout extends React.Component {
         <main className="main-content">
           {children}
           {/* <script type="text/javascript" src="/js/freshchat.min.js"></script> */}
-          <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script>
+          <NoSSR>
+            <BotScript />
+            {/* <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript"></script> */}
+          </NoSSR>
         </main>
         <PublicFooter />
       </div>
