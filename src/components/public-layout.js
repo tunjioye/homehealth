@@ -41,7 +41,7 @@ class PublicLayout extends React.Component {
         <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
         <main className="main-content">
           {children}
-          <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript" async></script>
+          {/* <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript" async></script> */}
         </main>
         <PublicFooter />
       </div>
