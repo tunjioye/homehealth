@@ -17,19 +17,20 @@ class CovidPage extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
-      fetching_statistics: true,
+      fetching_ng_stats: true,
       ng_stats: props.ng_stats || {},
+      fetching_world_stats: true,
       world_stats: props.world_stats || {},
     }
 
-    this.fetchStatistics = this.fetchStatistics.bind(this)
+    this.fetchNgStats = this.fetchNgStats.bind(this)
+    this.fetchWorldStats = this.fetchWorldStats.bind(this)
   }
 
-  async fetchStatistics () {
+  async fetchNgStats () {
     let ng_stats = {}
-    let world_stats = {}
 
-    if (this.props.ng_stats.length === 0) {
+    if (Object.keys(this.props.ng_stats).length !== 0) {
       ng_stats = this.props.ng_stats
     } else {
       let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
@@ -37,7 +38,16 @@ class CovidPage extends React.Component {
       ng_stats = nigerianStatsRes.data.rows[0]
     }
 
-    if (this.props.world_stats.length !== 0) {
+    this.setState({
+      fetching_ng_stats: false,
+      ng_stats,
+    })
+  }
+
+  async fetchWorldStats () {
+    let world_stats = {}
+
+    if (Object.keys(this.props.world_stats).length !== 0) {
       world_stats = this.props.world_stats
     } else {
       let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
@@ -46,20 +56,21 @@ class CovidPage extends React.Component {
     }
 
     this.setState({
-      fetching_statistics: false,
-      ng_stats,
+      fetching_world_stats: false,
       world_stats,
     })
   }
 
   componentDidMount () {
-    this.fetchStatistics()
+    this.fetchNgStats()
+    this.fetchWorldStats()
   }
 
   render () {
     const {
-      fetching_statistics,
+      fetching_ng_stats,
       ng_stats,
+      fetching_world_stats,
       world_stats,
     } = this.state
 
@@ -70,7 +81,7 @@ class CovidPage extends React.Component {
             <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
           </div>
           <div className="stats-card-wrapper">
-            {(fetching_statistics === false)
+            {(fetching_ng_stats === false)
               ? (
                 <>
                   <StatsCard value={ng_stats.total_cases || 0} title="Confirmed Cases" />
@@ -90,7 +101,7 @@ class CovidPage extends React.Component {
             <h5 className="font-weight-bold">Worldwide 🌎</h5>
           </div>
           <div className="stats-card-wrapper">
-            {(fetching_statistics === false)
+            {(fetching_world_stats === false)
               ? (
                 <>
                   <StatsCard value={world_stats.total_cases || 0} title="Confirmed Cases" />
