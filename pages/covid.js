@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import PublicLayout from '@src/components/public-layout'
 import StatsCard from '@src/components/stats-card'
@@ -12,118 +13,185 @@ import {
 import { connect } from 'react-redux'
 import VideosContent from '@src/components/videos-content'
 
-const CovidPage = ({ng_stats, world_stats}) => {
-  const statisticsContent = () => (
-    <div>
-      <div className="statistics">
-        <div>
-          <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
+class CovidPage extends React.Component {
+  constructor (props) {
+    super (props)
+    this.state = {
+      fetching_statistics: true,
+      ng_stats: props.ng_stats || {},
+      world_stats: props.world_stats || {},
+    }
+
+    this.fetchStatistics = this.fetchStatistics.bind(this)
+  }
+
+  async fetchStatistics () {
+    let ng_stats = {}
+    let world_stats = {}
+
+    if (this.props.ng_stats.length === 0) {
+      ng_stats = this.props.ng_stats
+    } else {
+      let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
+      nigerianStatsRes = await nigerianStatsRes.json()
+      ng_stats = nigerianStatsRes.data.rows[0]
+    }
+
+    if (this.props.world_stats.length !== 0) {
+      world_stats = this.props.world_stats
+    } else {
+      let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
+      worldwideStatsRes = await worldwideStatsRes.json()
+      world_stats = worldwideStatsRes.data.rows[0]
+    }
+
+    this.setState({
+      fetching_statistics: false,
+      ng_stats,
+      world_stats,
+    })
+  }
+
+  componentDidMount () {
+    this.fetchStatistics()
+  }
+
+  render () {
+    const {
+      fetching_statistics,
+      ng_stats,
+      world_stats,
+    } = this.state
+
+    const statisticsContent = () => (
+      <div>
+        <div className="statistics">
+          <div>
+            <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
+          </div>
+          <div className="stats-card-wrapper">
+            {(fetching_statistics === false)
+              ? (
+                <>
+                  <StatsCard value={ng_stats.total_cases || 0} title="Confirmed Cases" />
+                  <StatsCard value={ng_stats.active_cases || 0} title="Active Cases" />
+                  <StatsCard value={ng_stats.total_recovered || 0} title="Recovered" />
+                  <StatsCard value={ng_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+                </>
+              )
+              : (
+                <div>fetching statistics ...</div>
+              )
+            }
+          </div>
         </div>
-        <div className="stats-card-wrapper">
-          <StatsCard value={ng_stats.total_cases || 0} title="Confirmed Cases" />
-          <StatsCard value={ng_stats.active_cases || 0} title="Active Cases" />
-          <StatsCard value={ng_stats.total_recovered || 0} title="Recovered" />
-          <StatsCard value={ng_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+        <div className="statistics">
+          <div>
+            <h5 className="font-weight-bold">Worldwide 🌎</h5>
+          </div>
+          <div className="stats-card-wrapper">
+            {(fetching_statistics === false)
+              ? (
+                <>
+                  <StatsCard value={world_stats.total_cases || 0} title="Confirmed Cases" />
+                  <StatsCard value={world_stats.active_cases || 0} title="Active Cases" />
+                  <StatsCard value={world_stats.total_recovered || 0} title="Recovered" />
+                  <StatsCard value={world_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+                </>
+              )
+              : (
+                <div>fetching statistics ...</div>
+              )
+            }
+          </div>
         </div>
       </div>
-      <div className="statistics">
-        <div>
-          <h5 className="font-weight-bold">Worldwide 🌎</h5>
-        </div>
-        <div className="stats-card-wrapper">
-          <StatsCard value={world_stats.total_cases || 0} title="Confirmed Cases" />
-          <StatsCard value={world_stats.active_cases || 0} title="Active Cases" />
-          <StatsCard value={world_stats.total_recovered || 0} title="Recovered" />
-          <StatsCard value={world_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+    )
+
+    const overviewContent = () => (
+      <div>
+        <p>Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.</p>
+        <p>The disease causes respiratory illness (like the flu) with symptoms such as a cough, fever, and in more severe cases, difficulty breathing. You can protect yourself by washing your hands frequently, avoiding touching your face, and avoiding close contact (1 meter or 3 feet) with people who are unwell.</p>
+        <p>Coronavirus disease spreads primarily through contact with an infected person when they cough or sneeze. It also spreads when a person touches a surface or object that has the virus on it, then touches their eyes, nose, or mouth.</p>
+      </div>
+    )
+
+    const symptomsContent = () => (
+      <div>
+        <div className="auto-grid">
+          <div>
+            <div className="ai-fe">
+              <img className="scale-up" src="/svg/symptom01.svg" alt="..."/>
+            </div>
+            <div>High fever</div>
+          </div>
+          <div>
+            <div className="ai-fe">
+              <img className="scale-up" src="/svg/symptom02.svg" alt="..."/>
+            </div>
+            <div>Dry cough</div>
+          </div>
+          <div>
+            <div className="ai-fe">
+              <img className="scale-up" src="/svg/symptom03.svg" alt="..."/>
+            </div>
+            <div>Difficulty breathing</div>
+          </div>
+          <div>
+            <div className="ai-fe">
+              <img className="scale-up" src="/svg/symptom04.svg" alt="..."/>
+            </div>
+            <div>Tiredness</div>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
 
-  const overviewContent = () => (
-    <div>
-      <p>Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.</p>
-      <p>The disease causes respiratory illness (like the flu) with symptoms such as a cough, fever, and in more severe cases, difficulty breathing. You can protect yourself by washing your hands frequently, avoiding touching your face, and avoiding close contact (1 meter or 3 feet) with people who are unwell.</p>
-      <p>Coronavirus disease spreads primarily through contact with an infected person when they cough or sneeze. It also spreads when a person touches a surface or object that has the virus on it, then touches their eyes, nose, or mouth.</p>
-    </div>
-  )
-
-  const symptomsContent = () => (
-    <div>
-      <div className="auto-grid">
-        <div>
-          <div className="ai-fe">
-            <img className="scale-up" src="/svg/symptom01.svg" alt="..."/>
+    const preventionContent = () => (
+      <div>
+        <div className="auto-grid">
+          <div>
+            <div className="overflow-visible">
+              <img className="scale-up" src="/svg/preventn01.svg" alt="..."/>
+            </div>
+            <div>Avoid close contact</div>
           </div>
-          <div>High fever</div>
-        </div>
-        <div>
-          <div className="ai-fe">
-            <img className="scale-up" src="/svg/symptom02.svg" alt="..."/>
+          <div>
+            <div className="overflow-visible">
+              <img className="scale-up" src="/svg/preventn02.svg" alt="..."/>
+            </div>
+            <div>Wash your hands often</div>
           </div>
-          <div>Dry cough</div>
-        </div>
-        <div>
-          <div className="ai-fe">
-            <img className="scale-up" src="/svg/symptom03.svg" alt="..."/>
+          <div>
+            <div>
+              <img className="scale-down" src="/svg/preventn03.svg" alt="..."/>
+            </div>
+            <div>Stay at home</div>
           </div>
-          <div>Difficulty breathing</div>
-        </div>
-        <div>
-          <div className="ai-fe">
-            <img className="scale-up" src="/svg/symptom04.svg" alt="..."/>
+          <div>
+            <div>
+              <img className="scale-up" src="/svg/preventn04.svg" alt="..."/>
+            </div>
+            <div>Cover coughs <br/>and sneezes</div>
           </div>
-          <div>Tiredness</div>
+          <div>
+            <div>
+              <img className="scale-up" src="/svg/preventn05.svg" alt="..."/>
+            </div>
+            <div>Wear a facemask <br/>if you are sick</div>
+          </div>
+          <div>
+            <div>
+              <img className="scale-down" src="/svg/preventn06.svg" alt="..."/>
+            </div>
+            <div>Clean and disinfect</div>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
 
-  const preventionContent = () => (
-    <div>
-      <div className="auto-grid">
-        <div>
-          <div className="overflow-visible">
-            <img className="scale-up" src="/svg/preventn01.svg" alt="..."/>
-          </div>
-          <div>Avoid close contact</div>
-        </div>
-        <div>
-          <div className="overflow-visible">
-            <img className="scale-up" src="/svg/preventn02.svg" alt="..."/>
-          </div>
-          <div>Wash your hands often</div>
-        </div>
-        <div>
-          <div>
-            <img className="scale-down" src="/svg/preventn03.svg" alt="..."/>
-          </div>
-          <div>Stay at home</div>
-        </div>
-        <div>
-          <div>
-            <img className="scale-up" src="/svg/preventn04.svg" alt="..."/>
-          </div>
-          <div>Cover coughs <br/>and sneezes</div>
-        </div>
-        <div>
-          <div>
-            <img className="scale-up" src="/svg/preventn05.svg" alt="..."/>
-          </div>
-          <div>Wear a facemask <br/>if you are sick</div>
-        </div>
-        <div>
-          <div>
-            <img className="scale-down" src="/svg/preventn06.svg" alt="..."/>
-          </div>
-          <div>Clean and disinfect</div>
-        </div>
-      </div>
-    </div>
-  )
-
-  const treatmentsContent = () => (
-    <ReactMarkdown source={`There is no specific medicine to prevent or treat coronavirus disease (COVID-19). People may need supportive care to help them breathe.
+    const treatmentsContent = () => (
+      <ReactMarkdown source={`There is no specific medicine to prevent or treat coronavirus disease (COVID-19). People may need supportive care to help them breathe.
 
 **Self care**
 
@@ -137,189 +205,189 @@ If you have mild symptoms, stay at home until you’ve recovered. You can reliev
 **Medical treatments**
 
 If you develop a fever, cough, and have difficulty breathing, promptly seek medical care. Call in advance and tell your health provider of any recent travel or recent contact with travelers.`} />
-  )
-
-  const faqsContent = () => {
-    const mappedFaqs = CONFIG.FAQS.map((faq, faqIndex) => {
-      const {question, answer} = faq
-
-      return (
-        <div key={faqIndex} className="accordion faq">
-          {(faqIndex < 2)
-            ? <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden checked onChange={(e) => (e.target.toggleAttribute('checked'))} />
-            : <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
-          }
-          <label className="accordion-header" htmlFor={`accordion-${faqIndex}`}>
-            <span className="icon left"></span>
-            {question}
-          </label>
-          <div className="accordion-body">
-            {answer}
-          </div>
-        </div>
-      )
-    })
-
-    return (
-      <div className="faqs-grid">
-        {mappedFaqs}
-      </div>
     )
-  }
 
-  const tweetsContent = () => (
-    <div className="">
-      // recent tweets about #coronavirus to be soon displayed here ...
-    </div>
-  )
+    const faqsContent = () => {
+      const mappedFaqs = CONFIG.FAQS.map((faq, faqIndex) => {
+        const {question, answer} = faq
 
-  const videosContent = () => {
-    const mappedVideos = CONFIG.VIDEOS.map((video, videoIndex) => {
-      const {title, videoId} = video
-
-      return <VideosContent key={videoIndex} title={title} videoId={videoId} />
-    })
-
-    return (
-      <div>
-        <div className="videos-flex">
-          {mappedVideos}
-        </div>
-        <p className="text-grey3"><small>←→</small> <small>scroll horizontally for more</small></p>
-      </div>
-    )
-  }
-
-  const otherResourcesContent = () => {
-    const mappedOtherResources = CONFIG.OTHER_RESOURCES.map((otherRes, otherResIndex) => {
-      const {title, href} = otherRes
-
-      return (
-        <li key={otherResIndex}>
-          <Link href={href}>
-            <a href={href} target="_blank" rel="noreferrer noopener">{title}</a>
-          </Link>
-        </li>
-      )
-    })
-
-    return (
-      <div className="other-resources">
-        <ul className="nav resourcenav">
-          {mappedOtherResources}
-        </ul>
-      </div>
-    )
-  }
-
-  const contentSwitch = (sectionHash) => {
-    switch(sectionHash) {
-      case "statistics":
-        return statisticsContent()
-        break
-      case "overview":
-        return overviewContent()
-        break
-      case "symptoms":
-        return symptomsContent()
-        break
-      case "prevention":
-        return preventionContent()
-        break
-      case "treatments":
-        return treatmentsContent()
-        break
-      case "faqs":
-        return faqsContent()
-        break
-      case "tweets":
-        return tweetsContent()
-        break
-      case "videos":
-        return videosContent()
-        break
-      case "other-resources":
-        return otherResourcesContent()
-        break
-      default:
-        return null
-        break
-    }
-  }
-
-  const mappedInformationList = CONFIG.INFORMATION_LIST.map(((listItem, listItemIndex, informationList) => {
-    const {title, hash} = listItem
-    const prevHash = (informationList[listItemIndex - 1]) ? informationList[listItemIndex - 1].hash : null
-    const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
-
-    return (
-      <div id={hash} key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
-        <section className="section">
-          <div className="flex-heading font-weight-bold">
-            <h3>
-              <Link href={`#${hash}`}>
-                <a href={`#${hash}`} className="no-underline">
-                  #
-                </a>
-              </Link>
-              &nbsp;
-              <strong>{title}</strong>
-              &nbsp;
-            </h3>
-            {(prevHash || nextHash) &&
-              <div>
-                {(prevHash) &&
-                  <>
-                    <Link href={`#${prevHash}`}>
-                      <a href={`#${prevHash}`} className="font-weight-bold no-underline">Prev</a>
-                    </Link>
-                    &nbsp;
-                  </>
-                }
-                {(nextHash) &&
-                  <Link href={`#${nextHash}`}>
-                    <a href={`#${nextHash}`} className="font-weight-bold no-underline">Next</a>
-                  </Link>
-                }
-              </div>
+        return (
+          <div key={faqIndex} className="accordion faq">
+            {(faqIndex < 2)
+              ? <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden checked onChange={(e) => (e.target.toggleAttribute('checked'))} />
+              : <input id={`accordion-${faqIndex}`} type="checkbox" name="accordion-checkbox" hidden />
             }
+            <label className="accordion-header" htmlFor={`accordion-${faqIndex}`}>
+              <span className="icon left"></span>
+              {question}
+            </label>
+            <div className="accordion-body">
+              {answer}
+            </div>
           </div>
-          {contentSwitch(hash)}
-        </section>
+        )
+      })
+
+      return (
+        <div className="faqs-grid">
+          {mappedFaqs}
+        </div>
+      )
+    }
+
+    const tweetsContent = () => (
+      <div className="">
+        // recent tweets about #coronavirus to be soon displayed here ...
       </div>
     )
-  }).bind(contentSwitch))
 
-  return (
-    <PublicLayout pageTitle="COVID-19" pageClass="covid">
-      {mappedInformationList}
-    </PublicLayout>
-  )
+    const videosContent = () => {
+      const mappedVideos = CONFIG.VIDEOS.map((video, videoIndex) => {
+        const {title, videoId} = video
+
+        return <VideosContent key={videoIndex} title={title} videoId={videoId} />
+      })
+
+      return (
+        <div>
+          <div className="videos-flex">
+            {mappedVideos}
+          </div>
+          <p className="text-grey3"><small>←→</small> <small>scroll horizontally for more</small></p>
+        </div>
+      )
+    }
+
+    const otherResourcesContent = () => {
+      const mappedOtherResources = CONFIG.OTHER_RESOURCES.map((otherRes, otherResIndex) => {
+        const {title, href} = otherRes
+
+        return (
+          <li key={otherResIndex}>
+            <Link href={href}>
+              <a href={href} target="_blank" rel="noreferrer noopener">{title}</a>
+            </Link>
+          </li>
+        )
+      })
+
+      return (
+        <div className="other-resources">
+          <ul className="nav resourcenav">
+            {mappedOtherResources}
+          </ul>
+        </div>
+      )
+    }
+
+    const contentSwitch = (sectionHash) => {
+      switch(sectionHash) {
+        case "statistics":
+          return statisticsContent()
+          break
+        case "overview":
+          return overviewContent()
+          break
+        case "symptoms":
+          return symptomsContent()
+          break
+        case "prevention":
+          return preventionContent()
+          break
+        case "treatments":
+          return treatmentsContent()
+          break
+        case "faqs":
+          return faqsContent()
+          break
+        case "tweets":
+          return tweetsContent()
+          break
+        case "videos":
+          return videosContent()
+          break
+        case "other-resources":
+          return otherResourcesContent()
+          break
+        default:
+          return null
+          break
+      }
+    }
+
+    const mappedInformationList = CONFIG.INFORMATION_LIST.map(((listItem, listItemIndex, informationList) => {
+      const {title, hash} = listItem
+      const prevHash = (informationList[listItemIndex - 1]) ? informationList[listItemIndex - 1].hash : null
+      const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
+
+      return (
+        <div id={hash} key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
+          <section className="section">
+            <div className="flex-heading font-weight-bold">
+              <h3>
+                <Link href={`#${hash}`}>
+                  <a href={`#${hash}`} className="no-underline">
+                    #
+                  </a>
+                </Link>
+                &nbsp;
+                <strong>{title}</strong>
+                &nbsp;
+              </h3>
+              {(prevHash || nextHash) &&
+                <div>
+                  {(prevHash) &&
+                    <>
+                      <Link href={`#${prevHash}`}>
+                        <a href={`#${prevHash}`} className="font-weight-bold no-underline">Prev</a>
+                      </Link>
+                      &nbsp;
+                    </>
+                  }
+                  {(nextHash) &&
+                    <Link href={`#${nextHash}`}>
+                      <a href={`#${nextHash}`} className="font-weight-bold no-underline">Next</a>
+                    </Link>
+                  }
+                </div>
+              }
+            </div>
+            {contentSwitch(hash)}
+          </section>
+        </div>
+      )
+    }).bind(contentSwitch))
+    return (
+      <PublicLayout pageTitle="COVID-19" pageClass="covid">
+        {mappedInformationList}
+      </PublicLayout>
+    )
+  }
 }
 
-CovidPage.getInitialProps = async (ctx) => {
-  const { store } = ctx
-  let ng_stats = {}
-  let world_stats = {}
+// CovidPage.getInitialProps = async (ctx) => {
+//   const { store } = ctx
+//   let ng_stats = {}
+//   let world_stats = {}
 
-  if (Object.keys(store.getState().statistics.ng_stats).length === 0) {
-    let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-    nigerianStatsRes = await nigerianStatsRes.json()
-    ng_stats = nigerianStatsRes.data.rows[0]
+//   if (Object.keys(store.getState().statistics.ng_stats).length === 0) {
+//     let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
+//     nigerianStatsRes = await nigerianStatsRes.json()
+//     ng_stats = nigerianStatsRes.data.rows[0]
 
-    let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
-    worldwideStatsRes = await worldwideStatsRes.json()
-    world_stats = worldwideStatsRes.data.rows[0]
+//     let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
+//     worldwideStatsRes = await worldwideStatsRes.json()
+//     world_stats = worldwideStatsRes.data.rows[0]
 
-    store.dispatch(updateNigeriaStats(ng_stats))
-    store.dispatch(updateWorldwideStats(world_stats))
-  }
+//     store.dispatch(updateNigeriaStats(ng_stats))
+//     store.dispatch(updateWorldwideStats(world_stats))
+//   }
 
-  return {
-    ng_stats,
-    world_stats,
-  }
-}
+//   return {
+//     ng_stats,
+//     world_stats,
+//   }
+// }
 
 const mapStateToProps = state => {
   const {statistics} = state
