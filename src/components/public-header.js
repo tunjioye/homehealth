@@ -6,8 +6,9 @@ const PublicHeader = ({ toggleSidebar }) => (
   <header className="header">
     <span className="logo">
       <Link href="/">
-        <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}>
-          {/* <img src="/img/homehealth-logo.png" alt="..."/> */}
+        {/* <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}></a> */}
+        <a href="/" className="no-underline">
+          <img src="/img/homehealth-logo.png" alt="..."/>
         </a>
       </Link>
     </span>
