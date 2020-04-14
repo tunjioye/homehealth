@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import './styles/public-header.scss'
-import CONFIG from '@src/config'
+// import CONFIG from '@src/config'
 
 const PublicHeader = ({ toggleSidebar }) => (
   <header className="header">

@@ -34,10 +34,10 @@ const PublicSidebar = ({ activePageTitle, showSidebar, toggleSidebar }) => {
         <div className="sidebar-header">
           <span className="logo">
             <Link href="/">
-              {/* <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}></a> */}
-              <a href="/" className="no-underline">
+              <a href="/" className="no-underline" dangerouslySetInnerHTML={{__html: CONFIG.SITE_NAME_HTML}}></a>
+              {/* <a href="/" className="no-underline">
                 <img src="/img/homehealth-logo.png" alt="..."/>
-              </a>
+              </a> */}
             </Link>
           </span>
           <span className="sidebar-toggle" onClick={toggleSidebar}>✕</span>
