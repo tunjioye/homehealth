@@ -21,8 +21,8 @@ const FloatCSSTransition = ({ in: inProp, children }) => {
 
 const initialState = {
   // flow controls
-  step: 'user_details',
-  // step: 'final_result',
+  // step: 'user_details',
+  step: 'final_result',
 
   // user details
   name: '',
@@ -68,6 +68,7 @@ class RiskAssessmentPage extends React.Component {
     this.getValuePoint = this.getValuePoint.bind(this)
     this.calculateAssessmentScore = this.calculateAssessmentScore.bind(this)
     this.resetForm = this.resetForm.bind(this)
+    this.closeWindow = this.closeWindow.bind(this)
   }
 
   handleInputChange (e) {
@@ -101,6 +102,7 @@ class RiskAssessmentPage extends React.Component {
         break
       case 'final_result':
         this.resetForm()
+        this.closeWindow()
         break
       default:
         break
@@ -225,6 +227,10 @@ class RiskAssessmentPage extends React.Component {
     this.setState({
       initialState
     })
+  }
+
+  closeWindow () {
+    window.close()
   }
 
   render () {
@@ -538,6 +544,14 @@ class RiskAssessmentPage extends React.Component {
           <section className="section">
             <h2 className="font-weight-bold">The Result</h2>
             {contentSwitch(assessment_score)}
+
+            <div className="section"></div>
+
+            <form id="final-result-form" className="form-section">
+              <div className="input-group align-end">
+                <input className="button" type="submit" value="Return to Chatbot" onClick={this.handleSubmit} step="final_result"/>
+              </div>
+            </form>
           </section>
         </FloatCSSTransition>
       </PublicLayout>
