@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import './styles/public-layout.scss'
 import CONFIG from '@src/config'
-import PublicHeader from './public-header'
-import PublicSidebar from './public-sidebar'
+// import PublicHeader from './public-header'
+// import PublicSidebar from './public-sidebar'
 import PublicFooter from './public-footer'
 
 class PublicLayout extends React.Component {
@@ -25,7 +25,7 @@ class PublicLayout extends React.Component {
 
   render () {
     const {pageTitle, pageClass, children} = this.props
-    const {showSidebar} = this.state
+    // const {showSidebar} = this.state
 
     return (
       <div className={`layout${pageClass ? ` ${pageClass}` : ``}`}>
