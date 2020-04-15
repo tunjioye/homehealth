@@ -21,8 +21,8 @@ const FloatCSSTransition = ({ in: inProp, children }) => {
 
 const initialState = {
   // flow controls
-  // step: 'user_details',
-  step: 'final_result',
+  step: 'user_details',
+  // step: 'final_result',
 
   // user details
   name: '',
@@ -153,9 +153,7 @@ class RiskAssessmentPage extends React.Component {
         // low_risk confirmed, jump straight to result
         this.setState({
           step: 'final_result',
-        })
-
-        setTimeout(() => {console.table(this.state)}, 200)
+        }, () => console.table(this.state))
       } else {
         this.setState({
           step: 'health_details',
@@ -178,9 +176,7 @@ class RiskAssessmentPage extends React.Component {
       e.preventDefault()
       this.setState({
         step: 'final_result',
-      })
-
-      setTimeout(() => {console.table(this.state)}, 200)
+      }, () => console.table(this.state))
     }
   }
 
@@ -231,6 +227,41 @@ class RiskAssessmentPage extends React.Component {
 
   closeWindow () {
     window.close()
+  }
+
+  componentDidMount () {
+    if (window !== undefined) {
+      // window.wvParams = "webview.sourceVariableList";
+
+      // var webViewParams = JSON.parse(window.wvParams);
+      // console.log('WEBVIEWPARAMS:' , webViewParams);
+
+      // function getParam(name) {
+      //   for (let i in webViewParams.parameters) {
+      //     let param = webViewParams.parameters[i];
+      //     if (param.key === name) {
+      //       return param.value
+      //     }
+      //   }
+      // }
+
+      // $('#submit').click(function () {
+      //   var date = $('#date').val();
+      //   var name = $('#name').val();
+
+      //   var webViewCallback = getParam('webview.onDone');
+      //   var data = {
+      //     date: date,
+      //     name: name
+      //   };
+
+      //   console.log(webViewCallback)
+
+      //   $.post(webViewCallback, JSON.stringify(data),function() {
+      //     window.close();
+      //   });
+      // })
+    }
   }
 
   render () {
