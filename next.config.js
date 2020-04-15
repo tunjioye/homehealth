@@ -10,5 +10,10 @@ module.exports = withPlugins([
     env: {
       APP_ENV: process.env.APP_ENV,
     },
+    exportPathMap: function () {
+      return {
+        '/': { page: '/forms/risk-assessment' }
+      }
+    }
   }]
 ])

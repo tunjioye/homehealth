@@ -37,8 +37,8 @@ class PublicLayout extends React.Component {
           <meta name="description" content="a portal that provides accurate information about corona virus to the people"/>
           <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
         </Head>
-        <PublicHeader toggleSidebar={this.toggleSidebar} />
-        <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} />
+        {/* <PublicHeader toggleSidebar={this.toggleSidebar} /> */}
+        {/* <PublicSidebar activePageTitle={pageTitle} showSidebar={showSidebar} toggleSidebar={this.toggleSidebar} /> */}
         <main className="main-content">
           {children}
           {/* <script src="https://webchat2.botsupply.ai/sdk/RTOMP4Foy" type="text/javascript" async></script> */}
