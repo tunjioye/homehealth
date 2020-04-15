@@ -311,25 +311,27 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'user_details')}>
           <section className="section">
+            <h4>1. User Information</h4>
+
             <form id="user-details-form" className="form-section">
               <div className="input-group">
-                <label htmlFor="name">Your Name</label>
+                <label htmlFor="name">1a. Your Name</label>
                 <input className="input-control" type="text" name="name" value={name} onChange={this.handleInputChange} placeholder="My name is ..." required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">Your Phone Number</label>
+                <label htmlFor="name">1b. Your Phone Number</label>
                 <input className="input-control" type="tel" name="phone_number" value={phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">Your Address</label>
+                <label htmlFor="name">1c. Your Address</label>
                 <input className="input-control" type="text" name="address" value={address} onChange={this.handleInputChange} placeholder="I live at ..." required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">Your Email Address</label>
+                <label htmlFor="name">1d. Your Email Address</label>
                 <input className="input-control" type="email" name="email" value={email} onChange={this.handleInputChange} placeholder="My name is ..." required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">Your State</label>
+                <label htmlFor="name">1e. Your State</label>
                 <select className="input-select" name="state" value={state} onChange={this.handleInputChange} required>
                   <option value="">Select Your State</option>
                   {nigerianStates.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
@@ -344,9 +346,11 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'travel_details')}>
           <section className="section">
+            <h4>2. Travel Questions</h4>
+
             <form id="travel-details-form" className="">
               <InputRadioGroup
-                question="Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?"
+                question="2a. Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?"
                 options={[
                   'Yes',
                   'No',
@@ -357,7 +361,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Have you had a close contact with a confirmed case of nCoV (coronavirus) infection?"
+                question="2b. Have you had a close contact with a confirmed case of nCoV (coronavirus) infection?"
                 options={[
                   'Yes',
                   'No',
@@ -376,9 +380,11 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'travel_details_confirm_low_risk')}>
           <section className="section">
+            <h4>2. Travel Questions</h4>
+
             <form id="travel-details-confirm-low-risk-form" className="">
               <InputRadioGroup
-                question="Have you been to a gathering that later had a confirmed positive case?"
+                question="2c. Have you been to a gathering that later had a confirmed positive case?"
                 options={[
                   'Yes',
                   'No',
@@ -390,7 +396,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Have you or anyone you know have come in contact with or got exposed to a healthcare facility in a country where hospital associated nCOV (coronavirus) infections have been reported?"
+                question="2d. Have you or anyone you know have come in contact with or got exposed to a healthcare facility in a country where hospital associated nCOV (coronavirus) infections have been reported?"
                 options={[
                   'Yes',
                   'No',
@@ -410,9 +416,11 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'health_details')}>
           <section className="section">
+            <h4>3. Health Quesions</h4>
+
             <form id="health-details-form" className="form-section">
               <InputRadioGroup
-                question="How often do you cough?"
+                question="3a. How often do you cough?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -424,7 +432,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Do you experience any difficulties in breathing?"
+                question="3b. Do you experience any difficulties in breathing?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -436,7 +444,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Do you have a fever and if you do, How Often?"
+                question="3c. Do you have a fever and if you do, How Often?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -448,7 +456,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Are your eyes watered?"
+                question="3d. Are your eyes watered?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -468,9 +476,11 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'other_health_details')}>
           <section className="section">
+            <h4>3. Health Quesions</h4>
+
             <form id="other-health-details-form" className="form-section">
               <InputRadioGroup
-                question="How often do you sneeze?"
+                question="3e. How often do you sneeze?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -482,7 +492,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Are you in pain?"
+                question="3f. Are you in pain?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -494,7 +504,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Does your throat hurt?"
+                question="3g. Does your throat hurt?"
                 options={[
                   'Frequent',
                   'Sometimes',
@@ -506,7 +516,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <InputRadioGroup
-                question="Do you feel tired?"
+                question="3h. Do you feel tired?"
                 options={[
                   'Frequent',
                   'Sometimes',
