@@ -1,0 +1,21 @@
+.float-appear,
+.float-enter  {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.float-appear-done,
+.float-enter-done {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.float-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.float-exit-active {
+  opacity: 0;
+  transform: translateY(1rem);
+}
