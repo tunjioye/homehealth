@@ -186,41 +186,5 @@
         color: #22bb44;
       }
     }
-
-    .fade-appear,
-    .fade-enter  {
-      opacity: 0;
-    }
-    .fade-appear-done,
-    .fade-enter-done {
-      opacity: 1;
-      transition: transform 500ms, opacity 500ms;
-    }
-    .fade-exit {
-      opacity: 1;
-    }
-    .fade-exit-active {
-      opacity: 0;
-      transition: transform 500ms, opacity 500ms;
-    }
-
-    .float-appear,
-    .float-enter  {
-      opacity: 0;
-      transform: translateY(1rem);
-    }
-    .float-appear-done,
-    .float-enter-done {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .float-exit {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .float-exit-active {
-      opacity: 0;
-      transform: translateY(1rem);
-    }
   }
 }
