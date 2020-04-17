@@ -231,6 +231,21 @@ class RiskAssessmentPage extends React.Component {
 
   componentDidMount () {
     if (window !== undefined) {
+      /*
+        - bot unresponsive log
+        - return name from form
+        - dashboard (nigeria map)
+        - incident report with attachment
+      */
+      // Thank You ${name} for filling the risk assessment form, Our Call Agent will contact you shortly, Please stay indoors and maintain a social distance of 6 meters.
+
+      // COMPONENT_7daff5b8-055e-437d-ab0f-424a4e3c5795:
+      // transitions:
+      //     next: returnDone
+      // component: WebviewResponseHandler
+      // properties:
+      //     dummy: dummy
+
       // window.wvParams = "webview.sourceVariableList";
 
       // var webViewParams = JSON.parse(window.wvParams);
