@@ -1,23 +1,9 @@
 import React from 'react'
-import { CSSTransition } from 'react-transition-group'
 // import Link from 'next/link'
 import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
+import FloatCSSTransition from '@src/components/fade-css-transition'
 import InputRadioGroup from '@src/components/input-radio-group'
-
-const FloatCSSTransition = ({ in: inProp, children }) => {
-  return (
-    <CSSTransition
-      in={inProp}
-      timeout={{ appear: 0, enter: 0, exit: 0 }}
-      classNames='float'
-      appear
-      unmountOnExit
-    >
-      <div>{children}</div>
-    </CSSTransition>
-  )
-}
 
 const initialState = {
   // flow controls
@@ -49,6 +35,7 @@ const initialState = {
 
   // assessment score
   assessment_score: 0,
+  risk_level: 'LOW',
 }
 
 class RiskAssessmentPage extends React.Component {
@@ -66,7 +53,8 @@ class RiskAssessmentPage extends React.Component {
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
     this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
     this.getValuePoint = this.getValuePoint.bind(this)
-    this.calculateAssessmentScore = this.calculateAssessmentScore.bind(this)
+    this.calculateAssessmentScoreAndRiskLevel = this.calculateAssessmentScoreAndRiskLevel.bind(this)
+    this.calculateRiskLevel = this.calculateRiskLevel.bind(this)
     this.resetForm = this.resetForm.bind(this)
   }
 
@@ -78,7 +66,6 @@ class RiskAssessmentPage extends React.Component {
   }
 
   handleSubmit (e) {
-    // e.preventDefault()
     const step = e.target.getAttribute('step') || ''
 
     switch (step) {
@@ -92,14 +79,15 @@ class RiskAssessmentPage extends React.Component {
         this.processTravelDetailsConfirmLowRiskStep(e)
         break
       case 'health_details':
-        this.calculateAssessmentScore()
+        this.calculateAssessmentScoreAndRiskLevel()
         this.processHealthDetailsStep(e)
         break
       case 'other_health_details':
-        this.calculateAssessmentScore()
+        this.calculateAssessmentScoreAndRiskLevel()
         this.processOtherHealthDetailsStep(e)
         break
       case 'final_result':
+        e.preventDefault()
         this.resetForm()
         break
       default:
@@ -151,9 +139,7 @@ class RiskAssessmentPage extends React.Component {
         // low_risk confirmed, jump straight to result
         this.setState({
           step: 'final_result',
-        })
-
-        setTimeout(() => {console.table(this.state)}, 200)
+        }, () => console.table(this.state))
       } else {
         this.setState({
           step: 'health_details',
@@ -177,8 +163,6 @@ class RiskAssessmentPage extends React.Component {
       this.setState({
         step: 'final_result',
       })
-
-      setTimeout(() => {console.table(this.state)}, 200)
     }
   }
 
@@ -197,7 +181,7 @@ class RiskAssessmentPage extends React.Component {
     }
   }
 
-  calculateAssessmentScore () {
+  calculateAssessmentScoreAndRiskLevel () {
     const {
       cough,
       fever,
@@ -218,12 +202,33 @@ class RiskAssessmentPage extends React.Component {
       + this.getValuePoint(in_pain)
       + this.getValuePoint(hurt)
       + this.getValuePoint(tired))
-    })
+    }, () => this.calculateRiskLevel())
+  }
+
+  calculateRiskLevel () {
+    const {
+      assessment_score,
+      risk_level,
+    } = this.state
+
+    let new_risk_level = risk_level
+
+    if (assessment_score >= 9) {
+      new_risk_level = 'HIGH'
+    } else if (assessment_score >= 1) {
+      new_risk_level = 'MEDIUM'
+    } else {
+      new_risk_level = 'LOW'
+    }
+
+    this.setState({
+      risk_level: new_risk_level
+    }, () => console.table(this.state))
   }
 
   resetForm () {
     this.setState({
-      initialState
+      ...initialState
     })
   }
 
@@ -252,56 +257,36 @@ class RiskAssessmentPage extends React.Component {
       tired,
 
       assessment_score,
+      risk_level,
     } = this.state
 
     const highRiskContent = () => {
       return (<div>
-        <h4>Your Risk is <strong className="risk-color-high">HIGH</strong></h4>
+        <h4>Your Risk is <strong className="risk-color-high">{risk_level || 'HIGH'}</strong></h4>
       </div>)
     }
 
     const mediumRiskContent = () => {
       return (<div>
-        <h4>Your Risk is <strong className="risk-color-medium">MEDIUM</strong></h4>
+        <h4>Your Risk is <strong className="risk-color-medium">{risk_level || 'MEDIUM'}</strong></h4>
       </div>)
     }
 
     const lowRiskContent = () => {
       return (<div>
-        <h4>Your Risk is <strong className="risk-color-low">LOW</strong></h4>
+        <h4>Your Risk is <strong className="risk-color-low">{risk_level || 'LOW'}</strong></h4>
       </div>)
     }
 
     const contentSwitch = (assessment_score) => {
-      switch(assessment_score) {
-        case 16:
-        case 15:
-        case 14:
-        case 13:
-        case 12:
-        case 11:
-        case 10:
-        case 9:
-          return highRiskContent()
-          break
-        case 8:
-        case 7:
-        case 6:
-        case 5:
-        case 4:
-        case 3:
-        case 2:
-        case 1:
-          return mediumRiskContent()
-          break
-        case 0:
-        default:
-          return lowRiskContent()
-          break
+      if (assessment_score >= 9) {
+        return highRiskContent()
+      } else if (assessment_score >= 1) {
+        return mediumRiskContent()
+      } else {
+        return lowRiskContent()
       }
     }
-
-    // sheets_v4()
 
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
@@ -538,6 +523,14 @@ class RiskAssessmentPage extends React.Component {
           <section className="section">
             <h2 className="font-weight-bold">The Result</h2>
             {contentSwitch(assessment_score)}
+
+            <div className="section"></div>
+
+            <form id="final-result-form" className="form-section">
+              <div className="input-group align-end">
+                <input className="button" type="submit" value="Reset Form" onClick={this.handleSubmit} step="final_result"/>
+              </div>
+            </form>
           </section>
         </FloatCSSTransition>
       </PublicLayout>
