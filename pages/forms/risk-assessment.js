@@ -189,9 +189,12 @@ class RiskAssessmentPage extends React.Component {
   }
 
   finalResultStep () {
-    this.postFormDataToChatbot()
-    this.resetForm()
-    this.closeWindow()
+    if (this.state.env === 'development') {
+      this.resetForm()
+      this.closeWindow()
+    } else {
+      this.postFormDataToChatbot()
+    }
   }
 
   calculateAssessmentScoreAndRiskLevel () {
@@ -263,20 +266,12 @@ class RiskAssessmentPage extends React.Component {
   }
 
   getParams (name) {
-    if (typeof window !== 'undefined') {
-      window.onload = () => {
-        const WEBVIEW_PARAMS = window.webviewParameters ||
-        console.log('WEBVIEW PARAMS:', WEBVIEW_PARAMS)
+    const WEBVIEW_PARAMS = window.webviewParameters || {}
+    console.log('WEBVIEW PARAMS:', WEBVIEW_PARAMS)
 
-        if (WEBVIEW_PARAMS.parameters) {
-          for (let i in WEBVIEW_PARAMS.parameters) {
-            let param = WEBVIEW_PARAMS.parameters[i];
-            if (param.key === name) {
-              return param.value
-            }
-          }
-        }
-      }
+    if (WEBVIEW_PARAMS.parameters) {
+      const param = window.webviewParameters.parameters.filter(wvParam => (wvParam.key === name))[0]
+      if (param.value) return param.value
     }
 
     return ''
@@ -294,11 +289,12 @@ class RiskAssessmentPage extends React.Component {
           risk_level: this.state.risk_level,
         })
       ).then((res) => {
-        console.log(res)
+        console.log(res.data)
       }).catch((err) => {
         console.error(err)
       }).finally(() => {
-        // this.closeWindow()
+        this.resetForm()
+        this.closeWindow()
       })
     }
   }
