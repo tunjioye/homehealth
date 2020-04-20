@@ -4,9 +4,8 @@ import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
 import FloatCSSTransition from '@src/components/fade-css-transition'
 import InputRadioGroup from '@src/components/input-radio-group'
-// import axios from 'axios'
-
-// let WEBVIEW_PARAMS = {}
+import axios from 'axios'
+import CONFIG from '@src/config'
 
 const initialState = {
   // flow controls
@@ -39,6 +38,7 @@ const initialState = {
   // assessment score
   assessment_score: 0,
   risk_level: 'LOW',
+  env: process.env.NODE_ENV,
 }
 
 class RiskAssessmentPage extends React.Component {
@@ -55,9 +55,11 @@ class RiskAssessmentPage extends React.Component {
     this.processTravelDetailsConfirmLowRiskStep = this.processTravelDetailsConfirmLowRiskStep.bind(this)
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
     this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
+    this.finalResultStep = this.finalResultStep.bind(this)
     this.getValuePoint = this.getValuePoint.bind(this)
     this.calculateAssessmentScoreAndRiskLevel = this.calculateAssessmentScoreAndRiskLevel.bind(this)
     this.calculateRiskLevel = this.calculateRiskLevel.bind(this)
+    this.saveToDatabase = this.saveToDatabase.bind(this)
     this.resetForm = this.resetForm.bind(this)
     this.getParams = this.getParams.bind(this)
     this.postFormDataToChatbot = this.postFormDataToChatbot.bind(this)
@@ -85,17 +87,14 @@ class RiskAssessmentPage extends React.Component {
         this.processTravelDetailsConfirmLowRiskStep(e)
         break
       case 'health_details':
-        this.calculateAssessmentScoreAndRiskLevel()
         this.processHealthDetailsStep(e)
         break
       case 'other_health_details':
-        this.calculateAssessmentScoreAndRiskLevel()
         this.processOtherHealthDetailsStep(e)
         break
       case 'final_result':
         e.preventDefault()
-        this.resetForm()
-        this.closeWindow()
+        this.finalResultStep()
         break
       default:
         break
@@ -148,7 +147,7 @@ class RiskAssessmentPage extends React.Component {
           step: 'final_result',
         }, () => {
           console.table(this.state)
-          this.postFormDataToChatbot()
+          this.saveToDatabase()
         })
       } else {
         this.setState({
@@ -170,11 +169,7 @@ class RiskAssessmentPage extends React.Component {
   processOtherHealthDetailsStep (e) {
     if (document.getElementById('other-health-details-form').checkValidity()) {
       e.preventDefault()
-      this.setState({
-        step: 'final_result',
-      }, () => {
-        this.postFormDataToChatbot()
-      })
+      this.calculateAssessmentScoreAndRiskLevel()
     }
   }
 
@@ -191,6 +186,12 @@ class RiskAssessmentPage extends React.Component {
         return 0
         break
     }
+  }
+
+  finalResultStep () {
+    this.postFormDataToChatbot()
+    this.resetForm()
+    this.closeWindow()
   }
 
   calculateAssessmentScoreAndRiskLevel () {
@@ -234,8 +235,25 @@ class RiskAssessmentPage extends React.Component {
     }
 
     this.setState({
-      risk_level: new_risk_level
-    }, () => console.table(this.state))
+      risk_level: new_risk_level,
+      step: 'final_result',
+    }, () => {
+      console.table(this.state)
+      this.saveToDatabase()
+    })
+  }
+
+  async saveToDatabase () {
+    let postData = this.state
+
+    if (delete postData.step) {
+      try {
+        const res = await axios.post(`${CONFIG.API_HOST}/risk-assessments`, postData)
+        if (this.state.env !== 'production') console.log(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 
   resetForm () {
@@ -245,35 +263,44 @@ class RiskAssessmentPage extends React.Component {
   }
 
   getParams (name) {
-    // if (WEBVIEW_PARAMS.parameters) {
-    //   for (let i in WEBVIEW_PARAMS.parameters) {
-    //     let param = WEBVIEW_PARAMS.parameters[i];
-    //     if (param.key === name) {
-    //       return param.value
-    //     }
-    //   }
-    // }
+    if (typeof window !== 'undefined') {
+      window.onload = () => {
+        const WEBVIEW_PARAMS = window.webviewParameters ||
+        console.log('WEBVIEW PARAMS:', WEBVIEW_PARAMS)
+
+        if (WEBVIEW_PARAMS.parameters) {
+          for (let i in WEBVIEW_PARAMS.parameters) {
+            let param = WEBVIEW_PARAMS.parameters[i];
+            if (param.key === name) {
+              return param.value
+            }
+          }
+        }
+      }
+    }
+
+    return ''
   }
 
   postFormDataToChatbot () {
-    // const webViewCallback = this.getParams('webview.onDone')
-    // console.log('WEBVIEW CALLBACK:', webViewCallback)
+    const webViewCallback = this.getParams('webview.onDone')
+    console.log('WEBVIEW CALLBACK:', webViewCallback)
 
-    // if (webViewCallback) {
-    //   axios.post(
-    //     webViewCallback,
-    //     JSON.stringify({
-    //       name: this.state.name,
-    //       risk_level: this.state.risk_level,
-    //     })
-    //   ).then((res) => {
-    //     console.log(res)
-    //   }).catch((err) => {
-    //     console.error(err)
-    //   }).finally(() => {
-    //     // this.closeWindow()
-    //   })
-    // }
+    if (webViewCallback) {
+      axios.post(
+        webViewCallback,
+        JSON.stringify({
+          name: this.state.name,
+          risk_level: this.state.risk_level,
+        })
+      ).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        console.error(err)
+      }).finally(() => {
+        // this.closeWindow()
+      })
+    }
   }
 
   closeWindow () {
@@ -287,16 +314,6 @@ class RiskAssessmentPage extends React.Component {
       - dashboard (nigeria map)
       - incident report with attachment
     */
-
-    // if (window !== undefined) {
-    //   window.wvParams = "webview.sourceVariableList"
-    //   JSON.parse(window.wvParams)
-
-    //   if (JSON.parse(window.wvParams)) {
-    //     WEBVIEW_PARAMS = JSON.parse(window.wvParams)
-    //     console.log('WEBVIEW PARAMS:', WEBVIEW_PARAMS)
-    //   }
-    // }
   }
 
   render () {
@@ -390,7 +407,7 @@ class RiskAssessmentPage extends React.Component {
                 </select>
               </div>
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="user_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="user_details"/>
               </div>
             </form>
           </section>
@@ -424,7 +441,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details"/>
               </div>
             </form>
           </section>
@@ -460,7 +477,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
               </div>
             </form>
           </section>
@@ -520,7 +537,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="health_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="health_details"/>
               </div>
             </form>
           </section>
@@ -580,7 +597,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="other_health_details"/>
+                <input className="button" type="submit" value="Save and Complete" onClick={this.handleSubmit} step="other_health_details"/>
               </div>
             </form>
           </section>
