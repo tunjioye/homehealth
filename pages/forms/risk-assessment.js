@@ -39,6 +39,11 @@ const initialState = {
   assessment_score: 0,
   risk_level: 'LOW',
   env: process.env.NODE_ENV,
+
+  // geolocation
+  latitude: null,
+  longitude: null,
+  accuracy: null,
 }
 
 class RiskAssessmentPage extends React.Component {
@@ -303,13 +308,49 @@ class RiskAssessmentPage extends React.Component {
     window.close()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /*
       - bot unresponsive log
       - return name from form
       - dashboard (nigeria map)
       - incident report with attachment
     */
+
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setLocation, showError)
+      } else {
+        console.log('Geolocation is not supported by this browser.')
+      }
+    }
+
+    const setLocation = ((position) => {
+      const {latitude, longitude, accuracy} = position.coords
+      this.setState({latitude, longitude, accuracy})
+      if (this.state.env !== 'production') console.log({latitude, longitude, accuracy})
+    }).bind(this)
+
+    const showError = (error) => {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          console.log("User denied the request for Geolocation.")
+          // window.alert('Please enable your GPS')
+          break
+        case error.POSITION_UNAVAILABLE:
+          console.log("Location information is unavailable.")
+          x.innerHTML = ""
+          break
+        case error.TIMEOUT:
+          console.log("The request to get user location timed out.")
+          break
+        case error.UNKNOWN_ERROR:
+          console.log("An unknown error occurred.")
+          break
+      }
+    }
+
+    // call geolocation function
+    getLocation()
   }
 
   render () {
