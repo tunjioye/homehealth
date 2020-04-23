@@ -5768,13 +5768,6 @@ react-bootstrap@^1.0.0-beta.17:
     uncontrollable "^7.0.0"
     warning "^4.0.3"
 
-react-data-grid@^7.0.0-canary.16:
-  version "7.0.0-canary.16"
-  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-7.0.0-canary.16.tgz#bc7e76c8d0dea41c1e019089a376d5f5dca0be83"
-  integrity sha512-xH0lJBwrusMJaW1HqJ5q0WKy/ePYNPN+fnKwB0TTg+tQ2xbW3loRF5RfPkOxSZnS61rUGAnatAQyrMVrsmpNMg==
-  dependencies:
-    classnames "^2.2.6"
-
 react-dom@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
