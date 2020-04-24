@@ -5,13 +5,13 @@ import StatsCard from '@src/components/stats-card'
 import '@src/scss/pages/covid.scss'
 import CONFIG from '@src/config'
 import ReactMarkdown from 'react-markdown'
-import fetch from 'isomorphic-unfetch'
 import {
   updateNigeriaStats,
   updateWorldwideStats,
 } from '@src/redux/actions/statisticsActions'
 import { connect } from 'react-redux'
 import VideosContent from '@src/components/videos-content'
+import axios from 'axios'
 
 class CovidPage extends React.Component {
   constructor (props) {
@@ -33,9 +33,14 @@ class CovidPage extends React.Component {
     if (Object.keys(this.props.ng_stats).length !== 0) {
       ng_stats = this.props.ng_stats
     } else {
-      let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-      nigerianStatsRes = await nigerianStatsRes.json()
-      ng_stats = nigerianStatsRes.data.rows[0]
+      try {
+        const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
+        ng_stats = data.rows[0]
+
+        this.props.updateNigeriaStats(ng_stats)
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     this.setState({
@@ -50,9 +55,14 @@ class CovidPage extends React.Component {
     if (Object.keys(this.props.world_stats).length !== 0) {
       world_stats = this.props.world_stats
     } else {
-      let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
-      worldwideStatsRes = await worldwideStatsRes.json()
-      world_stats = worldwideStatsRes.data.rows[0]
+      try {
+        const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
+        world_stats = data.rows[0]
+
+        this.props.updateWorldwideStats(world_stats)
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     this.setState({
@@ -382,16 +392,23 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
 //   let world_stats = {}
 
 //   if (Object.keys(store.getState().statistics.ng_stats).length === 0) {
-//     let nigerianStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-//     nigerianStatsRes = await nigerianStatsRes.json()
-//     ng_stats = nigerianStatsRes.data.rows[0]
+//     try {
+//       const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
+//       ng_stats = data.rows[0]
 
-//     let worldwideStatsRes = await fetch('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
-//     worldwideStatsRes = await worldwideStatsRes.json()
-//     world_stats = worldwideStatsRes.data.rows[0]
+//       store.dispatch(updateNigeriaStats(ng_stats))
+//     } catch (error) {
+//       console.error(error)
+//     }
 
-//     store.dispatch(updateNigeriaStats(ng_stats))
-//     store.dispatch(updateWorldwideStats(world_stats))
+//     try {
+//       const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
+//       world_stats = data.rows[0]
+
+//       store.dispatch(updateWorldwideStats(world_stats))
+//     } catch (error) {
+//       console.error(error)
+//     }
 //   }
 
 //   return {
