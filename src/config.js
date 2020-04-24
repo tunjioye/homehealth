@@ -12,11 +12,11 @@ const CONFIG = {
       href: '/#services',
       pageTitle: 'Service Forms',
     },
-    // {
-    //   title: 'Our Chatbot',
-    //   href: '/chatbot',
-    //   pageTitle: 'Chatbot',
-    // },
+    {
+      title: 'COVID-19 Statistics',
+      href: '/covid/statistics',
+      pageTitle: 'COVID-19 Statistics',
+    },
   ],
   INFORMATION_LIST: [
     {

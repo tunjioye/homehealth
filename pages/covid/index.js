@@ -34,8 +34,8 @@ class CovidPage extends React.Component {
       ng_stats = this.props.ng_stats
     } else {
       try {
-        const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-        ng_stats = data.rows[0]
+        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-covid-stats?country_name=Nigeria')
+        ng_stats = data[0]
 
         this.props.updateNigeriaStats(ng_stats)
       } catch (error) {
@@ -56,8 +56,8 @@ class CovidPage extends React.Component {
       world_stats = this.props.world_stats
     } else {
       try {
-        const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
-        world_stats = data.rows[0]
+        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-covid-stats?country_name=World')
+        world_stats = data[0]
 
         this.props.updateWorldwideStats(world_stats)
       } catch (error) {
@@ -87,17 +87,22 @@ class CovidPage extends React.Component {
     const statisticsContent = () => (
       <div>
         <div className="statistics">
-          <div>
-            <h5 className="font-weight-bold">Nigeria 🇳🇬</h5>
+          <div className="flex-heading">
+            <h5 className="font-weight-bold">Nigeria 🇳🇬 &nbsp;</h5>
+            <div>
+              <Link href="/covid/statistics">
+                <a href="/covid/statistics" className="font-weight-bold no-underline">more statistics</a>
+              </Link>
+            </div>
           </div>
           <div className="stats-card-wrapper">
             {(fetching_ng_stats === false)
               ? (
                 <>
-                  <StatsCard value={ng_stats.total_cases || 0} title="Confirmed Cases" />
-                  <StatsCard value={ng_stats.active_cases || 0} title="Active Cases" />
-                  <StatsCard value={ng_stats.total_recovered || 0} title="Recovered" />
-                  <StatsCard value={ng_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+                  <StatsCard value={Intl.NumberFormat().format(ng_stats.total_cases || 0)} title="Confirmed Cases" />
+                  <StatsCard value={Intl.NumberFormat().format(ng_stats.active_cases || 0)} title="Active Cases" />
+                  <StatsCard value={Intl.NumberFormat().format(ng_stats.recovered || 0)} title="Recovered" />
+                  <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Death" classNames="text-primary" />
                 </>
               )
               : (
@@ -114,10 +119,10 @@ class CovidPage extends React.Component {
             {(fetching_world_stats === false)
               ? (
                 <>
-                  <StatsCard value={world_stats.total_cases || 0} title="Confirmed Cases" />
-                  <StatsCard value={world_stats.active_cases || 0} title="Active Cases" />
-                  <StatsCard value={world_stats.total_recovered || 0} title="Recovered" />
-                  <StatsCard value={world_stats.total_deaths || 0} title="Death" classNames="text-primary" />
+                  <StatsCard value={Intl.NumberFormat().format(world_stats.total_cases || 0)} title="Confirmed Cases" />
+                  <StatsCard value={Intl.NumberFormat().format(world_stats.active_cases || 0)} title="Active Cases" />
+                  <StatsCard value={Intl.NumberFormat().format(world_stats.recovered || 0)} title="Recovered" />
+                  <StatsCard value={Intl.NumberFormat().format(world_stats.deaths || 0)} title="Death" classNames="text-primary" />
                 </>
               )
               : (

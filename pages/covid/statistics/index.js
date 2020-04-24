@@ -30,8 +30,8 @@ class StatisticsPage extends React.Component {
       ng_stats = this.props.ng_stats
     } else {
       try {
-        const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
-        ng_stats = data.rows[0]
+        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-covid-stats?country_name=Nigeria')
+        ng_stats = data[0]
 
         this.props.updateNigeriaStats(ng_stats)
       } catch (error) {
@@ -52,7 +52,7 @@ class StatisticsPage extends React.Component {
       ng_states_stats = this.props.ng_states_stats
     } else {
       try {
-        const { data } = await axios.get('https://covid9ja.herokuapp.com/api/states/?format=json')
+        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-states-covid-stats?country_name=Nigeria')
         ng_states_stats = data
 
         this.props.updateNigeriaStatesStats(ng_states_stats)
@@ -73,18 +73,98 @@ class StatisticsPage extends React.Component {
   }
 
   render () {
+    const {
+      // fetching_ng_stats,
+      // ng_stats,
+      fetching_ng_states_stats,
+      ng_states_stats,
+    } = this.state
+
     return (
-      <PublicLayout pageTitle="Statistics" pageClass="statistics">
+      <PublicLayout pageTitle="COVID-19 Statistics" pageClass="statistics">
         <section className="section bg-grey3">
-          <h1 className="font-weight-bold">Statistics</h1>
+          <h1 className="font-weight-bold">COIVD-19 Statistics</h1>
         </section>
 
         <FloatCSSTransition in={true}>
           <section className="section">
-            <h4>Nigeria</h4>
+            <h2>Nigeria</h2>
 
-
-
+            <div className="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>State</th>
+                    <th>Total Cases</th>
+                    <th>Active Cases</th>
+                    <th>Recovered</th>
+                    <th>Deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(fetching_ng_states_stats === false)
+                    ? (
+                      <>
+                        <tr className="filters">
+                          <td>
+                            <div className="input-filter">
+                              <input type="text"/>
+                              <button title="clear input">✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input type="text"/>
+                              <button title="clear input">✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input type="text"/>
+                              <button title="clear input">✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input type="text"/>
+                              <button title="clear input">✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input type="text"/>
+                              <button title="clear input">✕</button>
+                            </div>
+                          </td>
+                        </tr>
+                        {ng_states_stats &&
+                          ng_states_stats.map((state, index) => {
+                            return (
+                              <tr key={index}>
+                                <th>{state['state_name']}</th>
+                                <td>{Intl.NumberFormat().format(state.total_cases || 0)}</td>
+                                <td className="text-orange">{Intl.NumberFormat().format(state.active_cases || 0)}</td>
+                                <td className="text-green">{Intl.NumberFormat().format(state.recovered || 0)}</td>
+                                <td className="text-red">{Intl.NumberFormat().format(state.deaths || 0)}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </>
+                    )
+                    : (
+                      <tr className="loading">
+                        <td>loading</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                      </tr>
+                    )
+                  }
+                </tbody>
+              </table>
+            </div>
           </section>
         </FloatCSSTransition>
       </PublicLayout>
@@ -94,6 +174,7 @@ class StatisticsPage extends React.Component {
 
 // const nigerianStates = [
 //   "Abia",
+//   "Abuja FCT",
 //   "Adamawa",
 //   "Akwa Ibom",
 //   "Anambra",
@@ -107,7 +188,6 @@ class StatisticsPage extends React.Component {
 //   "Edo",
 //   "Ekiti",
 //   "Enugu",
-//   "FCT - Abuja",
 //   "Gombe",
 //   "Imo",
 //   "Jigawa",

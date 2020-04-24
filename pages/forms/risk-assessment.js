@@ -540,6 +540,7 @@ class RiskAssessmentPage extends React.Component {
 
 const nigerianStates = [
   "Abia",
+  "Abuja FCT",
   "Adamawa",
   "Akwa Ibom",
   "Anambra",
@@ -553,7 +554,6 @@ const nigerianStates = [
   "Edo",
   "Ekiti",
   "Enugu",
-  "FCT - Abuja",
   "Gombe",
   "Imo",
   "Jigawa",
