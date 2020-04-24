@@ -18,9 +18,102 @@ class StatisticsPage extends React.Component {
       ng_stats: props.ng_stats || {},
       fetching_ng_states_stats: true,
       ng_states_stats: props.ng_states_stats || [],
+      filtered_states_stats: props.ng_states_stats || [],
+
+      // filters
+      state_name: '',
+      total_cases: '',
+      active_cases: '',
+      recovered: '',
+      deaths: '',
     }
 
+    this.handleInputChangeWithFilter = this.handleInputChangeWithFilter.bind(this)
+    this.clearNearestInput = this.clearNearestInput.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
     this.fetchNgStats = this.fetchNgStats.bind(this)
+    this.fetchNgStatesStats = this.fetchNgStatesStats.bind(this)
+  }
+
+  handleInputChangeWithFilter (e) {
+    const { name, value } = e.target
+    this.setState({
+      state_name: '',
+      total_cases: '',
+      active_cases: '',
+      recovered: '',
+      deaths: '',
+    }, () => {
+      this.setState({
+        [name]: value
+      }, () => this.handleFilter(name))
+    })
+  }
+
+  clearNearestInput (e) {
+    const { name } = e.target.previousElementSibling
+    this.setState({
+      [name]: ''
+    }, () => this.handleFilter(name))
+  }
+
+  handleFilter (name) {
+    const {
+      ng_states_stats
+    } = this.state
+
+    let filtered_states_stats = []
+
+    // if entry is empty return full stats
+    if (this.state[name].trim() === '') {
+      filtered_states_stats = ng_states_stats
+      return this.setState({
+        filtered_states_stats
+      })
+    }
+
+    if (name !== 'state_name') {
+      if (this.state[name].trim().indexOf('-') !== -1) {
+        // filter range
+        let splittedInput = this.state[name].split('-')
+        const minNum = Number(splittedInput[0].trim())
+        const maxNum = Number(splittedInput[1].trim())
+
+        if (splittedInput[0].trim() !== '' && splittedInput[1].trim() !== '') {
+          filtered_states_stats = ng_states_stats.filter(state => {
+            return (Number(state[name]) >= minNum && Number(state[name]) <= maxNum)
+          })
+        }
+      } else if (this.state[name].trim().indexOf('>') !== -1) {
+        // filter greater than
+        let splittedInput = this.state[name].split('>')
+        const minNum = Number(splittedInput[1].trim())
+
+        filtered_states_stats = ng_states_stats.filter(state => {
+          return (Number(state[name]) > minNum)
+        })
+      } else if (this.state[name].trim().indexOf('<') !== -1) {
+        // filter less than
+        let splittedInput = this.state[name].split('<')
+        const maxNum = Number(splittedInput[1].trim())
+
+        filtered_states_stats = ng_states_stats.filter(state => {
+          return (Number(state[name]) < maxNum)
+        })
+      } else {
+        filtered_states_stats = ng_states_stats.filter(state => {
+          return (Number(state[name]) === Number(this.state[name]))
+        })
+      }
+    } else {
+      filtered_states_stats = ng_states_stats.filter(state => {
+        return (String(state[name]).toLowerCase().indexOf(this.state[name].trim().toLowerCase()) !== -1)
+      })
+    }
+
+    return this.setState({
+      filtered_states_stats
+    })
   }
 
   async fetchNgStats () {
@@ -52,7 +145,7 @@ class StatisticsPage extends React.Component {
       ng_states_stats = this.props.ng_states_stats
     } else {
       try {
-        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-states-covid-stats?country_name=Nigeria')
+        const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-states-covid-stats?country_name=Nigeria&_sort=state_name:asc')
         ng_states_stats = data
 
         this.props.updateNigeriaStatesStats(ng_states_stats)
@@ -64,6 +157,7 @@ class StatisticsPage extends React.Component {
     this.setState({
       fetching_ng_states_stats: false,
       ng_states_stats,
+      filtered_states_stats: ng_states_stats,
     })
   }
 
@@ -77,7 +171,14 @@ class StatisticsPage extends React.Component {
       // fetching_ng_stats,
       // ng_stats,
       fetching_ng_states_stats,
-      ng_states_stats,
+      filtered_states_stats,
+
+      // filters
+      state_name,
+      total_cases,
+      active_cases,
+      recovered,
+      deaths,
     } = this.state
 
     return (
@@ -88,7 +189,7 @@ class StatisticsPage extends React.Component {
 
         <FloatCSSTransition in={true}>
           <section className="section">
-            <h2>Nigeria</h2>
+            <h3>Nigeria</h3>
 
             <div className="table-wrapper">
               <table>
@@ -108,37 +209,72 @@ class StatisticsPage extends React.Component {
                         <tr className="filters">
                           <td>
                             <div className="input-filter">
-                              <input type="text"/>
-                              <button title="clear input">✕</button>
+                              <input
+                                type="text"
+                                name="state_name"
+                                value={state_name}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="lagos"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
                             </div>
                           </td>
                           <td>
                             <div className="input-filter">
-                              <input type="text"/>
-                              <button title="clear input">✕</button>
+                              <input
+                                type="text"
+                                name="total_cases"
+                                value={total_cases}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="0-10"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
                             </div>
                           </td>
                           <td>
                             <div className="input-filter">
-                              <input type="text"/>
-                              <button title="clear input">✕</button>
+                              <input
+                                type="text"
+                                name="active_cases"
+                                value={active_cases}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="10"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
                             </div>
                           </td>
                           <td>
                             <div className="input-filter">
-                              <input type="text"/>
-                              <button title="clear input">✕</button>
+                              <input
+                                type="text"
+                                name="recovered"
+                                value={recovered}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder=">10"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
                             </div>
                           </td>
                           <td>
                             <div className="input-filter">
-                              <input type="text"/>
-                              <button title="clear input">✕</button>
+                              <input
+                                type="text"
+                                name="deaths"
+                                value={deaths}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="<10"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
                             </div>
                           </td>
                         </tr>
-                        {ng_states_stats &&
-                          ng_states_stats.map((state, index) => {
+                        {(filtered_states_stats.length > 0)
+                          ? filtered_states_stats.map((state, index) => {
                             return (
                               <tr key={index}>
                                 <th>{state['state_name']}</th>
@@ -149,6 +285,15 @@ class StatisticsPage extends React.Component {
                               </tr>
                             )
                           })
+                          : (
+                            <tr className="loading">
+                              <td className="text-red">Not Found</td>
+                              <td>...</td>
+                              <td>...</td>
+                              <td>...</td>
+                              <td>...</td>
+                            </tr>
+                          )
                         }
                       </>
                     )
@@ -164,6 +309,10 @@ class StatisticsPage extends React.Component {
                   }
                 </tbody>
               </table>
+
+              <p className="total-count">
+                {Intl.NumberFormat().format(filtered_states_stats.length || 0)} found
+              </p>
             </div>
           </section>
         </FloatCSSTransition>

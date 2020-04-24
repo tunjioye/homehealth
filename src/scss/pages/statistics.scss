@@ -31,6 +31,14 @@
       }
     }
 
+    .total-count {
+      padding: .25rem;
+      margin: .5rem 0;
+      color: $grey3-color;
+      font-size: small;
+      font-weight: bold;
+    }
+
     .table-wrapper {
       overflow-x: auto;
     }
@@ -86,6 +94,10 @@
 
           &:focus-within {
             border-color: $primary-color;
+          }
+
+          &::placeholder {
+            color: $grey4-color;
           }
         }
 

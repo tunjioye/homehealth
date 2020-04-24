@@ -400,6 +400,8 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
 //     try {
 //       const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=nigeria')
 //       ng_stats = data.rows[0]
+//       // const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-covid-stats?country_name=Nigeria')
+//       // ng_stats = data[0]
 
 //       store.dispatch(updateNigeriaStats(ng_stats))
 //     } catch (error) {
@@ -409,6 +411,8 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
 //     try {
 //       const { data } = await axios.get('https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search?search=world')
 //       world_stats = data.rows[0]
+//       // const { data } = await axios.get('https://homehealth-api.herokuapp.com/country-covid-stats?country_name=World')
+//       // world_stats = data[0]
 
 //       store.dispatch(updateWorldwideStats(world_stats))
 //     } catch (error) {
