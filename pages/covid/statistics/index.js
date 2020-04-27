@@ -9,6 +9,8 @@ import {
 } from '@src/redux/actions/statisticsActions'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import CONFIG from '@src/config'
+import NgBarChart from '@src/components/ng-bar-chart'
 
 class StatisticsPage extends React.Component {
   constructor (props) {
@@ -171,6 +173,7 @@ class StatisticsPage extends React.Component {
       // fetching_ng_stats,
       // ng_stats,
       fetching_ng_states_stats,
+      ng_states_stats,
       filtered_states_stats,
 
       // filters
@@ -191,6 +194,18 @@ class StatisticsPage extends React.Component {
           <section className="section">
             <h3>Nigeria</h3>
 
+            {(fetching_ng_states_stats === false) &&
+              <>
+                <h6>Cases Per State Bar Chart</h6>
+                <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1rem' }}>
+                  <div style={{ height: '400px', width: '100%', minWidth: '1000px' }}>
+                    <NgBarChart data={ng_states_stats} />
+                  </div>
+                </div>
+              </>
+            }
+
+            <h6>Cases Per State Table</h6>
             <div className="table-wrapper">
               <table>
                 <thead>
