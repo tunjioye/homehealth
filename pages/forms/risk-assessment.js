@@ -4,6 +4,8 @@ import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
 import FloatCSSTransition from '@src/components/float-css-transition'
 import InputRadioGroup from '@src/components/input-radio-group'
+import axios from 'axios'
+import CONFIG from '@src/config'
 
 const initialState = {
   // flow controls
@@ -36,6 +38,12 @@ const initialState = {
   // assessment score
   assessment_score: 0,
   risk_level: 'LOW',
+  env: process.env.NODE_ENV,
+
+  // geolocation
+  latitude: null,
+  longitude: null,
+  accuracy: null,
 }
 
 class RiskAssessmentPage extends React.Component {
@@ -52,9 +60,11 @@ class RiskAssessmentPage extends React.Component {
     this.processTravelDetailsConfirmLowRiskStep = this.processTravelDetailsConfirmLowRiskStep.bind(this)
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
     this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
+    this.finalResultStep = this.finalResultStep.bind(this)
     this.getValuePoint = this.getValuePoint.bind(this)
     this.calculateAssessmentScoreAndRiskLevel = this.calculateAssessmentScoreAndRiskLevel.bind(this)
     this.calculateRiskLevel = this.calculateRiskLevel.bind(this)
+    this.saveToDatabase = this.saveToDatabase.bind(this)
     this.resetForm = this.resetForm.bind(this)
   }
 
@@ -79,16 +89,14 @@ class RiskAssessmentPage extends React.Component {
         this.processTravelDetailsConfirmLowRiskStep(e)
         break
       case 'health_details':
-        this.calculateAssessmentScoreAndRiskLevel()
         this.processHealthDetailsStep(e)
         break
       case 'other_health_details':
-        this.calculateAssessmentScoreAndRiskLevel()
         this.processOtherHealthDetailsStep(e)
         break
       case 'final_result':
         e.preventDefault()
-        this.resetForm()
+        this.finalResultStep()
         break
       default:
         break
@@ -139,7 +147,10 @@ class RiskAssessmentPage extends React.Component {
         // low_risk confirmed, jump straight to result
         this.setState({
           step: 'final_result',
-        }, () => console.table(this.state))
+        }, () => {
+          console.table(this.state)
+          this.saveToDatabase()
+        })
       } else {
         this.setState({
           step: 'health_details',
@@ -160,9 +171,7 @@ class RiskAssessmentPage extends React.Component {
   processOtherHealthDetailsStep (e) {
     if (document.getElementById('other-health-details-form').checkValidity()) {
       e.preventDefault()
-      this.setState({
-        step: 'final_result',
-      })
+      this.calculateAssessmentScoreAndRiskLevel()
     }
   }
 
@@ -179,6 +188,10 @@ class RiskAssessmentPage extends React.Component {
         return 0
         break
     }
+  }
+
+  finalResultStep () {
+    this.resetForm()
   }
 
   calculateAssessmentScoreAndRiskLevel () {
@@ -222,14 +235,76 @@ class RiskAssessmentPage extends React.Component {
     }
 
     this.setState({
-      risk_level: new_risk_level
-    }, () => console.table(this.state))
+      risk_level: new_risk_level,
+      step: 'final_result',
+    }, () => {
+      console.table(this.state)
+      this.saveToDatabase()
+    })
+  }
+
+  async saveToDatabase () {
+    let postData = this.state
+
+    if (delete postData.step) {
+      try {
+        const res = await axios.post(`${CONFIG.API_HOST}/risk-assessments`, postData)
+        if (this.state.env !== 'production') console.log(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 
   resetForm () {
     this.setState({
       ...initialState
     })
+  }
+
+  componentDidMount() {
+    /*
+      - bot unresponsive log
+      - return name from form
+      - dashboard (nigeria map)
+      - incident report with attachment
+    */
+
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setLocation, showError)
+      } else {
+        console.log('Geolocation is not supported by this browser.')
+      }
+    }
+
+    const setLocation = ((position) => {
+      const {latitude, longitude, accuracy} = position.coords
+      this.setState({latitude, longitude, accuracy})
+      if (this.state.env !== 'production') console.log({latitude, longitude, accuracy})
+    }).bind(this)
+
+    const showError = (error) => {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          console.log("User denied the request for Geolocation.")
+          // window.alert('Please enable your GPS')
+          break
+        case error.POSITION_UNAVAILABLE:
+          console.log("Location information is unavailable.")
+          x.innerHTML = ""
+          break
+        case error.TIMEOUT:
+          console.log("The request to get user location timed out.")
+          break
+        case error.UNKNOWN_ERROR:
+          console.log("An unknown error occurred.")
+          break
+      }
+    }
+
+    // call geolocation function
+    getLocation()
   }
 
   render () {
@@ -323,7 +398,7 @@ class RiskAssessmentPage extends React.Component {
                 </select>
               </div>
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="user_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="user_details"/>
               </div>
             </form>
           </section>
@@ -357,7 +432,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details"/>
               </div>
             </form>
           </section>
@@ -393,7 +468,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
               </div>
             </form>
           </section>
@@ -453,7 +528,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="health_details"/>
+                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="health_details"/>
               </div>
             </form>
           </section>
@@ -513,7 +588,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Submit" onClick={this.handleSubmit} step="other_health_details"/>
+                <input className="button" type="submit" value="Save and Complete" onClick={this.handleSubmit} step="other_health_details"/>
               </div>
             </form>
           </section>

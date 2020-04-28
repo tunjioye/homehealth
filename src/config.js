@@ -228,6 +228,7 @@ const CONFIG = {
     // },
   ],
   SPREADSHEET_ID: "1qmHnZm6wp73UjRF3Qex_Rwah9YWrKcHne8-wFhj4OFc",
+  API_HOST: "https://homehealth-api.herokuapp.com",
 }
 
 export default CONFIG
