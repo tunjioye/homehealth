@@ -9,7 +9,7 @@ import {
 } from '@src/redux/actions/statisticsActions'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import CONFIG from '@src/config'
+import StatsCard from '@src/components/stats-card'
 import NgBarChart from '@src/components/ng-bar-chart'
 
 class StatisticsPage extends React.Component {
@@ -170,8 +170,8 @@ class StatisticsPage extends React.Component {
 
   render () {
     const {
-      // fetching_ng_stats,
-      // ng_stats,
+      fetching_ng_stats,
+      ng_stats,
       fetching_ng_states_stats,
       ng_states_stats,
       filtered_states_stats,
@@ -192,18 +192,38 @@ class StatisticsPage extends React.Component {
 
         <FloatCSSTransition in={true}>
           <section className="section">
-            <h3>Nigeria</h3>
+            <h3>Nigeria 🇳🇬</h3>
 
-            {(fetching_ng_states_stats === false) &&
-              <>
-                <h6>Cases Per State Bar Chart</h6>
-                <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1rem' }}>
+            <h6>Cases Overview</h6>
+            <div className="statistics" style={{ marginBottom: '1.5rem' }}>
+              {(fetching_ng_stats === false)
+                ? (
+                  <div className="stats-card-wrapper">
+                    <StatsCard value={Intl.NumberFormat().format(ng_stats.total_cases || 0)} title="Confirmed Cases" />
+                    <StatsCard value={Intl.NumberFormat().format(ng_stats.active_cases || 0)} title="Active Cases" />
+                    <StatsCard value={Intl.NumberFormat().format(ng_stats.recovered || 0)} title="Recovered" />
+                    <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
+                  </div>
+                )
+                : (
+                  <div>fetching statistics ...</div>
+                )
+              }
+            </div>
+
+            <h6>Cases Per State Bar Chart</h6>
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
+              {(fetching_ng_states_stats === false)
+                ? (
                   <div style={{ height: '400px', width: '100%', minWidth: '1000px' }}>
                     <NgBarChart data={ng_states_stats} />
                   </div>
-                </div>
-              </>
-            }
+                )
+                : (
+                  <div>fetching statistics ...</div>
+                )
+              }
+            </div>
 
             <h6>Cases Per State Table</h6>
             <div className="table-wrapper">

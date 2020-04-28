@@ -102,7 +102,7 @@ class CovidPage extends React.Component {
                   <StatsCard value={Intl.NumberFormat().format(ng_stats.total_cases || 0)} title="Confirmed Cases" />
                   <StatsCard value={Intl.NumberFormat().format(ng_stats.active_cases || 0)} title="Active Cases" />
                   <StatsCard value={Intl.NumberFormat().format(ng_stats.recovered || 0)} title="Recovered" />
-                  <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Death" classNames="text-primary" />
+                  <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
                 </>
               )
               : (
@@ -122,7 +122,7 @@ class CovidPage extends React.Component {
                   <StatsCard value={Intl.NumberFormat().format(world_stats.total_cases || 0)} title="Confirmed Cases" />
                   <StatsCard value={Intl.NumberFormat().format(world_stats.active_cases || 0)} title="Active Cases" />
                   <StatsCard value={Intl.NumberFormat().format(world_stats.recovered || 0)} title="Recovered" />
-                  <StatsCard value={Intl.NumberFormat().format(world_stats.deaths || 0)} title="Death" classNames="text-primary" />
+                  <StatsCard value={Intl.NumberFormat().format(world_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
                 </>
               )
               : (

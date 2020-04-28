@@ -31,12 +31,47 @@
       }
     }
 
-    .total-count {
-      padding: .25rem;
-      margin: .5rem 0;
-      color: $grey3-color;
-      font-size: small;
-      font-weight: bold;
+    // #statistics
+    .statistics {
+      & > div:first-child,
+      & > div:last-child {
+        margin: 1rem auto;
+      }
+
+      @media (max-width: $size_lg) {
+        & > div:first-child,
+        & > div:last-child {
+          margin-top: .5rem auto;
+        }
+      }
+
+      .stats-card-wrapper {
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(4, 1fr);
+
+        @media (max-width: $size_md) {
+          grid-gap: .5rem;
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: $size_xxs) {
+          grid-gap: .5rem;
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    }
+
+    .text {
+      &-red {
+        color: #db0012;
+      }
+      &-orange {
+        color: #f08000;
+      }
+      &-green {
+        color: #20bb44;
+      }
     }
 
     .table-wrapper {
@@ -128,16 +163,12 @@
       }
     }
 
-    .text {
-      &-red {
-        color: #db0012;
-      }
-      &-orange {
-        color: #f08000;
-      }
-      &-green {
-        color: #20bb44;
-      }
+    .total-count {
+      padding: .25rem;
+      margin: .5rem 0;
+      color: $grey3-color;
+      font-size: small;
+      font-weight: bold;
     }
   }
 }
