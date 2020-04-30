@@ -22,12 +22,13 @@ class StatisticsPage extends React.Component {
       risk_assessments: props.risk_assessments || [],
       filtered_risk_assessments: props.risk_assessments || [],
 
-      // // filters
-      // state_name: '',
-      // total_cases: '',
-      // active_cases: '',
-      // recovered: '',
-      // deaths: '',
+      // filters
+      name: '',
+      phone_number: '',
+      address: '',
+      state: '',
+      email: '',
+      risk_level: '',
     }
 
     this.showModal = this.showModal.bind(this)
@@ -66,11 +67,12 @@ class StatisticsPage extends React.Component {
   handleInputChangeWithFilter (e) {
     const { name, value } = e.target
     this.setState({
-      state_name: '',
-      total_cases: '',
-      active_cases: '',
-      recovered: '',
-      deaths: '',
+      name: '',
+      phone_number: '',
+      address: '',
+      state: '',
+      email: '',
+      risk_level: '',
     }, () => {
       this.setState({
         [name]: value
@@ -87,68 +89,25 @@ class StatisticsPage extends React.Component {
 
   handleFilter (name) {
     const {
-      ng_states_stats,
+      risk_assessments,
     } = this.state
 
-    let filtered_states_stats = []
-    let filtered_state_stats = {}
+    let filtered_risk_assessments = []
 
     // if entry is empty return full stats
     if (this.state[name].trim() === '') {
-      filtered_states_stats = ng_states_stats
+      filtered_risk_assessments = risk_assessments
       return this.setState({
-        filtered_states_stats,
-        filtered_state_stats,
+        filtered_risk_assessments,
       })
     }
 
-    if (name !== 'state_name') {
-      if (this.state[name].trim().indexOf('-') !== -1) {
-        // filter range
-        let splittedInput = this.state[name].split('-')
-        const minNum = Number(splittedInput[0].trim())
-        const maxNum = Number(splittedInput[1].trim())
-
-        if (splittedInput[0].trim() !== '' && splittedInput[1].trim() !== '') {
-          filtered_states_stats = ng_states_stats.filter(state => {
-            return (Number(state[name]) >= minNum && Number(state[name]) <= maxNum)
-          })
-        }
-      } else if (this.state[name].trim().indexOf('>') !== -1) {
-        // filter greater than
-        let splittedInput = this.state[name].split('>')
-        const minNum = Number(splittedInput[1].trim())
-
-        filtered_states_stats = ng_states_stats.filter(state => {
-          return (Number(state[name]) > minNum)
-        })
-      } else if (this.state[name].trim().indexOf('<') !== -1) {
-        // filter less than
-        let splittedInput = this.state[name].split('<')
-        const maxNum = Number(splittedInput[1].trim())
-
-        filtered_states_stats = ng_states_stats.filter(state => {
-          return (Number(state[name]) < maxNum)
-        })
-      } else {
-        filtered_states_stats = ng_states_stats.filter(state => {
-          return (Number(state[name]) === Number(this.state[name]))
-        })
-      }
-    } else {
-      filtered_states_stats = ng_states_stats.filter(state => {
-        return (String(state[name]).toLowerCase().indexOf(this.state[name].trim().toLowerCase()) !== -1)
-      })
-
-      // set filtered_state_stats
-      if (filtered_states_stats.length === 1) {
-        filtered_state_stats = filtered_states_stats[0]
-      }
-    }
+    filtered_risk_assessments = risk_assessments.filter(state => {
+      return (String(state[name]).toLowerCase().indexOf(this.state[name].trim().toLowerCase()) !== -1)
+    })
 
     return this.setState({
-      filtered_states_stats,
-      filtered_state_stats,
+      filtered_risk_assessments,
     })
   }
 
@@ -186,13 +145,15 @@ class StatisticsPage extends React.Component {
 
       fetching_risk_assessments,
       risk_assessments,
+      filtered_risk_assessments,
 
-      // // filters
-      // state_name,
-      // total_cases,
-      // active_cases,
-      // recovered,
-      // deaths,
+      // filters
+      name,
+      phone_number,
+      address,
+      state,
+      email,
+      risk_level,
     } = this.state
 
     return (
@@ -264,13 +225,53 @@ class StatisticsPage extends React.Component {
                   {(fetching_risk_assessments === false)
                     ? (
                       <>
-                        {/* <tr className="filters">
+                        <tr className="filters">
+                          <td>&nbsp;</td>
                           <td>
                             <div className="input-filter">
                               <input
                                 type="text"
-                                name="state_name"
-                                value={state_name}
+                                name="name"
+                                value={name}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="name"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input
+                                type="text"
+                                name="phone_number"
+                                value={phone_number}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="080..."
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input
+                                type="text"
+                                name="address"
+                                value={address}
+                                onChange={this.handleInputChangeWithFilter}
+                                placeholder="ikorodu"
+                                autoComplete="off"
+                              />
+                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-filter">
+                              <input
+                                type="text"
+                                name="state"
+                                value={state}
                                 onChange={this.handleInputChangeWithFilter}
                                 placeholder="lagos"
                                 autoComplete="off"
@@ -282,10 +283,10 @@ class StatisticsPage extends React.Component {
                             <div className="input-filter">
                               <input
                                 type="text"
-                                name="total_cases"
-                                value={total_cases}
+                                name="email"
+                                value={email}
                                 onChange={this.handleInputChangeWithFilter}
-                                placeholder="0-10"
+                                placeholder="name@email.com"
                                 autoComplete="off"
                               />
                               <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
@@ -293,46 +294,18 @@ class StatisticsPage extends React.Component {
                           </td>
                           <td>
                             <div className="input-filter">
-                              <input
-                                type="text"
-                                name="active_cases"
-                                value={active_cases}
-                                onChange={this.handleInputChangeWithFilter}
-                                placeholder="10"
-                                autoComplete="off"
-                              />
-                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
+                              <select name="risk_level" value={risk_level} onChange={this.handleInputChangeWithFilter} required>
+                                <option value="">All</option>
+                                <option value="HIGH">HIGH</option>
+                                <option value="MEDIUM">MEDIUM</option>
+                                <option value="LOW">LOW</option>
+                              </select>
                             </div>
                           </td>
-                          <td>
-                            <div className="input-filter">
-                              <input
-                                type="text"
-                                name="recovered"
-                                value={recovered}
-                                onChange={this.handleInputChangeWithFilter}
-                                placeholder=">10"
-                                autoComplete="off"
-                              />
-                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="input-filter">
-                              <input
-                                type="text"
-                                name="deaths"
-                                value={deaths}
-                                onChange={this.handleInputChangeWithFilter}
-                                placeholder="<10"
-                                autoComplete="off"
-                              />
-                              <button title="clear input" tabIndex="-1" onClick={this.clearNearestInput}>✕</button>
-                            </div>
-                          </td>
-                        </tr> */}
-                        {(risk_assessments.length > 0)
-                          ? risk_assessments.map((ra, index) => {
+                          <td>&nbsp;</td>
+                        </tr>
+                        {(filtered_risk_assessments.length > 0)
+                          ? filtered_risk_assessments.map((ra, index) => {
                             return (
                               <tr key={index}>
                                 <th>{index + 1}</th>
@@ -367,9 +340,9 @@ class StatisticsPage extends React.Component {
                           })
                           : (
                             <tr className="loading">
-                              <td className="text-red">Not Found</td>
-
                               <td>...</td>
+
+                              <td className="text-red">Nothing Found</td>
                               <td>...</td>
                               <td>...</td>
                               <td>...</td>
@@ -399,9 +372,9 @@ class StatisticsPage extends React.Component {
                     )
                     : (
                       <tr className="loading">
-                        <td>loading</td>
-
                         <td>...</td>
+
+                        <td>loading</td>
                         <td>...</td>
                         <td>...</td>
                         <td>...</td>
@@ -431,7 +404,7 @@ class StatisticsPage extends React.Component {
               </table>
 
               <p className="total-count">
-                {Intl.NumberFormat().format(risk_assessments.length || 0)} found
+                {Intl.NumberFormat().format(filtered_risk_assessments.length || 0)} found
               </p>
             </div>
           </section>
