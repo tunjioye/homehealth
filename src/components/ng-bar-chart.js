@@ -7,7 +7,8 @@ const colors = {
   'deaths': '#ee1212'
 }
 
-const NgBarChart = ({ data }) => (
+const NgBarChart = ({ data, maxValue }) => {
+  return (
     <ResponsiveBar
       data={data}
       keys={[ 'total_cases', 'active_cases', 'recovered', 'deaths', ]}
@@ -15,7 +16,7 @@ const NgBarChart = ({ data }) => (
       margin={{ top: 20, right: 130, bottom: 80, left: 60 }}
       padding={0.3}
       minValue={0}
-      maxValue={100}
+      maxValue={maxValue || 100}
       groupMode="grouped"
       layout="vertical"
       enableGridX={false}
@@ -106,6 +107,7 @@ const NgBarChart = ({ data }) => (
       motionStiffness={90}
       motionDamping={15}
     />
-)
+  )
+}
 
 export default NgBarChart
