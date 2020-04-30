@@ -12,6 +12,15 @@ import axios from 'axios'
 import StatsCard from '@src/components/stats-card'
 import NgBarChart from '@src/components/ng-bar-chart'
 
+const allCasesAreZero = (state) => {
+  return (
+    (Number(state.total_cases) === 0) &&
+    (Number(state.active_cases) === 0) &&
+    (Number(state.recovered) === 0) &&
+    (Number(state.deaths) === 0)
+  )
+}
+
 class StatisticsPage extends React.Component {
   constructor (props) {
     super (props)
@@ -21,6 +30,7 @@ class StatisticsPage extends React.Component {
       fetching_ng_states_stats: true,
       ng_states_stats: props.ng_states_stats || [],
       filtered_states_stats: props.ng_states_stats || [],
+      filtered_state_stats: {},
 
       // filters
       state_name: '',
@@ -35,6 +45,9 @@ class StatisticsPage extends React.Component {
     this.handleFilter = this.handleFilter.bind(this)
     this.fetchNgStats = this.fetchNgStats.bind(this)
     this.fetchNgStatesStats = this.fetchNgStatesStats.bind(this)
+    this.getParams = this.getParams.bind(this)
+    this.postDataToChatbot = this.postDataToChatbot.bind(this)
+    this.closeWindow = this.closeWindow.bind(this)
   }
 
   handleInputChangeWithFilter (e) {
@@ -61,16 +74,18 @@ class StatisticsPage extends React.Component {
 
   handleFilter (name) {
     const {
-      ng_states_stats
+      ng_states_stats,
     } = this.state
 
     let filtered_states_stats = []
+    let filtered_state_stats = {}
 
     // if entry is empty return full stats
     if (this.state[name].trim() === '') {
       filtered_states_stats = ng_states_stats
       return this.setState({
-        filtered_states_stats
+        filtered_states_stats,
+        filtered_state_stats,
       })
     }
 
@@ -111,10 +126,16 @@ class StatisticsPage extends React.Component {
       filtered_states_stats = ng_states_stats.filter(state => {
         return (String(state[name]).toLowerCase().indexOf(this.state[name].trim().toLowerCase()) !== -1)
       })
+
+      // set filtered_state_stats
+      if (filtered_states_stats.length === 1) {
+        filtered_state_stats = filtered_states_stats[0]
+      }
     }
 
     return this.setState({
-      filtered_states_stats
+      filtered_states_stats,
+      filtered_state_stats,
     })
   }
 
@@ -163,6 +184,43 @@ class StatisticsPage extends React.Component {
     })
   }
 
+  getParams (name) {
+    const WEBVIEW_PARAMS = window.webviewParameters || {}
+    console.log('WEBVIEW PARAMS:', WEBVIEW_PARAMS)
+
+    if (WEBVIEW_PARAMS.parameters) {
+      const param = window.webviewParameters.parameters.filter(wvParam => (wvParam.key === name))[0]
+      if (param.value) return param.value
+    }
+
+    return ''
+  }
+
+  postDataToChatbot () {
+    const webViewCallback = this.getParams('webview.onDone')
+    console.log('WEBVIEW CALLBACK:', webViewCallback)
+
+    if (webViewCallback) {
+      axios.post(
+        webViewCallback,
+        JSON.stringify({
+          ng_stats: this.state.ng_stats,
+          ng_states_stats: this.state.ng_states_stats,
+        })
+      ).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.error(err)
+      }).finally(() => {
+        this.closeWindow()
+      })
+    }
+  }
+
+  closeWindow () {
+    window.close()
+  }
+
   componentDidMount () {
     this.fetchNgStats()
     this.fetchNgStatesStats()
@@ -175,6 +233,7 @@ class StatisticsPage extends React.Component {
       fetching_ng_states_stats,
       ng_states_stats,
       filtered_states_stats,
+      filtered_state_stats,
 
       // filters
       state_name,
@@ -184,26 +243,74 @@ class StatisticsPage extends React.Component {
       deaths,
     } = this.state
 
+    let max_cases_value = 100
+
+    if (filtered_state_stats.hasOwnProperty('total_cases')) {
+      max_cases_value = filtered_state_stats.total_cases
+    } else {
+      max_cases_value = Math.max(...filtered_states_stats.map(x => x.total_cases), 0)
+      if (max_cases_value > 100) {
+        max_cases_value = 100
+      }
+    }
+    if (max_cases_value < 10) {
+      max_cases_value = 10
+    }
+
     return (
       <PublicLayout pageTitle="COVID-19 Statistics" pageClass="statistics">
-        <section className="section bg-grey3">
+        <section className="section bg-grey3 flex-space-between-responsive">
           <h1 className="font-weight-bold">COIVD-19 Statistics</h1>
+
+          {/* <div>
+            <button type="button" className="button" onClick={this.postDataToChatbot}>
+              Return to Chatbot
+            </button>
+          </div> */}
         </section>
 
         <FloatCSSTransition in={true}>
           <section className="section">
             <h3>Nigeria 🇳🇬</h3>
 
+            <h6>Filter Cases Per State</h6>
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
+              <div className="input-filter">
+                <select name="state_name" value={state_name} onChange={this.handleInputChangeWithFilter} required>
+                  <option value="">Select State to Filter Cases</option>
+                  {
+                    nigerianStates.map((state, stateIndex) => (
+                      <option key={stateIndex} value={state}>{state}</option>
+                    ))
+                  }
+                </select>
+              </div>
+            </div>
+
             <h6>Cases Overview</h6>
             <div className="statistics" style={{ marginBottom: '1.5rem' }}>
               {(fetching_ng_stats === false)
                 ? (
-                  <div className="stats-card-wrapper">
-                    <StatsCard value={Intl.NumberFormat().format(ng_stats.total_cases || 0)} title="Confirmed Cases" />
-                    <StatsCard value={Intl.NumberFormat().format(ng_stats.active_cases || 0)} title="Active Cases" />
-                    <StatsCard value={Intl.NumberFormat().format(ng_stats.recovered || 0)} title="Recovered" />
-                    <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
-                  </div>
+                  <>
+                    {(filtered_state_stats.hasOwnProperty('total_cases'))
+                      ? (
+                        <div className="stats-card-wrapper">
+                          <StatsCard value={Intl.NumberFormat().format(filtered_state_stats.total_cases || 0)} title="Confirmed Cases" />
+                          <StatsCard value={Intl.NumberFormat().format(filtered_state_stats.active_cases || 0)} title="Active Cases" />
+                          <StatsCard value={Intl.NumberFormat().format(filtered_state_stats.recovered || 0)} title="Recovered" />
+                          <StatsCard value={Intl.NumberFormat().format(filtered_state_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
+                        </div>
+                      )
+                      : (
+                        <div className="stats-card-wrapper">
+                          <StatsCard value={Intl.NumberFormat().format(ng_stats.total_cases || 0)} title="Confirmed Cases" />
+                          <StatsCard value={Intl.NumberFormat().format(ng_stats.active_cases || 0)} title="Active Cases" />
+                          <StatsCard value={Intl.NumberFormat().format(ng_stats.recovered || 0)} title="Recovered" />
+                          <StatsCard value={Intl.NumberFormat().format(ng_stats.deaths || 0)} title="Deaths" classNames="text-primary" />
+                        </div>
+                      )
+                    }
+                  </>
                 )
                 : (
                   <div>fetching statistics ...</div>
@@ -216,8 +323,37 @@ class StatisticsPage extends React.Component {
               {(fetching_ng_states_stats === false)
                 ? (
                   <div style={{ height: '400px', width: '100%', minWidth: '1000px' }}>
-                    <NgBarChart data={ng_states_stats} />
+                    <NgBarChart
+                      data={filtered_states_stats}
+                      maxValue={max_cases_value || 100}
+                    />
                   </div>
+                )
+                : (
+                  <div>fetching statistics ...</div>
+                )
+              }
+            </div>
+
+            <h6>Number of Affected States</h6>
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
+              {(fetching_ng_states_stats === false)
+                ? (
+                  <>
+                    <div className="affected-states">
+                      <span>
+                        {(ng_states_stats.length - ng_states_stats.filter(allCasesAreZero).length) || 0}
+                      </span>
+                      <small>affected states</small>
+                    </div>
+
+                    <div className="affected-states green">
+                      <span>
+                        {ng_states_stats.filter(allCasesAreZero).length || 0}
+                      </span>
+                      <small>unaffected states</small>
+                    </div>
+                  </>
                 )
                 : (
                   <div>fetching statistics ...</div>
@@ -356,45 +492,45 @@ class StatisticsPage extends React.Component {
   }
 }
 
-// const nigerianStates = [
-//   "Abia",
-//   "Abuja FCT",
-//   "Adamawa",
-//   "Akwa Ibom",
-//   "Anambra",
-//   "Bauchi",
-//   "Bayelsa",
-//   "Benue",
-//   "Borno",
-//   "Cross River",
-//   "Delta",
-//   "Ebonyi",
-//   "Edo",
-//   "Ekiti",
-//   "Enugu",
-//   "Gombe",
-//   "Imo",
-//   "Jigawa",
-//   "Kaduna",
-//   "Kano",
-//   "Katsina",
-//   "Kebbi",
-//   "Kogi",
-//   "Kwara",
-//   "Lagos",
-//   "Nasarawa",
-//   "Niger",
-//   "Ogun",
-//   "Ondo",
-//   "Osun",
-//   "Oyo",
-//   "Plateau",
-//   "Rivers",
-//   "Sokoto",
-//   "Taraba",
-//   "Yobe",
-//   "Zamfara"
-// ]
+const nigerianStates = [
+  "Abia",
+  "Abuja FCT",
+  "Adamawa",
+  "Akwa Ibom",
+  "Anambra",
+  "Bauchi",
+  "Bayelsa",
+  "Benue",
+  "Borno",
+  "Cross River",
+  "Delta",
+  "Ebonyi",
+  "Edo",
+  "Ekiti",
+  "Enugu",
+  "Gombe",
+  "Imo",
+  "Jigawa",
+  "Kaduna",
+  "Kano",
+  "Katsina",
+  "Kebbi",
+  "Kogi",
+  "Kwara",
+  "Lagos",
+  "Nasarawa",
+  "Niger",
+  "Ogun",
+  "Ondo",
+  "Osun",
+  "Oyo",
+  "Plateau",
+  "Rivers",
+  "Sokoto",
+  "Taraba",
+  "Yobe",
+  "Zamfara"
+]
 
 const mapStateToProps = state => {
   const {statistics} = state

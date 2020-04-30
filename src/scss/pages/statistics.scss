@@ -31,6 +31,84 @@
       }
     }
 
+    .flex-space-between-responsive {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: $size_lg) {
+        flex-direction: column;
+        align-items: unset;
+        justify-content: unset;
+      }
+    }
+
+    // Input Filter
+    .input-filter {
+      position: relative;
+      max-width: $size_xxs;
+
+      select,
+      input {
+        padding: 0 .25rem;
+        background-color: $white-color;
+        width: 100%;
+        min-width: 5rem;
+        border: 1px solid $grey4-color;
+        border-radius: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        outline: none;
+        height: 1.5rem;
+        padding-right: 1.5rem;
+
+        &:focus-within {
+          border-color: $primary-color;
+        }
+
+        &::placeholder {
+          color: $grey4-color;
+        }
+      }
+
+      select {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Black_triangle.svg/540px-Black_triangle.svg.png') !important;
+        background-position: right .25rem center !important;
+        background-size: 12px 8px !important;
+        background-repeat: no-repeat !important;
+
+        &:invalid {
+          color: $grey4-color !important;
+        }
+      }
+
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: .25rem;
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 100%;
+        border: 1px solid $grey4-color;
+        border-radius: 50%;
+        background-color: $grey4-color;
+        color: $white-color;
+        text-align: center;
+        outline: none;
+
+        &:hover {
+          border: 1px solid $primary-color;
+          background-color: $primary-color;
+          cursor: pointer;
+        }
+      }
+    }
+
     // #statistics
     .statistics {
       & > div:first-child,
@@ -74,6 +152,46 @@
       }
     }
 
+    // Affected States
+    .affected-states {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 6rem;
+      height: 6rem;
+      padding: 1rem;
+      background-color: $light-color;
+      border: .1rem solid $grey5-color;
+      border-radius: 50%;
+      user-select: none;
+      font-size: 1.55rem;
+      font-weight: bold;
+      color: $primary-color;
+      text-align: center;
+
+      small {
+        font-size: small;
+        color: $grey2-color;
+      }
+
+      &:hover {
+        border: .1rem solid $primary-color;
+      }
+
+      &.green {
+        color: #20bb44;
+
+        &:hover {
+          border: .1rem solid #20bb44;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+
     .table-wrapper {
       overflow-x: auto;
     }
@@ -109,55 +227,6 @@
 
           &:hover {
             background-color: lighten($color: $grey6-color, $amount: 2%);
-          }
-        }
-      }
-
-      .input-filter {
-        position: relative;
-
-        input {
-          width: 100%;
-          min-width: 5rem;
-          border: 1px solid $grey4-color;
-          border-radius: 0;
-          appearance: none;
-          -webkit-appearance: none;
-          outline: none;
-          height: 1.5rem;
-          padding-right: 1.5rem;
-
-          &:focus-within {
-            border-color: $primary-color;
-          }
-
-          &::placeholder {
-            color: $grey4-color;
-          }
-        }
-
-        button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          margin: .25rem;
-          width: 1rem;
-          height: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          line-height: 100%;
-          border: 1px solid $grey4-color;
-          border-radius: 50%;
-          background-color: $grey4-color;
-          color: $white-color;
-          text-align: center;
-          outline: none;
-
-          &:hover {
-            border: 1px solid $primary-color;
-            background-color: $primary-color;
-            cursor: pointer;
           }
         }
       }
