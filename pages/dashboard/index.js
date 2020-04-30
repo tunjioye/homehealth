@@ -157,7 +157,7 @@ class StatisticsPage extends React.Component {
     } = this.state
 
     return (
-      <PublicLayout pageTitle="COVID-19 Statistics" pageClass="statistics">
+      <PublicLayout pageTitle="Dashboard" pageClass="statistics">
         <section className="section bg-grey3 flex-space-between-responsive">
           <h1 className="font-weight-bold">Dashboard</h1>
 
