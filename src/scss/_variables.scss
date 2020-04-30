@@ -29,11 +29,40 @@ $body-font-color: $dark-color;
 $body-font-family: 'Noto Sans', 'system-ui', sans-serif;
 $mono-font-family: 'Nimbus Mono', monospace;
 
+// Unit Sizes
+$unit-o: .05rem !default;
+$unit-h: .1rem !default;
+$unit-1: .2rem !default;
+$unit-2: .4rem !default;
+$unit-3: .6rem !default;
+$unit-4: .8rem !default;
+$unit-5: 1rem !default;
+$unit-6: 1.2rem !default;
+$unit-7: 1.4rem !default;
+$unit-8: 1.6rem !default;
+$unit-9: 1.8rem !default;
+$unit-10: 2rem !default;
+$unit-12: 2.4rem !default;
+$unit-16: 3.2rem !default;
+
+// Other Sizes
+$layout-spacing: $unit-2 !default;
+$layout-spacing-sm: $unit-1 !default;
+$layout-spacing-lg: $unit-4 !default;
+$border-radius: $unit-1 !default;
+$border-width: $unit-1 !default;
+$border-width-lg: $unit-2 !default;
+$border-width-sm: $unit-h !default;
+
 // Responsive Breakpoints
-$size_xxs: 360px !default;
-$size_xs: 480px !default;
-$size_sm: 600px !default;
-$size_md: 840px !default;
-$size_lg: 1080px !default;
-$size_xl: 1200px !default;
-$size_xxl: 1440px !default;
+$size-xxs: 360px !default;
+$size-xs: 480px !default;
+$size-sm: 600px !default;
+$size-md: 840px !default;
+$size-lg: 1080px !default;
+$size-xl: 1200px !default;
+$size-xxl: 1440px !default;
+
+// Z-index
+$zindex-0: 1 !default;
+$zindex-4: 400 !default;

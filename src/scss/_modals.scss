@@ -1,0 +1,134 @@
+
+// Modals
+.modal {
+  align-items: center;
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: $layout-spacing;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  &:target,
+  &.active {
+    display: flex;
+    opacity: 1;
+    z-index: $zindex-4;
+
+    .modal-overlay {
+      background: rgba($white-color, .55);
+      bottom: 0;
+      cursor: default;
+      display: block;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    .modal-container {
+      animation: slide-down .2s ease 1;
+      z-index: $zindex-0;
+    }
+  }
+
+  &.modal-xs {
+    .modal-container {
+      max-width: $size-xs;
+      padding: 0 $unit-2;
+    }
+  }
+
+  &.modal-lg {
+    .modal-overlay {
+      background: $white-color;
+    }
+
+    .modal-container {
+      box-shadow: none;
+      max-width: $size-lg;
+    }
+  }
+}
+
+.modal-container {
+  @include shadow-variant(.2rem);
+  background: $white-color;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  max-height: 75vh;
+  max-width: $size-md;
+  padding: $unit-4;
+  width: 100%;
+
+  &.modal-fullheight {
+    max-height: 100vh;
+  }
+
+  .modal-header {
+    color: $dark-color;
+    padding: $unit-4;
+
+    // Button Clear
+    .button {
+      &.button-clear {
+        float: right;
+        background: transparent;
+        border: 0;
+        color: currentColor;
+        height: $unit-5;
+        line-height: $unit-4;
+        margin-left: $unit-1;
+        margin-right: -2px;
+        opacity: 1;
+        padding: $unit-h;
+        text-decoration: none;
+        width: $unit-5;
+        font-size: 1rem;
+        margin: .25rem;
+        padding: .25rem;
+
+        &:focus,
+        &:hover {
+          color: $primary-color;
+          background: transparent;
+          opacity: .95;
+        }
+      }
+    }
+  }
+
+  .modal-body {
+    overflow-y: auto;
+    padding: $unit-4;
+    position: relative;
+  }
+
+  .modal-footer {
+    padding: $unit-4;
+    text-align: right;
+  }
+
+  .data-content {
+    div {
+      &:first-child {
+        font-size: small;
+        color: $grey3-color;
+      }
+      &:last-child {
+        font-size: .8rem;
+        color: $dark-color;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: .5rem;
+    }
+  }
+}

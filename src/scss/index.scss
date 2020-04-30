@@ -1,6 +1,7 @@
 // Variables and mixins
 @import "font";
 @import "variables";
+@import "mixins";
 
 // Normalize and Base
 @import "normalize";
@@ -16,6 +17,7 @@
 @import 'accordions';
 @import 'buttons';
 @import 'faqs';
+@import 'modals';
 
 // Others
 @import "margin";

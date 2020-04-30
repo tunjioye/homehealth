@@ -25,10 +25,12 @@ body {
   font-size: .8rem;
 }
 
+.link,
 a {
   color: $link-color;
   outline: none;
   text-decoration: none;
+  cursor: pointer;
 
   &:focus,
   &:hover,
