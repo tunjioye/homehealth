@@ -1,0 +1,29 @@
+// Buttons
+.button {
+  padding: .4rem 2rem;
+  border: 0;
+  border-radius: .25rem;
+  outline: none;
+  background-color: $primary-color;
+  color: $white-color;
+  text-align: center;
+
+  &:focus,
+  &:hover,
+  &:active,
+  &.active {
+    background-color: $link-color-dark;
+    cursor: pointer;
+  }
+
+  &:disabled,
+  &[disabled],
+  &.disabled {
+    opacity: .25;
+    pointer-events: none;
+  }
+
+  &.button-block {
+    width: 100%;
+  }
+}
