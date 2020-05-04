@@ -365,7 +365,7 @@ class RiskAssessmentPage extends React.Component {
 
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
-        <section className="section bg-grey3">
+        <section className="section bg-grey1">
           <h1 className="font-weight-bold">Risk Assessment</h1>
         </section>
 

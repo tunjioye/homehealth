@@ -158,7 +158,7 @@ class StatisticsPage extends React.Component {
 
     return (
       <PublicLayout pageTitle="Dashboard" pageClass="statistics">
-        <section className="section bg-grey3 flex-space-between-responsive">
+        <section className="section bg-grey1 flex-space-between-responsive">
           <h1 className="font-weight-bold">Dashboard</h1>
 
           {/* <div>

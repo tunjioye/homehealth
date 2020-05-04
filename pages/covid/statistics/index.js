@@ -259,7 +259,7 @@ class StatisticsPage extends React.Component {
 
     return (
       <PublicLayout pageTitle="COVID-19 Statistics" pageClass="statistics">
-        <section className="section bg-grey3 flex-space-between-responsive">
+        <section className="section bg-grey1 flex-space-between-responsive">
           <h1 className="font-weight-bold">COIVD-19 Statistics</h1>
 
           {/* <div>
