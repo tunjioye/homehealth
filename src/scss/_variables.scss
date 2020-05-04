@@ -17,7 +17,7 @@ $link-color-light: lighten($link-color, 10%);
 $link-color-dark: darken($link-color, 10%);
 
 // Text Color
-$font-color: grey1-color !default;
+$font-color: $grey1-color !default;
 
 // NProgress Color
 $nprogress-color: $primary-color !default;

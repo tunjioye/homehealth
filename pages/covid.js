@@ -332,7 +332,7 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
       const nextHash = (informationList[listItemIndex + 1]) ? informationList[listItemIndex + 1].hash : null
 
       return (
-        <div id={hash} key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey3' : ''}>
+        <div id={hash} key={listItemIndex} className={(listItemIndex % 2 === 0) ? 'bg-grey1' : ''}>
           <section className="section">
             <div className="flex-heading font-weight-bold">
               <h3>
