@@ -1,0 +1,13 @@
+.lang-switcher {
+  &.input-group {
+    &.width-fit-content {
+      min-width: 5rem;
+      width: fit-content;
+      margin-bottom: 0;
+    }
+  }
+
+  .input-select {
+    border: 0 !important;
+  }
+}

@@ -4,6 +4,7 @@ import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
 import FloatCSSTransition from '@src/components/float-css-transition'
 import InputRadioGroup from '@src/components/input-radio-group'
+import LangSwitcher from '@src/components/lang-switcher'
 import axios from 'axios'
 import CONFIG from '@src/config'
 import RISK_ASSESSMENT_LANGUAGES from '@src/utils/risk-assessment-languages'
@@ -425,8 +426,14 @@ class RiskAssessmentPage extends React.Component {
 
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
-        <section className="section bg-grey1">
+        <section className="section bg-grey1 flex-space-between-responsive">
           <h1 className="font-weight-bold">{RISK_ASSESSMENT_LANGUAGES[lang]['title']}</h1>
+
+          <LangSwitcher
+            name="lang"
+            value={lang}
+            onChange={this.handleInputChange}
+          />
         </section>
 
         <FloatCSSTransition in={(step === 'user_details')}>
