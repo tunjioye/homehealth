@@ -273,6 +273,32 @@ class StatisticsPage extends React.Component {
           <section className="section">
             <h3>Nigeria 🇳🇬</h3>
 
+            <h6>Number of Affected States</h6>
+            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
+              {(fetching_ng_states_stats === false)
+                ? (
+                  <>
+                    <div className="affected-states">
+                      <span>
+                        {(ng_states_stats.length - ng_states_stats.filter(allCasesAreZero).length) || 0}
+                      </span>
+                      <small>affected states</small>
+                    </div>
+
+                    <div className="affected-states green">
+                      <span>
+                        {ng_states_stats.filter(allCasesAreZero).length || 0}
+                      </span>
+                      <small>unaffected states</small>
+                    </div>
+                  </>
+                )
+                : (
+                  <div>fetching statistics ...</div>
+                )
+              }
+            </div>
+
             <h6>Filter Cases Per State</h6>
             <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
               <div className="input-filter">
@@ -328,32 +354,6 @@ class StatisticsPage extends React.Component {
                       maxValue={max_cases_value || 100}
                     />
                   </div>
-                )
-                : (
-                  <div>fetching statistics ...</div>
-                )
-              }
-            </div>
-
-            <h6>Number of Affected States</h6>
-            <div style={{ width: '100%', overflowX: 'auto', overflowY: 'hidden', marginBottom: '1.5rem' }}>
-              {(fetching_ng_states_stats === false)
-                ? (
-                  <>
-                    <div className="affected-states">
-                      <span>
-                        {(ng_states_stats.length - ng_states_stats.filter(allCasesAreZero).length) || 0}
-                      </span>
-                      <small>affected states</small>
-                    </div>
-
-                    <div className="affected-states green">
-                      <span>
-                        {ng_states_stats.filter(allCasesAreZero).length || 0}
-                      </span>
-                      <small>unaffected states</small>
-                    </div>
-                  </>
                 )
                 : (
                   <div>fetching statistics ...</div>
