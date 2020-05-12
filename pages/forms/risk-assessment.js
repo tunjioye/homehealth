@@ -13,8 +13,8 @@ const initialState = {
   // flow controls
   step: 'user_details',
   // step: 'final_result',
-  // lang: 'ENGLISH',
-  lang: 'YORUBA',
+  lang: 'ENGLISH',
+  // lang: 'YORUBA',
 
   // user details
   name: '',

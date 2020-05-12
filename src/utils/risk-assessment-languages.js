@@ -75,7 +75,7 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'completebuttontext': 'Fipamọ ki o Pari',
     'returnbuttontext': 'Pada si Chatbot',
     // User Information
-    '1': '1. Alaye Olumulo',
+    '1': '1. Awọn Ibeere Olumulo',
     '1a': '1a. Kini Orukọ rẹ',
     '1aplaceholder': 'Orukọ rẹ ...',
     '1b': '1b. Kini Nọmba foonu rẹ',
@@ -86,10 +86,10 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '1eplaceholder': 'Mu ipinle rẹ',
     // Travel Questions
     '2': '2. Awọn Ibeere Irin-ajo',
-    '2a': '2a. Njẹ laipe o wa ni ibatan pẹlu ẹnikan ti o ti ajo si China, Iran, UK, Italy, Spain, USA tabi eyikeyi orilẹ-ede pẹlu awọn ọran ti a fọwọsi?',
-    '2b': '2b. Njẹ o ti ni ibatan sunmọ pẹlu ọran timo ti nCoV (coronavirus) ikolu?',
-    '2c': '2c. Njẹ o ti wa si apejọ kan ti o ni ẹjọ idaniloju abayọri nigbamii?',
-    '2d': '2d. Njẹ iwọ tabi ẹnikẹni ti o mọ pe o ti farakanra tabi ti farahan si ile-iṣẹ ilera ni orilẹ-ede nibiti a ti sọ ijabọ awọn àkóràn ti nCOV (coronavirus)?',
+    '2a': '2a. Njẹ o se alabapade ẹnikeni ti o ti ajo de lati ilu China, Iran, UK, Italy, Spain, USA tabi eyikeyi orilẹ-ede ti a ti ri aisan coranavirus?',
+    '2b': '2b. Njẹ o ni ibasepo pẹlu ẹniyan ti o ti ni arun coranavirus?',
+    '2c': '2c. Njẹ o ti wa ni apejọpo ti ati ri eniyan ti o ti ni arun coranavirus?',
+    '2d': '2d. Njẹ iwọ tabi ẹnikẹni ti o mọ, ti farakanra tabi ti farahan si ile-iṣẹ ilera ni orilẹ-ede ti ati ri arun coranavirus?',
     'traveloptions1': [
       {
         key: 'Yes',
@@ -97,33 +97,33 @@ const RISK_ASSESSMENT_LANGUAGES = {
       },
       {
         key: 'No',
-        label: 'Rara',
+        label: 'Bẹẹko',
       },
     ],
     'traveloptions2': [
       {
-        key: 'Bẹẹni',
-        label: 'Yes',
+        key: 'Yes',
+        label: 'Bẹẹni',
       },
       {
-        key: 'Rara',
-        label: 'No',
+        key: 'No',
+        label: 'Bẹẹko',
       },
       {
-        key: 'Boya',
-        label: 'Maybe',
+        key: 'Maybe',
+        label: 'Boya',
       },
     ],
     // Health Questions
-    '3': '3. Awọn Ibeere Ilera',
-    '3a': '3a. Bawo ni igbagbogbo ni o Ikọaláìdúró?',
-    '3b': '3b. Ṣe o ni awọn iṣoro eyikeyi ninu mimi?',
-    '3c': '3c. Ṣe o ni iba ati ti o ba ṣe, Igba melo?',
-    '3d': '3d. Njẹ oju rẹ mbomirin?',
-    '3e': '3e. Igba melo ni o sinmi?',
+    '3': '3. Awọn Ibeere Ilera ara',
+    '3a': '3a. Igba melo ni o ma n wu Ikọaláìdúró?',
+    '3b': '3b. Ṣe o ni awọn iṣoro eyikeyi nigbati o ba n mi?',
+    '3c': '3c. Ṣe o ni iba, ti o ba je be, Igba melo?',
+    '3d': '3d. Njẹ oju rẹ n wa omi?',
+    '3e': '3e. Igba melo ni o sin?',
     '3f': '3f. Ṣe o wa ninu irora?',
-    '3g': '3g. Ṣe ọfun rẹ farapa?',
-    '3h': '3h. Ṣe o rẹmi?',
+    '3g': '3g. Ṣe ọfun rẹ dun o?',
+    '3h': '3h. Ṣe o ma n rẹ o?',
     'healthoptions1': [
       {
         key: 'Frequent',
