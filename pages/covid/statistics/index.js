@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import StatsCard from '@src/components/stats-card'
 import NgBarChart from '@src/components/ng-bar-chart'
+import NIGERIAN_STATES from '@src/utils/nigerian-states'
 
 const allCasesAreZero = (state) => {
   return (
@@ -305,7 +306,7 @@ class StatisticsPage extends React.Component {
                 <select name="state_name" value={state_name} onChange={this.handleInputChangeWithFilter} required>
                   <option value="">Select State to Filter Cases</option>
                   {
-                    nigerianStates.map((state, stateIndex) => (
+                    NIGERIAN_STATES.map((state, stateIndex) => (
                       <option key={stateIndex} value={state}>{state}</option>
                     ))
                   }
@@ -491,46 +492,6 @@ class StatisticsPage extends React.Component {
     )
   }
 }
-
-const nigerianStates = [
-  "Abia",
-  "Abuja FCT",
-  "Adamawa",
-  "Akwa Ibom",
-  "Anambra",
-  "Bauchi",
-  "Bayelsa",
-  "Benue",
-  "Borno",
-  "Cross River",
-  "Delta",
-  "Ebonyi",
-  "Edo",
-  "Ekiti",
-  "Enugu",
-  "Gombe",
-  "Imo",
-  "Jigawa",
-  "Kaduna",
-  "Kano",
-  "Katsina",
-  "Kebbi",
-  "Kogi",
-  "Kwara",
-  "Lagos",
-  "Nasarawa",
-  "Niger",
-  "Ogun",
-  "Ondo",
-  "Osun",
-  "Oyo",
-  "Plateau",
-  "Rivers",
-  "Sokoto",
-  "Taraba",
-  "Yobe",
-  "Zamfara"
-]
 
 const mapStateToProps = state => {
   const {statistics} = state

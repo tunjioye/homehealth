@@ -4,13 +4,19 @@ import PublicLayout from '@src/components/public-layout'
 import '@src/scss/pages/risk-assessment.scss'
 import FloatCSSTransition from '@src/components/float-css-transition'
 import InputRadioGroup from '@src/components/input-radio-group'
+import LangSwitcher from '@src/components/lang-switcher'
 import axios from 'axios'
 import CONFIG from '@src/config'
+import RISK_ASSESSMENT_LANGUAGES from '@src/utils/risk-assessment-languages'
+import NIGERIAN_STATES from '@src/utils/nigerian-states'
+import LGA_LIST from '@src/utils/lga-list'
 
 const initialState = {
   // flow controls
   step: 'user_details',
   // step: 'final_result',
+  lang: 'ENGLISH',
+  // lang: 'YORUBA',
 
   // user details
   name: '',
@@ -18,6 +24,10 @@ const initialState = {
   address: '',
   email: '',
   state: '',
+  lga: '',
+  dob: '',
+  sex: '',
+  marital_status: '',
 
   // travel details
   recently_came_in_contact_with_a_traveller: '',
@@ -38,6 +48,13 @@ const initialState = {
   // assessment score
   assessment_score: 0,
   risk_level: 'LOW',
+
+  // recent contacts
+  contact_name: '',
+  contact_phone_number: '',
+  recent_contacts: [],
+
+  // environment
   env: process.env.NODE_ENV,
 
   // geolocation
@@ -262,14 +279,7 @@ class RiskAssessmentPage extends React.Component {
     })
   }
 
-  componentDidMount() {
-    /*
-      - bot unresponsive log
-      - return name from form
-      - dashboard (nigeria map)
-      - incident report with attachment
-    */
-
+  componentDidMount () {
     const getLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setLocation, showError)
@@ -309,13 +319,19 @@ class RiskAssessmentPage extends React.Component {
 
   render () {
     const {
+      // form controls
       step,
+      lang,
 
       name,
       phone_number,
       address,
       email,
       state,
+      lga,
+      dob,
+      sex,
+      marital_status,
 
       recently_came_in_contact_with_a_traveller,
       had_a_close_contact_with_a_confirmed_case,
@@ -333,6 +349,10 @@ class RiskAssessmentPage extends React.Component {
 
       assessment_score,
       risk_level,
+
+      contact_name,
+      contact_phone_number,
+      recent_contacts,
     } = this.state
 
     const highRiskContent = () => {
@@ -365,40 +385,81 @@ class RiskAssessmentPage extends React.Component {
 
     return (
       <PublicLayout pageTitle="Risk Assessment" pageClass="risk-assessment">
-        <section className="section bg-grey1">
-          <h1 className="font-weight-bold">Risk Assessment</h1>
+        <section className="section bg-grey1 flex-space-between-responsive">
+          <h1 className="font-weight-bold">{RISK_ASSESSMENT_LANGUAGES[lang]['title']}</h1>
+
+          <LangSwitcher
+            name="lang"
+            value={lang}
+            onChange={this.handleInputChange}
+          />
         </section>
 
         <FloatCSSTransition in={(step === 'user_details')}>
           <section className="section">
-            <h4>1. User Information</h4>
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['1']}</h4>
 
             <form id="user-details-form" className="form-section">
               <div className="input-group">
-                <label htmlFor="name">1a. Your Name</label>
-                <input className="input-control" type="text" name="name" value={name} onChange={this.handleInputChange} placeholder="My name is ..." required/>
+                <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1a']}</label>
+                <input className="input-control" type="text" name="name" value={name} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['1aplaceholder']} required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">1b. Your Phone Number</label>
+                <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1b']}</label>
                 <input className="input-control" type="tel" name="phone_number" value={phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">1c. Your Address</label>
-                <input className="input-control" type="text" name="address" value={address} onChange={this.handleInputChange} placeholder="I live at ..." required/>
+                <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1c']}</label>
+                <input className="input-control" type="text" name="address" value={address} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['1cplaceholder']} required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">1d. Your Email Address</label>
-                <input className="input-control" type="email" name="email" value={email} onChange={this.handleInputChange} placeholder="My name is ..." required/>
+                <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1d']}</label>
+                <input className="input-control" type="email" name="email" value={email} onChange={this.handleInputChange} placeholder="abc@xyz.com" required/>
               </div>
               <div className="input-group">
-                <label htmlFor="name">1e. Your State</label>
+                <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1e']}</label>
                 <select className="input-select" name="state" value={state} onChange={this.handleInputChange} required>
-                  <option value="">Select Your State</option>
-                  {nigerianStates.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1eplaceholder']}</option>
+                  {NIGERIAN_STATES.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
                 </select>
               </div>
+              <div className="input-group">
+                <label htmlFor="lga">{RISK_ASSESSMENT_LANGUAGES[lang]['1f']}</label>
+                <select className="input-select" name="lga" value={lga} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1fplaceholder']}</option>
+                  {(LGA_LIST[state] !== undefined) && (
+                    Array.from(LGA_LIST[state]).map((lga, lgaIndex) => <option key={lgaIndex}>{lga}</option>)
+                  )}
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="sex">{RISK_ASSESSMENT_LANGUAGES[lang]['1g']}</label>
+                <select className="input-select" name="sex" value={sex} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1gplaceholder']}</option>
+                  {
+                    RISK_ASSESSMENT_LANGUAGES[lang]['sexoptions'].map((sex, sexIndex) => (
+                      <option key={sexIndex} value={sex.key}>{sex.label}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="marital_status">{RISK_ASSESSMENT_LANGUAGES[lang]['1h']}</label>
+                <select className="input-select" name="marital_status" value={marital_status} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1hplaceholder']}</option>
+                  {
+                    RISK_ASSESSMENT_LANGUAGES[lang]['maritalstatusoptions'].map((status, statusIndex) => (
+                      <option key={statusIndex} value={status.key}>{status.label}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="dob">{RISK_ASSESSMENT_LANGUAGES[lang]['1i']}</label>
+                <input className="input-control" type="date" name="dob" value={dob} onChange={this.handleInputChange} placeholder="YYYY-MM-DD" required/>
+              </div>
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="user_details"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="user_details"/>
               </div>
             </form>
           </section>
@@ -406,26 +467,20 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'travel_details')}>
           <section className="section">
-            <h4>2. Travel Questions</h4>
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['2']}</h4>
 
             <form id="travel-details-form" className="">
               <InputRadioGroup
-                question="2a. Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?"
-                options={[
-                  'Yes',
-                  'No',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['2a']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['traveloptions1']}
                 name="recently_came_in_contact_with_a_traveller"
                 value={recently_came_in_contact_with_a_traveller}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="2b. Have you had a close contact with a confirmed case of nCoV (coronavirus) infection?"
-                options={[
-                  'Yes',
-                  'No',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['2b']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['traveloptions1']}
                 name="had_a_close_contact_with_a_confirmed_case"
                 value={had_a_close_contact_with_a_confirmed_case}
                 onInputChange={this.handleInputChange}
@@ -440,35 +495,27 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'travel_details_confirm_low_risk')}>
           <section className="section">
-            <h4>2. Travel Questions</h4>
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['2']}</h4>
 
             <form id="travel-details-confirm-low-risk-form" className="">
               <InputRadioGroup
-                question="2c. Have you been to a gathering that later had a confirmed positive case?"
-                options={[
-                  'Yes',
-                  'No',
-                  'Maybe',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['2c']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['traveloptions2']}
                 name="been_to_a_gathering_that_later_had_a_confirmed_case"
                 value={been_to_a_gathering_that_later_had_a_confirmed_case}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="2d. Have you or anyone you know have come in contact with or got exposed to a healthcare facility in a country where hospital associated nCOV (coronavirus) infections have been reported?"
-                options={[
-                  'Yes',
-                  'No',
-                  'Maybe',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['2d']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['traveloptions2']}
                 name="have_come_in_contact_with_healthcare_facility_with_a_confirmed_case"
                 value={have_come_in_contact_with_healthcare_facility_with_a_confirmed_case}
                 onInputChange={this.handleInputChange}
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="travel_details_confirm_low_risk"/>
               </div>
             </form>
           </section>
@@ -476,59 +523,43 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'health_details')}>
           <section className="section">
-            <h4>3. Health Quesions</h4>
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['3']}</h4>
 
             <form id="health-details-form" className="form-section">
               <InputRadioGroup
-                question="3a. How often do you cough?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3a']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="cough"
                 value={cough}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3b. Do you experience any difficulties in breathing?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3b']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="difficulty_breathing"
                 value={difficulty_breathing}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3c. Do you have a fever and if you do, How Often?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3c']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="fever"
                 value={fever}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3d. Are your eyes watered?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3d']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="watered_eyes"
                 value={watered_eyes}
                 onInputChange={this.handleInputChange}
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="health_details"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="health_details"/>
               </div>
             </form>
           </section>
@@ -536,59 +567,43 @@ class RiskAssessmentPage extends React.Component {
 
         <FloatCSSTransition in={(step === 'other_health_details')}>
           <section className="section">
-            <h4>3. Health Quesions</h4>
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['3']}</h4>
 
             <form id="other-health-details-form" className="form-section">
               <InputRadioGroup
-                question="3e. How often do you sneeze?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3e']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="sneeze"
                 value={sneeze}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3f. Are you in pain?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3f']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="in_pain"
                 value={in_pain}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3g. Does your throat hurt?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3g']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="hurt"
                 value={hurt}
                 onInputChange={this.handleInputChange}
                 required
               />
               <InputRadioGroup
-                question="3h. Do you feel tired?"
-                options={[
-                  'Frequent',
-                  'Sometimes',
-                  'Never',
-                ]}
+                question={RISK_ASSESSMENT_LANGUAGES[lang]['3h']}
+                options={RISK_ASSESSMENT_LANGUAGES[lang]['healthoptions1']}
                 name="tired"
                 value={tired}
                 onInputChange={this.handleInputChange}
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Save and Complete" onClick={this.handleSubmit} step="other_health_details"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['completebuttontext']} onClick={this.handleSubmit} step="other_health_details"/>
               </div>
             </form>
           </section>
@@ -603,7 +618,7 @@ class RiskAssessmentPage extends React.Component {
 
             <form id="final-result-form" className="form-section">
               <div className="input-group align-end">
-                <input className="button" type="submit" value="Reset Form" onClick={this.handleSubmit} step="final_result"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['resetbuttontext']} onClick={this.handleSubmit} step="final_result"/>
               </div>
             </form>
           </section>
@@ -612,45 +627,5 @@ class RiskAssessmentPage extends React.Component {
     )
   }
 }
-
-const nigerianStates = [
-  "Abia",
-  "Abuja FCT",
-  "Adamawa",
-  "Akwa Ibom",
-  "Anambra",
-  "Bauchi",
-  "Bayelsa",
-  "Benue",
-  "Borno",
-  "Cross River",
-  "Delta",
-  "Ebonyi",
-  "Edo",
-  "Ekiti",
-  "Enugu",
-  "Gombe",
-  "Imo",
-  "Jigawa",
-  "Kaduna",
-  "Kano",
-  "Katsina",
-  "Kebbi",
-  "Kogi",
-  "Kwara",
-  "Lagos",
-  "Nasarawa",
-  "Niger",
-  "Ogun",
-  "Ondo",
-  "Osun",
-  "Oyo",
-  "Plateau",
-  "Rivers",
-  "Sokoto",
-  "Taraba",
-  "Yobe",
-  "Zamfara"
-]
 
 export default RiskAssessmentPage

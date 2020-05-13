@@ -31,6 +31,19 @@
       }
     }
 
+    .flex-space-between-responsive {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: $size_lg) {
+        flex-direction: column;
+        align-items: unset;
+        justify-content: unset;
+      }
+    }
+
     // Forms
     .form-section {
       display: grid;
