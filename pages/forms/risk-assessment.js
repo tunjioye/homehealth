@@ -549,7 +549,7 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end py">
-                <input className="button" type="submit" value="Save and Continue" onClick={this.handleSubmit} step="travel_details"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="travel_details"/>
               </div>
             </form>
           </section>
