@@ -3,6 +3,7 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'title': 'Risk Assessment',
     'savebuttontext': 'Save and Continue',
     'completebuttontext': 'Save and Complete',
+    'resetbuttontext': 'Reset Form',
     'returnbuttontext': 'Return to Chatbot',
     // User Information
     '1': '1. User Information',
@@ -14,6 +15,37 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '1d': '1d. Your Email Address',
     '1e': '1e. Your State',
     '1eplaceholder': 'Select your state',
+    '1f': '1f. Your Local Government Area',
+    '1fplaceholder': 'Select local government area',
+    '1g': '1g. Your Sex',
+    '1gplaceholder': 'Select your sex',
+    '1h': '1h. Your Marital Status',
+    '1hplaceholder': 'Select your marital status',
+    '1i': '1i. Your Date of Birth',
+    'sexoptions': [
+      {
+        key: 'MALE',
+        label: 'MALE',
+      },
+      {
+        key: 'FEMALE',
+        label: 'FEMALE',
+      },
+    ],
+    'maritalstatusoptions': [
+      {
+        key: 'SINGLE',
+        label: 'SINGLE',
+      },
+      {
+        key: 'MARRIED',
+        label: 'MARRIED',
+      },
+      {
+        key: 'DIVORCED',
+        label: 'DIVORCED',
+      },
+    ],
     // Travel Questions
     '2': '2. Travel Questions',
     '2a': '2a. Did you recently come in contact with someone that has travelled to China, Iran, UK, Italy, Spain, USA or any country with confirmed cases?',
@@ -73,17 +105,49 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'title': 'Igbelewọn Ewu',
     'savebuttontext': 'Fipamọ ki o Tẹsiwaju',
     'completebuttontext': 'Fipamọ ki o Pari',
+    'resetbuttontext': 'Tun Fọọmu Kọ',
     'returnbuttontext': 'Pada si Chatbot',
     // User Information
     '1': '1. Awọn Ibeere Olumulo',
-    '1a': '1a. Kini Orukọ rẹ',
-    '1aplaceholder': 'Orukọ rẹ ...',
-    '1b': '1b. Kini Nọmba foonu rẹ',
-    '1c': '1c. Kini Adirẹsi rẹ',
-    '1cplaceholder': 'Adirẹsi rẹ ...',
-    '1d': '1d. Kini imeli adiresi rẹ',
-    '1e': '1e. Kini Ipinle rẹ',
+    '1a': '1a. Orukọ rẹ',
+    '1aplaceholder': 'Orukọ mi ni ...',
+    '1b': '1b. Nọmba Foonu rẹ',
+    '1c': '1c. Adirẹsi rẹ',
+    '1cplaceholder': 'Mo n gbe ni ...',
+    '1d': '1d. Imeli Adiresi rẹ',
+    '1e': '1e. Ipinle rẹ',
     '1eplaceholder': 'Mu ipinle rẹ',
+    '1f': '1f. Agbegbe Ijoba Ibile re',
+    '1fplaceholder': 'Mu agbegbe ijoba ibile re',
+    '1g': '1g. Ẹda rẹ',
+    '1gplaceholder': 'Mu ẹda rẹ',
+    '1h': '1h. Ipo igbeyawo rẹ',
+    '1hplaceholder': 'Mu ipo igbeyawo rẹ',
+    '1i': '1i. Ojo Ibi rẹ',
+    'sexoptions': [
+      {
+        key: 'MALE',
+        label: 'ỌKUNRIN',
+      },
+      {
+        key: 'FEMALE',
+        label: 'OBINRIN',
+      },
+    ],
+    'maritalstatusoptions': [
+      {
+        key: 'SINGLE',
+        label: 'MI O NI IYAWO TABI ỌKỌ',
+      },
+      {
+        key: 'MARRIED',
+        label: 'MO NI IYAWO TABI ỌKỌ',
+      },
+      {
+        key: 'DIVORCED',
+        label: 'MO TI KỌ IYAWO TABI ỌKỌ MI SILẸ',
+      },
+    ],
     // Travel Questions
     '2': '2. Awọn Ibeere Irin-ajo',
     '2a': '2a. Njẹ o se alabapade ẹnikeni ti o ti ajo de lati ilu China, Iran, UK, Italy, Spain, USA tabi eyikeyi orilẹ-ede ti a ti ri aisan coranavirus?',
@@ -143,6 +207,7 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'title': 'Kiman Hadari',
     'savebuttontext': 'Ajiye kuma Ci gaba',
     'completebuttontext': 'Ajiye kuma Kammalawa',
+    'resetbuttontext': 'Maimaita Form',
     'returnbuttontext': 'Komawa zuwa Chatbot',
     // User Information
     '1': '1. Bayanin Mai Amfani',
@@ -154,6 +219,37 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '1d': '1d. Adireshin i-mel dinka',
     '1e': '1e. Jiharku',
     '1eplaceholder': 'Zaɓi jihar ku',
+    '1f': '1f. Karamar Hukumar Ku',
+    '1fplaceholder': 'Zaɓi karamar hukumar',
+    '1g': '1g. Jinsinka',
+    '1gplaceholder': 'Zaɓi jinsi',
+    '1h': '1h. Yanayin Aurenku',
+    '1hplaceholder': 'Zaɓi halin rayuwar aure',
+    '1i': '1i. Ranar Haihuwar ku',
+    'sexoptions': [
+      {
+        key: 'MALE',
+        label: 'NAMIJI',
+      },
+      {
+        key: 'FEMALE',
+        label: 'MACE',
+      },
+    ],
+    'maritalstatusoptions': [
+      {
+        key: 'SINGLE',
+        label: 'BA AURE',
+      },
+      {
+        key: 'MARRIED',
+        label: 'AURE',
+      },
+      {
+        key: 'DIVORCED',
+        label: 'SAKI',
+      },
+    ],
     // Travel Questions
     '2': '2. Tambayoyin Tafiya',
     '2a': '2a. Shin kwanan nan kun taɓa saduwa da wani wanda ya yi tafiya zuwa China, Iran, UK, Italiya, Spain, Amurka ko kowace ƙasa da tabbatattun shari\'o\'i?',
@@ -213,6 +309,7 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'title': 'Nyocha Ihe Egwu',
     'savebuttontext': 'Chekwa ma gaba',
     'completebuttontext': 'Chekwaa ma zuo ezu',
+    'resetbuttontext': 'Mpempe Akwụkwọ',
     'returnbuttontext': 'Laghachi na Chatbot',
     // User Information
     '1': '1. Ozi onye ọrụ',
@@ -224,6 +321,37 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '1d': '1d. Adreesị ozi ịntanetị gị',
     '1e': '1e. Ọchịchị gị',
     '1eplaceholder': 'Họrọ steeti gị',
+    '1f': '1f. Mpaghara Ọchịchị gị',
+    '1fplaceholder': 'Họrọ mpaghara ime obodo',
+    '1g': '1g. Nwoke gi',
+    '1gplaceholder': 'Họrọ okike gi',
+    '1h': '1h. Ọnọdụ Alụmdi na Nwunye gị',
+    '1hplaceholder': 'Họrọ onodu di na nwunye',
+    '1i': '1i. Ubochi omumu gi',
+    'sexoptions': [
+      {
+        key: 'MALE',
+        label: 'NWOKE',
+      },
+      {
+        key: 'FEMALE',
+        label: 'NWANYI',
+      },
+    ],
+    'maritalstatusoptions': [
+      {
+        key: 'SINGLE',
+        label: 'ALỤGHỊ DI',
+      },
+      {
+        key: 'MARRIED',
+        label: 'DI',
+      },
+      {
+        key: 'DIVORCED',
+        label: 'ORGBA ALỤKWAGHỊM',
+      },
+    ],
     // Travel Questions
     '2': '2. Ajụjụ Njem',
     '2a': '2a. N\'oge na-adịbeghị anya bịarutere na nso nso onye batara China, Iran, UK, Italy, Spain, USA ma ọ bụ obodo ọ bụla nke enwetara ikpe?',

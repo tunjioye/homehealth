@@ -8,6 +8,8 @@ import LangSwitcher from '@src/components/lang-switcher'
 import axios from 'axios'
 import CONFIG from '@src/config'
 import RISK_ASSESSMENT_LANGUAGES from '@src/utils/risk-assessment-languages'
+import NIGERIAN_STATES from '@src/utils/nigerian-states'
+import LGA_LIST from '@src/utils/lga-list'
 
 const initialState = {
   // flow controls
@@ -22,6 +24,10 @@ const initialState = {
   address: '',
   email: '',
   state: '',
+  lga: '',
+  dob: '',
+  sex: '',
+  marital_status: '',
 
   // travel details
   recently_came_in_contact_with_a_traveller: '',
@@ -42,6 +48,13 @@ const initialState = {
   // assessment score
   assessment_score: 0,
   risk_level: 'LOW',
+
+  // recent contacts
+  contact_name: '',
+  contact_phone_number: '',
+  recent_contacts: [],
+
+  // environment
   env: process.env.NODE_ENV,
 
   // geolocation
@@ -326,7 +339,7 @@ class RiskAssessmentPage extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setUserLang()
 
     const getLocation = () => {
@@ -377,6 +390,10 @@ class RiskAssessmentPage extends React.Component {
       address,
       email,
       state,
+      lga,
+      dob,
+      sex,
+      marital_status,
 
       recently_came_in_contact_with_a_traveller,
       had_a_close_contact_with_a_confirmed_case,
@@ -394,6 +411,10 @@ class RiskAssessmentPage extends React.Component {
 
       assessment_score,
       risk_level,
+
+      contact_name,
+      contact_phone_number,
+      recent_contacts,
     } = this.state
 
     const highRiskContent = () => {
@@ -461,8 +482,43 @@ class RiskAssessmentPage extends React.Component {
                 <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['1e']}</label>
                 <select className="input-select" name="state" value={state} onChange={this.handleInputChange} required>
                   <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1eplaceholder']}</option>
-                  {nigerianStates.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
+                  {NIGERIAN_STATES.map((state, stateIndex) => <option key={stateIndex}>{state}</option>)}
                 </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="lga">{RISK_ASSESSMENT_LANGUAGES[lang]['1f']}</label>
+                <select className="input-select" name="lga" value={lga} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1fplaceholder']}</option>
+                  {(LGA_LIST[state] !== undefined) && (
+                    Array.from(LGA_LIST[state]).map((lga, lgaIndex) => <option key={lgaIndex}>{lga}</option>)
+                  )}
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="sex">{RISK_ASSESSMENT_LANGUAGES[lang]['1g']}</label>
+                <select className="input-select" name="sex" value={sex} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1gplaceholder']}</option>
+                  {
+                    RISK_ASSESSMENT_LANGUAGES[lang]['sexoptions'].map((sex, sexIndex) => (
+                      <option key={sexIndex} value={sex.key}>{sex.label}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="marital_status">{RISK_ASSESSMENT_LANGUAGES[lang]['1h']}</label>
+                <select className="input-select" name="marital_status" value={marital_status} onChange={this.handleInputChange} required>
+                  <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['1hplaceholder']}</option>
+                  {
+                    RISK_ASSESSMENT_LANGUAGES[lang]['maritalstatusoptions'].map((status, statusIndex) => (
+                      <option key={statusIndex} value={status.key}>{status.label}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor="dob">{RISK_ASSESSMENT_LANGUAGES[lang]['1i']}</label>
+                <input className="input-control" type="date" name="dob" value={dob} onChange={this.handleInputChange} placeholder="YYYY-MM-DD" required/>
               </div>
               <div className="input-group align-end">
                 <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="user_details"/>
@@ -633,45 +689,5 @@ class RiskAssessmentPage extends React.Component {
     )
   }
 }
-
-const nigerianStates = [
-  "Abia",
-  "Adamawa",
-  "Akwa Ibom",
-  "Anambra",
-  "Bauchi",
-  "Bayelsa",
-  "Benue",
-  "Borno",
-  "Cross River",
-  "Delta",
-  "Ebonyi",
-  "Edo",
-  "Ekiti",
-  "Enugu",
-  "FCT - Abuja",
-  "Gombe",
-  "Imo",
-  "Jigawa",
-  "Kaduna",
-  "Kano",
-  "Katsina",
-  "Kebbi",
-  "Kogi",
-  "Kwara",
-  "Lagos",
-  "Nasarawa",
-  "Niger",
-  "Ogun",
-  "Ondo",
-  "Osun",
-  "Oyo",
-  "Plateau",
-  "Rivers",
-  "Sokoto",
-  "Taraba",
-  "Yobe",
-  "Zamfara"
-]
 
 export default RiskAssessmentPage
