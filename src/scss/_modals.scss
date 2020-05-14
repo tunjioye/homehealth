@@ -37,9 +37,16 @@
     }
   }
 
-  &.modal-xs {
+  &.modal-sm {
     .modal-container {
-      max-width: $size-xs;
+      max-width: $size-sm;
+      padding: 0 $unit-2;
+    }
+  }
+
+  &.modal-md {
+    .modal-container {
+      max-width: $size-md;
       padding: 0 $unit-2;
     }
   }
@@ -74,6 +81,12 @@
   .modal-header {
     color: $dark-color;
     padding: $unit-4;
+
+    @media (max-width: 1080px) {
+      .modal-title {
+        margin: .4rem 0;
+      }
+    }
 
     // Button Clear
     .button {
