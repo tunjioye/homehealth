@@ -52,6 +52,8 @@ const initialState = {
   // recent contacts
   contact_name: '',
   contact_phone_number: '',
+  contact_address: '',
+  contact_sex: '',
   recent_contacts: [],
 
   // environment
@@ -77,6 +79,7 @@ class RiskAssessmentPage extends React.Component {
     this.processTravelDetailsConfirmLowRiskStep = this.processTravelDetailsConfirmLowRiskStep.bind(this)
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
     this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
+    this.addRecentContacts = this.addRecentContacts.bind(this)
     this.removeRecentContacts = this.removeRecentContacts.bind(this)
     this.finalResultStep = this.finalResultStep.bind(this)
     this.getValuePoint = this.getValuePoint.bind(this)
@@ -196,7 +199,7 @@ class RiskAssessmentPage extends React.Component {
   }
 
   processRecentContactsStep (e) {
-    if (document.getElementById('recent-contacts-form').checkValidity()) {
+    if (document.getElementById('recent-contacts-form')) {
       e.preventDefault()
       this.calculateAssessmentScoreAndRiskLevel()
     }
@@ -208,6 +211,8 @@ class RiskAssessmentPage extends React.Component {
     const {
       contact_name,
       contact_phone_number,
+      contact_address,
+      contact_sex,
       recent_contacts,
     } = this.state
 
@@ -217,12 +222,16 @@ class RiskAssessmentPage extends React.Component {
         {
           name: contact_name,
           phone_number: contact_phone_number,
+          address: contact_address,
+          sex: contact_sex,
         },
       ],
     }, () => {
       this.setState({
         contact_name: '',
         contact_phone_number: '',
+        contact_address: '',
+        contact_sex: '',
       })
     })
   }
@@ -415,6 +424,8 @@ class RiskAssessmentPage extends React.Component {
 
       contact_name,
       contact_phone_number,
+      contact_address,
+      contact_sex,
       recent_contacts,
     } = this.state
 
@@ -680,13 +691,27 @@ class RiskAssessmentPage extends React.Component {
             <form id="recent-contacts-form" className="form-section">
               <div className="align-start">
                 <div className="input-group">
-                  <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['4a']}</label>
-                  <input className="input-control" type="text" name="contact_name" value={contact_name} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['4aplaceholder']} />
+                  <label htmlFor="contact_name">{RISK_ASSESSMENT_LANGUAGES[lang]['4a']}</label>
+                  <input className="input-control" type="text" name="contact_name" value={contact_name} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['4aplaceholder']} required/>
                 </div>
-                <br/>
                 <div className="input-group">
-                  <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['4b']}</label>
-                  <input className="input-control" type="tel" name="contact_phone_number" value={contact_phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" />
+                  <label htmlFor="contact_phone_number">{RISK_ASSESSMENT_LANGUAGES[lang]['4b']}</label>
+                  <input className="input-control" type="tel" name="contact_phone_number" value={contact_phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -"  required/>
+                </div>
+                <div className="input-group">
+                  <label htmlFor="contact_address">{RISK_ASSESSMENT_LANGUAGES[lang]['4c']}</label>
+                  <input className="input-control" type="text" name="contact_address" value={contact_address} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['4cplaceholder']}/>
+                </div>
+                <div className="input-group">
+                  <label htmlFor="contact_sex">{RISK_ASSESSMENT_LANGUAGES[lang]['4d']}</label>
+                  <select className="input-select" name="contact_sex" value={contact_sex} onChange={this.handleInputChange} required>
+                    <option value="">{RISK_ASSESSMENT_LANGUAGES[lang]['4dplaceholder']}</option>
+                    {
+                      RISK_ASSESSMENT_LANGUAGES[lang]['sexoptions'].map((sex, sexIndex) => (
+                        <option key={sexIndex} value={sex.key}>{sex.label}</option>
+                      ))
+                    }
+                  </select>
                 </div>
                 <div className="input-group align-end py">
                   <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['addcontactsbuttontext']} onClick={this.addRecentContacts} />
@@ -700,6 +725,8 @@ class RiskAssessmentPage extends React.Component {
                         <th>#</th>
                         <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4a'] || 'Contact Name'}</th>
                         <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4b'] || 'Phone Number'}</th>
+                        <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4c'] || 'Address'}</th>
+                        <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4d'] || 'Sex'}</th>
                         <th>&nbsp;</th>
                       </tr>
                     </thead>
@@ -710,6 +737,8 @@ class RiskAssessmentPage extends React.Component {
                             <th>{contactIndex + 1}</th>
                             <td>{contact.name}</td>
                             <td>{contact.phone_number}</td>
+                            <td>{contact.address}</td>
+                            <td>{contact.sex}</td>
                             <td>
                               <span
                                 role="button"
