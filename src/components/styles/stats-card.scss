@@ -50,6 +50,12 @@
     }
   }
 
+  &.hover-dark {
+    &:hover {
+      border: .1rem solid $dark-color;
+    }
+  }
+
   &.text-primary {
     .stats-card-value,
     .stats-card-title {

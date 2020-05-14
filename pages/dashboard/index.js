@@ -177,10 +177,10 @@ class StatisticsPage extends React.Component {
               {(fetching_risk_assessments === false)
                 ? (
                   <div className="stats-card-wrapper">
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.length || 0)} title="Risks in Total" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'LOW').length || 0)} title="Low Risks" classNames="text-green" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'MEDIUM').length || 0)} title="Medium Risks" classNames="text-orange" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'HIGH').length || 0)} title="High Risks" classNames="text-red" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.length || 0)} title="Risks in Total" classNames="hover-dark" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'LOW').length || 0)} title="LOW Risks" classNames="text-green" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'MEDIUM').length || 0)} title="MEDIUM Risks" classNames="text-orange" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'HIGH').length || 0)} title="HIGH Risks" classNames="text-red" />
                   </div>
                 )
                 : (
