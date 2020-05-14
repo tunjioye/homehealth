@@ -77,9 +77,9 @@ class RiskAssessmentPage extends React.Component {
     this.processTravelDetailsConfirmLowRiskStep = this.processTravelDetailsConfirmLowRiskStep.bind(this)
     this.processHealthDetailsStep = this.processHealthDetailsStep.bind(this)
     this.processOtherHealthDetailsStep = this.processOtherHealthDetailsStep.bind(this)
+    this.removeRecentContacts = this.removeRecentContacts.bind(this)
     this.finalResultStep = this.finalResultStep.bind(this)
     this.getValuePoint = this.getValuePoint.bind(this)
-    this.calculateAssessmentScoreAndRiskLevel = this.calculateAssessmentScoreAndRiskLevel.bind(this)
     this.calculateRiskLevel = this.calculateRiskLevel.bind(this)
     this.saveToDatabase = this.saveToDatabase.bind(this)
     this.resetForm = this.resetForm.bind(this)
@@ -110,6 +110,9 @@ class RiskAssessmentPage extends React.Component {
         break
       case 'other_health_details':
         this.processOtherHealthDetailsStep(e)
+        break
+      case 'recent_contacts':
+        this.processRecentContactsStep(e)
         break
       case 'final_result':
         e.preventDefault()
@@ -192,6 +195,44 @@ class RiskAssessmentPage extends React.Component {
     }
   }
 
+  processRecentContactsStep (e) {
+    if (document.getElementById('recent-contacts-form').checkValidity()) {
+      e.preventDefault()
+      this.calculateAssessmentScoreAndRiskLevel()
+    }
+  }
+
+  addRecentContacts (e) {
+    e.preventDefault()
+
+    const {
+      contact_name,
+      contact_phone_number,
+      recent_contacts,
+    } = this.state
+
+    this.setState({
+      recent_contacts: [
+        ...recent_contacts,
+        {
+          name: contact_name,
+          phone_number: contact_phone_number,
+        },
+      ],
+    }, () => {
+      this.setState({
+        contact_name: '',
+        contact_phone_number: '',
+      })
+    })
+  }
+
+  removeRecentContacts (index) {
+    const { recent_contacts } = this.state
+    recent_contacts.splice(index, 1)
+    this.setState({ recent_contacts })
+  }
+
   getValuePoint (name) {
     switch (name) {
       case 'Frequent':
@@ -237,6 +278,7 @@ class RiskAssessmentPage extends React.Component {
 
   calculateRiskLevel () {
     const {
+      step,
       assessment_score,
       risk_level,
     } = this.state
@@ -251,13 +293,34 @@ class RiskAssessmentPage extends React.Component {
       new_risk_level = 'LOW'
     }
 
-    this.setState({
-      risk_level: new_risk_level,
-      step: 'final_result',
-    }, () => {
-      console.table(this.state)
-      this.saveToDatabase()
-    })
+    if (step === 'recent_contacts') {
+      this.setState({
+        risk_level: new_risk_level,
+        step: 'final_result',
+      }, () => {
+        console.table(this.state)
+        this.saveToDatabase()
+      })
+    } else {
+      switch (new_risk_level) {
+        case 'HIGH':
+        case 'MEDIUM':
+          this.setState({
+            step: 'recent_contacts',
+          })
+          break
+        case 'LOW':
+        default:
+          this.setState({
+            risk_level: new_risk_level,
+            step: 'final_result',
+          }, () => {
+            console.table(this.state)
+            this.saveToDatabase()
+          })
+          break
+      }
+    }
   }
 
   async saveToDatabase () {
@@ -603,7 +666,74 @@ class RiskAssessmentPage extends React.Component {
                 required
               />
               <div className="input-group align-end">
-                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['completebuttontext']} onClick={this.handleSubmit} step="other_health_details"/>
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['savebuttontext']} onClick={this.handleSubmit} step="other_health_details"/>
+              </div>
+            </form>
+          </section>
+        </FloatCSSTransition>
+
+        <FloatCSSTransition in={(step === 'recent_contacts')}>
+          <section className="section">
+            <h4>{RISK_ASSESSMENT_LANGUAGES[lang]['4']}</h4>
+            <p>{RISK_ASSESSMENT_LANGUAGES[lang]['4subtitle']}</p>
+
+            <form id="recent-contacts-form" className="form-section">
+              <div className="align-start">
+                <div className="input-group">
+                  <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['4a']}</label>
+                  <input className="input-control" type="text" name="contact_name" value={contact_name} onChange={this.handleInputChange} placeholder={RISK_ASSESSMENT_LANGUAGES[lang]['4aplaceholder']} />
+                </div>
+                <br/>
+                <div className="input-group">
+                  <label htmlFor="name">{RISK_ASSESSMENT_LANGUAGES[lang]['4b']}</label>
+                  <input className="input-control" type="tel" name="contact_phone_number" value={contact_phone_number} onChange={this.handleInputChange} placeholder="+234 - - - - - - - -" />
+                </div>
+                <div className="input-group align-end py">
+                  <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['addcontactsbuttontext']} onClick={this.addRecentContacts} />
+                </div>
+              </div>
+              <div className="align-start">
+                <div className="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4a'] || 'Contact Name'}</th>
+                        <th>{RISK_ASSESSMENT_LANGUAGES[lang]['4b'] || 'Phone Number'}</th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        recent_contacts.map((contact, contactIndex) => (
+                          <tr key={contactIndex}>
+                            <th>{contactIndex + 1}</th>
+                            <td>{contact.name}</td>
+                            <td>{contact.phone_number}</td>
+                            <td>
+                              <span
+                                role="button"
+                                className="remove-item"
+                                onClick={() => this.removeRecentContacts(contactIndex)}
+                              >
+                                ✖
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+
+                  <p className="total-count">
+                    {Intl.NumberFormat().format(recent_contacts.length || 0)} contacts
+                  </p>
+                </div>
+
+                <p className="text-grey3 align-center"><em>{RISK_ASSESSMENT_LANGUAGES[lang]['4notice']}</em></p>
+              </div>
+              <div className="input-group align-end py">
+                <input className="button" type="submit" value={RISK_ASSESSMENT_LANGUAGES[lang]['completebuttontext']} onClick={this.handleSubmit} step="recent_contacts"/>
               </div>
             </form>
           </section>
