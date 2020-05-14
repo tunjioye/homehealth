@@ -244,5 +244,17 @@
       font-size: small;
       font-weight: bold;
     }
+
+    .risk-color {
+      &-high {
+        color: #dd2233;
+      }
+      &-medium {
+        color: #ff8800;
+      }
+      &-low {
+        color: #22bb44;
+      }
+    }
   }
 }

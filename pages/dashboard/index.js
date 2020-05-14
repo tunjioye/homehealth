@@ -178,9 +178,9 @@ class StatisticsPage extends React.Component {
                 ? (
                   <div className="stats-card-wrapper">
                     <StatsCard value={Intl.NumberFormat().format(risk_assessments.length || 0)} title="Risks in Total" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'LOW').length || 0)} title="Low Risks" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'MEDIUM').length || 0)} title="Medium Risks" />
-                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'HIGH').length || 0)} title="High Risks" classNames="text-primary" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'LOW').length || 0)} title="Low Risks" classNames="text-green" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'MEDIUM').length || 0)} title="Medium Risks" classNames="text-orange" />
+                    <StatsCard value={Intl.NumberFormat().format(risk_assessments.filter(x => x.risk_level === 'HIGH').length || 0)} title="High Risks" classNames="text-red" />
                   </div>
                 )
                 : (
@@ -311,12 +311,32 @@ class StatisticsPage extends React.Component {
                                 <th>{index + 1}</th>
 
                                 <th>{ra.name}</th>
-                                <td>{ra.phone_number}</td>
+                                <td>
+                                  <a
+                                    href={`mailto:${ra.phone_number}`}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                    className="text-dark no-underline"
+                                    title="Call Phone Number"
+                                  >
+                                    {ra.phone_number}
+                                  </a>
+                                </td>
                                 <td>{ra.address}</td>
                                 <td>{ra.state}</td>
-                                <td>{ra.email}</td>
+                                <td className="text-small">
+                                  <a
+                                    href={`mailto:${ra.email}`}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                    className="text-dark no-underline"
+                                    title="Send Email"
+                                  >
+                                    {ra.email}
+                                  </a>
+                                </td>
 
-                                <td><strong>{ra.risk_level}</strong></td>
+                                <td><strong className={`risk-color-${ra.risk_level.toLowerCase()}`}>{ra.risk_level}</strong></td>
 
                                 <td>
                                   <span className="link" role="button" onClick={() => this.setRiskAssessment(ra)}>view</span>
@@ -453,11 +473,56 @@ class StatisticsPage extends React.Component {
                         </div>
                       </div>
                     )
+                  } else if (ra === 'dob') {
+                    return (
+                      <div className="data-content" key={raIndex}>
+                        <div>Date of Birth</div>
+                        <div>{active_risk_assessment[ra]}</div>
+                      </div>
+                    )
                   } else if (ra === 'risk_level') {
                     return (
                       <div className="data-content" key={raIndex}>
                         <div>Risk Level</div>
-                        <div><strong>{active_risk_assessment[ra] || '--'}</strong></div>
+                        <div>
+                          <strong className={`risk-color-${active_risk_assessment[ra].toLowerCase()}`}>
+                            {active_risk_assessment[ra] || '--'}
+                          </strong>
+                        </div>
+                      </div>
+                    )
+                  } else if (ra === 'recent_contacts') {
+                    return (
+                      <div className="data-content" key={raIndex}>
+                        <div>Recent Contacts <span className="text-grey3"><b>(</b>within the last <b>14 days)</b></span></div>
+                        <div>
+                          <div className="table-wrapper">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Contact Name</th>
+                                  <th>Phone Number</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  Array.from(active_risk_assessment[ra]).map((contact, contactIndex) => (
+                                    <tr key={contactIndex}>
+                                      <th>{contactIndex + 1}</th>
+                                      <td>{contact.name}</td>
+                                      <td>{contact.phone_number}</td>
+                                    </tr>
+                                  ))
+                                }
+                              </tbody>
+                            </table>
+
+                            <p className="total-count">
+                              {Intl.NumberFormat().format(Array.from(active_risk_assessment[ra]).length || 0)} contacts
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )
                   } else {
