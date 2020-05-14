@@ -55,6 +55,14 @@
         grid-template-columns: repeat(1, 1fr);
       }
 
+      .align-start {
+        align-self: start;
+      }
+
+      .align-center {
+        align-self: center;
+      }
+
       .align-end {
         align-self: end;
       }
@@ -156,6 +164,67 @@
           margin-right: .5rem;
           cursor: pointer;
         }
+      }
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      tr {
+        border-bottom: 1px solid $grey5-color;
+
+        th,
+        td {
+          text-align: left;
+          padding: .25rem;
+          white-space: nowrap;
+        }
+      }
+
+      tbody {
+        tr {
+          &.loading {
+            height: 5rem;
+
+            &:hover {
+              background-color: initial;
+            }
+          }
+
+          &.filters {
+            background-color: lighten($color: $grey6-color, $amount: 2%);
+          }
+
+          &:hover {
+            background-color: lighten($color: $grey6-color, $amount: 2%);
+          }
+        }
+      }
+    }
+
+    .total-count {
+      padding: .25rem;
+      margin: .5rem 0;
+      color: $grey3-color;
+      font-size: small;
+      font-weight: bold;
+    }
+
+    .remove-item {
+      color: $link-color;
+      outline: none;
+      text-decoration: none;
+      cursor: pointer;
+      padding: .25rem;
+
+      &:focus,
+      &:hover, {
+        color: $link-color-dark;
       }
     }
 

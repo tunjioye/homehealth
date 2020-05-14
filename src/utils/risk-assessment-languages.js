@@ -3,6 +3,7 @@ const RISK_ASSESSMENT_LANGUAGES = {
     'title': 'Risk Assessment',
     'savebuttontext': 'Save and Continue',
     'completebuttontext': 'Save and Complete',
+    'addcontactsbuttontext': 'Add to Contacts',
     'resetbuttontext': 'Reset Form',
     'returnbuttontext': 'Return to Chatbot',
     // User Information
@@ -100,11 +101,19 @@ const RISK_ASSESSMENT_LANGUAGES = {
         label: 'Never',
       },
     ],
+    // Recent Contacts
+    '4': '4. Recent Contacts',
+    '4subtitle': 'How many people have you come in contact with in the last 14 days?',
+    '4a': 'Contact Name',
+    '4aplaceholder': 'Enter Contact Name ...',
+    '4b': 'Phone Number',
+    '4notice': 'We will call the contacts you provide to check on their health.',
   },
   YORUBA: {
     'title': 'Igbelewọn Ewu',
     'savebuttontext': 'Fipamọ ki o Tẹsiwaju',
     'completebuttontext': 'Fipamọ ki o Pari',
+    'addcontactsbuttontext': 'Fi si Awọn Olubasọrọ',
     'resetbuttontext': 'Tun Fọọmu Kọ',
     'returnbuttontext': 'Pada si Chatbot',
     // User Information
@@ -202,11 +211,19 @@ const RISK_ASSESSMENT_LANGUAGES = {
         label: 'Rara',
       },
     ],
+    // Recent Contacts
+    '4': '4. Awọn Olubasọrọ',
+    '4subtitle': 'Eniyan melo ni o ni ibatan pẹlu ninu awọn ọjọ 14 sẹhin?',
+    '4a': 'Orukọ Olubasọrọ',
+    '4aplaceholder': 'Tẹ Orukọ Olubasọrọ ...',
+    '4b': 'Nọmba Fonu',
+    '4notice': 'A yoo pe awọn olubasọrọ ti o pese lati ṣayẹwo lori ilera wọn.',
   },
   HAUSA: {
     'title': 'Kiman Hadari',
     'savebuttontext': 'Ajiye kuma Ci gaba',
     'completebuttontext': 'Ajiye kuma Kammalawa',
+    'addcontactsbuttontext': 'Toara zuwa Lambobi',
     'resetbuttontext': 'Maimaita Form',
     'returnbuttontext': 'Komawa zuwa Chatbot',
     // User Information
@@ -304,11 +321,19 @@ const RISK_ASSESSMENT_LANGUAGES = {
         label: 'Ba zai taɓa yiwuwa ba',
       },
     ],
+    // Recent Contacts
+    '4': '4. Adiresoshi',
+    '4subtitle': 'Mutane nawa kuka haɗo cikin kwanakin 14?',
+    '4a': 'Sunan Adiresoshi',
+    '4aplaceholder': 'Shigar da sunan layi ...',
+    '4b': 'Lambar Tarho',
+    '4notice': 'Za mu kira lambobin sadarwar da ka bayar don duba lafiyarsu.',
   },
   IGBO: {
     'title': 'Nyocha Ihe Egwu',
     'savebuttontext': 'Chekwa ma gaba',
     'completebuttontext': 'Chekwaa ma zuo ezu',
+    'addcontactsbuttontext': 'Tinye na Ndi Ana-akpo',
     'resetbuttontext': 'Mpempe Akwụkwọ',
     'returnbuttontext': 'Laghachi na Chatbot',
     // User Information
@@ -406,6 +431,13 @@ const RISK_ASSESSMENT_LANGUAGES = {
         label: 'Ọ dịghị mgbe',
       },
     ],
+    // Recent Contacts
+    '4': '4. Ndi Ana-akpo',
+    '4subtitle': 'Ole ka otutu ndi mmadu siri zute gi na ubochi iri n’abuo?',
+    '4a': 'Aha Kọntaktị',
+    '4aplaceholder': 'Tinye aha kọntaktị ...',
+    '4b': 'Nọmba Ekwentị',
+    '4notice': 'Anyị ga-akpọ ndị kọntaktị ị nyere iji lelee ahụike ha.',
   },
 }
 
