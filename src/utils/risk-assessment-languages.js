@@ -107,6 +107,10 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '4a': 'Contact Name',
     '4aplaceholder': 'Enter Contact Name ...',
     '4b': 'Phone Number',
+    '4c': 'Address',
+    '4cplaceholder': 'Enter Address ...',
+    '4d': 'Sex',
+    '4dplaceholder': 'Select sex',
     '4notice': 'We will call the contacts you provide to check on their health.',
   },
   YORUBA: {
@@ -217,6 +221,10 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '4a': 'Orukọ Olubasọrọ',
     '4aplaceholder': 'Tẹ Orukọ Olubasọrọ ...',
     '4b': 'Nọmba Fonu',
+    '4c': 'Adirẹsi',
+    '4cplaceholder': 'Tẹ Adirẹsi ...',
+    '4d': 'Ẹda',
+    '4dplaceholder': 'Mu ẹda',
     '4notice': 'A yoo pe awọn olubasọrọ ti o pese lati ṣayẹwo lori ilera wọn.',
   },
   HAUSA: {
@@ -327,6 +335,10 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '4a': 'Sunan Adiresoshi',
     '4aplaceholder': 'Shigar da sunan layi ...',
     '4b': 'Lambar Tarho',
+    '4c': 'Adireshi',
+    '4cplaceholder': 'Shigarda adireshi ...',
+    '4d': 'Jinsi',
+    '4dplaceholder': 'Zaɓi jinsi',
     '4notice': 'Za mu kira lambobin sadarwar da ka bayar don duba lafiyarsu.',
   },
   IGBO: {
@@ -348,11 +360,11 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '1eplaceholder': 'Họrọ steeti gị',
     '1f': '1f. Mpaghara Ọchịchị gị',
     '1fplaceholder': 'Họrọ mpaghara ime obodo',
-    '1g': '1g. Nwoke gi',
-    '1gplaceholder': 'Họrọ okike gi',
+    '1g': '1g. Nwoke gị',
+    '1gplaceholder': 'Họrọ okike gị',
     '1h': '1h. Ọnọdụ Alụmdi na Nwunye gị',
     '1hplaceholder': 'Họrọ onodu di na nwunye',
-    '1i': '1i. Ubochi omumu gi',
+    '1i': '1i. Ubochi omumu gị',
     'sexoptions': [
       {
         key: 'MALE',
@@ -437,6 +449,10 @@ const RISK_ASSESSMENT_LANGUAGES = {
     '4a': 'Aha Kọntaktị',
     '4aplaceholder': 'Tinye aha kọntaktị ...',
     '4b': 'Nọmba Ekwentị',
+    '4c': 'Adreesị',
+    '4cplaceholder': 'Tinye adreesị ...',
+    '4d': 'Nwoke',
+    '4dplaceholder': 'Họrọ nwoke',
     '4notice': 'Anyị ga-akpọ ndị kọntaktị ị nyere iji lelee ahụike ha.',
   },
 }
