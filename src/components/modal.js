@@ -6,7 +6,8 @@ const Modal = ({
   id, title, children, footer, size, active, handleModalClose,
 }) => {
   const modalSizes = {
-    small: 'xs',
+    small: 'sm',
+    medium: 'md',
     large: 'lg',
   }
 
