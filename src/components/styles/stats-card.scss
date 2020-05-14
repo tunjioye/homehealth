@@ -55,6 +55,43 @@
     .stats-card-title {
       color: $primary-color;
     }
+
+    &:hover {
+      border: .1rem solid $primary-color;
+    }
+  }
+
+  &.text-red {
+    .stats-card-value,
+    .stats-card-title {
+      color: #db0012;
+    }
+
+    &:hover {
+      border: .1rem solid #db0012;
+    }
+  }
+
+  &.text-orange {
+    .stats-card-value,
+    .stats-card-title {
+      color: #f08000;
+    }
+
+    &:hover {
+      border: .1rem solid #f08000;
+    }
+  }
+
+  &.text-green {
+    .stats-card-value,
+    .stats-card-title {
+      color: #20bb44;
+    }
+
+    &:hover {
+      border: .1rem solid #20bb44;
+    }
   }
 
   &:hover {
