@@ -433,7 +433,7 @@ class StatisticsPage extends React.Component {
 
         {/* <FloatCSSTransition in={show_modal}> */}
           <Modal
-            size="small"
+            size="medium"
             active={show_modal}
             handleModalClose={this.hideModal}
             title={active_risk_assessment.name}
@@ -456,7 +456,13 @@ class StatisticsPage extends React.Component {
                       <div className="data-content" key={raIndex}>
                         <div>Phone Number</div>
                         <div>
-                          <a href={`tel:${active_risk_assessment[ra]}`} target="_blank" rel="noreferrer noopener">
+                          <a
+                            href={`tel:${active_risk_assessment[ra]}`}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="no-underline"
+                            title="Call Phone Number"
+                          >
                             {active_risk_assessment[ra] || '--'}
                           </a>
                         </div>
@@ -467,7 +473,13 @@ class StatisticsPage extends React.Component {
                       <div className="data-content" key={raIndex}>
                         <div>Email</div>
                         <div>
-                          <a href={`mailto:${active_risk_assessment[ra]}`} target="_blank" rel="noreferrer noopener">
+                          <a
+                            href={`mailto:${active_risk_assessment[ra]}`}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="no-underline"
+                            title="Send Email"
+                          >
                             {active_risk_assessment[ra] || '--'}
                           </a>
                         </div>
@@ -476,7 +488,7 @@ class StatisticsPage extends React.Component {
                   } else if (ra === 'dob') {
                     return (
                       <div className="data-content" key={raIndex}>
-                        <div>Date of Birth</div>
+                        <div>Date Of Birth</div>
                         <div>{active_risk_assessment[ra]}</div>
                       </div>
                     )
@@ -503,6 +515,8 @@ class StatisticsPage extends React.Component {
                                   <th>#</th>
                                   <th>Contact Name</th>
                                   <th>Phone Number</th>
+                                  <th>Address</th>
+                                  <th>Sex</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -510,8 +524,10 @@ class StatisticsPage extends React.Component {
                                   Array.from(active_risk_assessment[ra]).map((contact, contactIndex) => (
                                     <tr key={contactIndex}>
                                       <th>{contactIndex + 1}</th>
-                                      <td>{contact.name}</td>
-                                      <td>{contact.phone_number}</td>
+                                      <td>{contact.name || '--'}</td>
+                                      <td>{contact.phone_number || '--'}</td>
+                                      <td>{contact.address || '--'}</td>
+                                      <td>{contact.sex || '--'}</td>
                                     </tr>
                                   ))
                                 }
