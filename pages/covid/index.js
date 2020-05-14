@@ -290,9 +290,7 @@ If you develop a fever, cough, and have difficulty breathing, promptly seek medi
 
         return (
           <li key={otherResIndex}>
-            <Link href={href}>
-              <a href={href} target="_blank" rel="noreferrer noopener">{title}</a>
-            </Link>
+            <a href={href} target="_blank" rel="noreferrer noopener">{title}</a>
           </li>
         )
       })
