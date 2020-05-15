@@ -442,7 +442,7 @@ class StatisticsPage extends React.Component {
             <div>
               {
                 Object.keys(active_risk_assessment).map((ra, raIndex) => {
-                  if (['_id', 'updatedAt', '__v', 'id', 'env', 'latitude', 'longitude', 'accuracy'].indexOf(ra) !== -1) {
+                  if (['_id', 'lang', 'env', 'latitude', 'longitude', 'accuracy', 'updatedAt', '__v', 'id'].indexOf(ra) !== -1) {
                     return null
                   } else if (ra === 'createdAt') {
                     return (
@@ -456,15 +456,18 @@ class StatisticsPage extends React.Component {
                       <div className="data-content" key={raIndex}>
                         <div>Phone Number</div>
                         <div>
-                          <a
-                            href={`tel:${active_risk_assessment[ra]}`}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className="no-underline"
-                            title="Call Phone Number"
-                          >
-                            {active_risk_assessment[ra] || '--'}
-                          </a>
+                          {(active_risk_assessment[ra]) && (
+                            <a
+                              href={`tel:${active_risk_assessment[ra]}`}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="no-underline"
+                              title="Call Phone Number"
+                            >
+                              {active_risk_assessment[ra] || '--'}
+                            </a>
+                          )}
+                          {!active_risk_assessment[ra] && '--'}
                         </div>
                       </div>
                     )
@@ -473,23 +476,33 @@ class StatisticsPage extends React.Component {
                       <div className="data-content" key={raIndex}>
                         <div>Email</div>
                         <div>
-                          <a
-                            href={`mailto:${active_risk_assessment[ra]}`}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className="no-underline"
-                            title="Send Email"
-                          >
-                            {active_risk_assessment[ra] || '--'}
-                          </a>
+                          {(active_risk_assessment[ra]) && (
+                            <a
+                              href={`mailto:${active_risk_assessment[ra]}`}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="no-underline"
+                              title="Send Email"
+                            >
+                              {active_risk_assessment[ra] || '--'}
+                            </a>
+                          )}
+                          {!active_risk_assessment[ra] && '--'}
                         </div>
+                      </div>
+                    )
+                  } else if (ra === 'lga') {
+                    return (
+                      <div className="data-content" key={raIndex}>
+                        <div>Local Government Area</div>
+                        <div>{active_risk_assessment[ra] || '--'}</div>
                       </div>
                     )
                   } else if (ra === 'dob') {
                     return (
                       <div className="data-content" key={raIndex}>
                         <div>Date Of Birth</div>
-                        <div>{active_risk_assessment[ra]}</div>
+                        <div>{active_risk_assessment[ra] || '--'}</div>
                       </div>
                     )
                   } else if (ra === 'risk_level') {
