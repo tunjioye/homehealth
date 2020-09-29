@@ -2,6 +2,12 @@
 
 a portal that provides accurate information about corona virus to the people
 
+## How to Setup
+
+1. Clone the Repo
+2. Install dependencies `yarn install`
+3. Run the project with `yarn dev`
+
 ## Example app with next-sass
 
 This example demonstrates how to use Next.js' built-in Global Sass/Scss imports and Component-Level Sass/Scss modules support.
