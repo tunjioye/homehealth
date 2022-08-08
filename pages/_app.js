@@ -2,7 +2,6 @@
 import React from 'react'
 import NProgress from "nprogress"
 import Router from 'next/router'
-// import '@src/scss/bootstrap.scss'
 import '@src/scss/index.scss'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'

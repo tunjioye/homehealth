@@ -13,15 +13,13 @@
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "bootstrap": "^4.4.1",
     "dotenv": "^8.2.0",
     "next": "latest",
     "next-compose-plugins": "^2.2.0",
     "next-redux-wrapper": "^5.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.1",
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
-    "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.8.6",
     "react-markdown": "^4.3.1",
     "react-modal-video": "^1.2.3",
@@ -29,5 +27,8 @@
     "react-transition-group": "^4.3.0",
     "react-youtube": "^7.11.1",
     "redux": "^4.0.5"
+  },
+  "engines": {
+    "node": "14.19.x"
   }
 }
